@@ -1,0 +1,45 @@
+package ${packageName}.apiParams;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import lombok.*;
+import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
+
+/**
+ * ${functionName} ApiParams 对象（客户端）
+ *
+ * @author ${author}
+ * @since ${datetime}
+ */
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Alias("${ClassName}ApiParams")
+public class ${ClassName}ApiParams implements Serializable {
+
+#foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField) && $column.query)
+    /**
+     * $column.columnComment
+     */
+#if($column.list)
+#if($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+#end
+#end
+    private $column.javaType $column.javaField;
+
+#end
+#end
+#if($table.sub)
+    /** $table.subTable.functionName信息 */
+    private List<${subClassName}> ${subclassName}List;
+
+#end
+}
