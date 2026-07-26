@@ -11,6 +11,25 @@
 
 ## 快速启动
 
+### 方式 A · Docker Compose（推荐）
+
+前置：Docker Desktop / Compose V2。详情见 [`docs/deploy.md`](./docs/deploy.md)。
+
+```bash
+# Windows
+scripts\quick-start.bat
+# Linux / macOS
+chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
+```
+
+- 管理端 UI：**http://localhost:8082**（账号 **`admin` / `admin123`**）
+- Swagger / 质衡 `baseUrl`：**http://localhost:8081**
+- 默认宿主机端口避开主仓：MySQL **3307**、Redis **6380**
+- 仅依赖：`docker compose up -d mysql redis`
+- 可选 RustFS：`scripts\quick-start.bat rustfs`
+
+### 方式 B · 本机
+
 1. 建库 `qualitest-demo`，执行 `sql/qualitest-demo_20260628_192719.sql`
 2. 改 `demo-admin/.../application-dev.yml`，或复制 [`.env.example`](./.env.example) 为 `.env` 后用环境变量覆盖（生产务必改 `TOKEN_SECRET` / 库口令）
 3. `mvn clean install`，启动 `demo-admin` 或运行 `demo.bat` / `demo.sh`
@@ -27,8 +46,8 @@
 
 - 被测数据 snapshot/restore（供质衡 checkpoint 联调）见 **[test-support-starter 接入文档](test-support-starter/README.md)**（开启数据还原时，同一环境请串行跑）
 - **进阶 · 文件 / RustFS**（插件扫 `form-data` `file` + 对象落盘）：
-  1. 先启动本机 **RustFS**（S3 兼容，默认 `http://127.0.0.1:9000`，账号/密钥 `rustfsadmin`，bucket `qualitest-demo`）
-  2. 确认 `application-dev.yml` 中 `demo.rustfs.enabled=true` 与上述凭据一致
+  1. 启动 RustFS：本仓 `docker compose --profile rustfs up -d` 或 `scripts\quick-start.bat rustfs`（默认 `http://127.0.0.1:9000`，账号/密钥 `rustfsadmin`，bucket `qualitest-demo`）
+  2. Compose 全栈 + rustfs 时已注入 `DEMO_RUSTFS_ENABLED=true`；本机跑后端时确认 `application-dev.yml` 中 `demo.rustfs.enabled=true`
   3. 客户端 Token 调用：
      - `POST /api/file/upload`（multipart：`file` 必填 + `bizType` 可选）
      - `GET /api/file?key=`（元信息 / 预签名 URL）
@@ -57,6 +76,7 @@
 
 ## 参考
 
+- Compose 部署：[docs/deploy.md](./docs/deploy.md)
 - [AI 测试流提示集](docs/ai-test-flow-prompts.md)
 - 场景元数据：`sql/seed/scenarios/manifest.json`
 - 状态枚举、金额公式、验收用例链：见各场景 SQL 头部注释与 Swagger 字段说明

@@ -1,0 +1,16 @@
+.git
+.idea
+.vscode
+.cursor
+**/target
+**/node_modules
+**/.vite
+**/dist
+**/coverage
+**/*.log
+**/.DS_Store
+uploadPath
+*.md
+!README.md
+.env
+.env.local
