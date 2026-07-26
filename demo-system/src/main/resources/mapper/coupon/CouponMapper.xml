@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.coupon.mapper.CouponMapper">
+
+    <resultMap type="Coupon" id="CouponResult">
+        <result property="couponId" column="coupon_id"/>
+        <result property="couponName" column="coupon_name"/>
+        <result property="thresholdAmount" column="threshold_amount"/>
+        <result property="discountAmount" column="discount_amount"/>
+        <result property="totalCount" column="total_count"/>
+        <result property="receiveCount" column="receive_count"/>
+        <result property="usedCount" column="used_count"/>
+        <result property="validStartTime" column="valid_start_time"/>
+        <result property="validEndTime" column="valid_end_time"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectCouponVo">
+        select coupon_id,
+               coupon_name,
+               threshold_amount,
+               discount_amount,
+               total_count,
+               receive_count,
+               used_count,
+               valid_start_time,
+               valid_end_time,
+               status,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from coupon
+    </sql>
+
+    <sql id="selectCouponAliasVo">
+        select c.coupon_id        as couponId,
+               c.coupon_name      as couponName,
+               c.threshold_amount as thresholdAmount,
+               c.discount_amount  as discountAmount,
+               c.total_count      as totalCount,
+               c.receive_count    as receiveCount,
+               c.used_count       as usedCount,
+               c.valid_start_time as validStartTime,
+               c.valid_end_time   as validEndTime,
+               c.status           as status,
+               c.del_flag         as delFlag,
+               c.create_time      as createTime,
+               c.update_time      as updateTime,
+               c.remark           as remark
+        from coupon c
+    </sql>
+
+    <select id="selectCouponList" parameterType="Coupon" resultMap="CouponResult">
+        <include refid="selectCouponVo"/>
+        <where>
+            <if test="couponName != null and couponName != ''">
+                and coupon_name = #{couponName}
+            </if>
+            <if test="status != null ">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCouponById" parameterType="Long" resultMap="CouponResult">
+        <include refid="selectCouponVo"/>
+        where coupon_id = #{couponId}
+    </select>
+
+    <select id="selectCouponResultList" parameterType="CouponParams" resultType="CouponResult">
+        select
+        c.coupon_id as couponId,
+        c.coupon_name as couponName,
+        c.threshold_amount as thresholdAmount,
+        c.discount_amount as discountAmount,
+        c.total_count as totalCount,
+        c.receive_count as receiveCount,
+        c.used_count as usedCount,
+        c.valid_start_time as validStartTime,
+        c.valid_end_time as validEndTime,
+        c.status as status,
+        c.del_flag as delFlag,
+        c.create_time as createTime,
+        c.update_time as updateTime,
+        c.remark as remark
+        from coupon c
+        where c.del_flag = 0
+        <if test="couponName != null and couponName != ''">
+            and c.coupon_name like concat('%', #{couponName}, '%')
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.coupon_id desc
+    </select>
+
+    <select id="selectCouponResult" parameterType="Long" resultType="CouponResult">
+        select c.coupon_id        as couponId,
+               c.coupon_name      as couponName,
+               c.threshold_amount as thresholdAmount,
+               c.discount_amount  as discountAmount,
+               c.total_count      as totalCount,
+               c.receive_count    as receiveCount,
+               c.used_count       as usedCount,
+               c.valid_start_time as validStartTime,
+               c.valid_end_time   as validEndTime,
+               c.status           as status,
+               c.del_flag         as delFlag,
+               c.create_time      as createTime,
+               c.update_time      as updateTime,
+               c.remark           as remark
+        from coupon c
+        where c.del_flag = 0
+          and c.coupon_id = #{couponId}
+        limit 1
+    </select>
+
+    <select id="selectCouponApiResultList" parameterType="CouponApiParams" resultType="CouponApiResult">
+        select c.coupon_id         as couponId,
+               c.coupon_name       as couponName,
+               c.threshold_amount  as thresholdAmount,
+               c.discount_amount   as discountAmount,
+               c.total_count       as totalCount,
+               c.receive_count     as receiveCount,
+               c.used_count        as usedCount,
+               c.valid_start_time  as validStartTime,
+               c.valid_end_time    as validEndTime,
+               c.status            as status,
+               c.del_flag          as delFlag,
+               c.create_time       as createTime,
+               c.update_time       as updateTime,
+               c.remark            as remark
+        from coupon c
+        where c.del_flag = 0
+          and c.status = 0
+          and c.valid_start_time &lt;= now()
+          and c.valid_end_time &gt;= now()
+          and (c.total_count = 0 or c.receive_count &lt; c.total_count)
+          and not exists (
+              select 1
+              from account_coupon ac
+              where ac.coupon_id = c.coupon_id
+                and ac.account_id = #{accountId}
+                and ac.del_flag = 0
+          )
+        order by c.coupon_id asc
+    </select>
+
+    <select id="selectCouponApiResult" parameterType="Long" resultType="CouponApiResult">
+        select c.coupon_id        as couponId,
+               c.coupon_name      as couponName,
+               c.threshold_amount as thresholdAmount,
+               c.discount_amount  as discountAmount,
+               c.total_count      as totalCount,
+               c.receive_count    as receiveCount,
+               c.used_count       as usedCount,
+               c.valid_start_time as validStartTime,
+               c.valid_end_time   as validEndTime,
+               c.status           as status,
+               c.del_flag         as delFlag,
+               c.create_time      as createTime,
+               c.update_time      as updateTime,
+               c.remark           as remark
+        from coupon c
+        where c.del_flag = 0
+          and c.coupon_id = #{couponId}
+        limit 1
+    </select>
+
+    <select id="selectCouponCount" parameterType="CouponParams" resultType="int">
+        select count(1)
+        from coupon c
+        where c.del_flag = 0
+        <if test="couponName != null  and couponName != ''">
+            and c.coupon_name like concat('%', #{couponName}, '%')
+        </if>
+        <if test="status != null ">
+            and c.status = #{status}
+        </if>
+    </select>
+
+    <select id="selectCouponOne" parameterType="CouponParams" resultMap="CouponResult">
+        select
+        c.coupon_id,
+        c.coupon_name,
+        c.threshold_amount,
+        c.discount_amount,
+        c.total_count,
+        c.receive_count,
+        c.used_count,
+        c.valid_start_time,
+        c.valid_end_time,
+        c.status,
+        c.del_flag,
+        c.create_time,
+        c.update_time,
+        c.remark
+        from coupon c
+        where c.del_flag = 0
+        <if test="couponName != null  and couponName != ''">
+            and c.coupon_name like concat('%', #{couponName}, '%')
+        </if>
+        <if test="status != null ">
+            and c.status = #{status}
+        </if>
+        order by c.coupon_id desc
+        limit 1
+    </select>
+
+    <insert id="insertCoupon" parameterType="Coupon">
+        insert into coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="couponName != null">
+                coupon_name,
+            </if>
+            <if test="thresholdAmount != null">
+                threshold_amount,
+            </if>
+            <if test="discountAmount != null">
+                discount_amount,
+            </if>
+            <if test="totalCount != null">
+                total_count,
+            </if>
+            <if test="receiveCount != null">
+                receive_count,
+            </if>
+            <if test="usedCount != null">
+                used_count,
+            </if>
+            <if test="validStartTime != null">
+                valid_start_time,
+            </if>
+            <if test="validEndTime != null">
+                valid_end_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                #{couponId},
+            </if>
+            <if test="couponName != null">
+                #{couponName},
+            </if>
+            <if test="thresholdAmount != null">
+                #{thresholdAmount},
+            </if>
+            <if test="discountAmount != null">
+                #{discountAmount},
+            </if>
+            <if test="totalCount != null">
+                #{totalCount},
+            </if>
+            <if test="receiveCount != null">
+                #{receiveCount},
+            </if>
+            <if test="usedCount != null">
+                #{usedCount},
+            </if>
+            <if test="validStartTime != null">
+                #{validStartTime},
+            </if>
+            <if test="validEndTime != null">
+                #{validEndTime},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateCoupon" parameterType="Coupon">
+        update coupon
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="couponName != null">
+                coupon_name = #{couponName},
+            </if>
+            <if test="thresholdAmount != null">
+                threshold_amount = #{thresholdAmount},
+            </if>
+            <if test="discountAmount != null">
+                discount_amount = #{discountAmount},
+            </if>
+            <if test="totalCount != null">
+                total_count = #{totalCount},
+            </if>
+            <if test="receiveCount != null">
+                receive_count = #{receiveCount},
+            </if>
+            <if test="usedCount != null">
+                used_count = #{usedCount},
+            </if>
+            <if test="validStartTime != null">
+                valid_start_time = #{validStartTime},
+            </if>
+            <if test="validEndTime != null">
+                valid_end_time = #{validEndTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where coupon_id = #{couponId}
+    </update>
+
+    <delete id="deleteCouponById" parameterType="Long">
+        delete
+        from coupon
+        where coupon_id = #{couponId}
+    </delete>
+
+    <delete id="deleteCouponByIdList" parameterType="java.util.List">
+        delete from coupon where coupon_id in
+        <foreach item="couponId" collection="list" open="(" separator="," close=")">
+            #{couponId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteCouponById" parameterType="Long">
+        update coupon
+        set del_flag = 1
+        where coupon_id = #{couponId}
+    </update>
+
+    <update id="logicDeleteCouponByIdList" parameterType="java.util.List">
+        update coupon set del_flag = 1 where coupon_id in
+        <foreach item="couponId" collection="list" open="(" separator="," close=")">
+            #{couponId}
+        </foreach>
+    </update>
+
+    <update id="incrementUsedCount">
+        update coupon
+        set used_count = used_count + 1,
+            update_time = now()
+        where coupon_id = #{couponId}
+          and del_flag = 0
+    </update>
+
+    <update id="incrementReceiveCount">
+        update coupon
+        set receive_count = receive_count + 1,
+            update_time = now()
+        where coupon_id = #{couponId}
+          and del_flag = 0
+    </update>
+</mapper>

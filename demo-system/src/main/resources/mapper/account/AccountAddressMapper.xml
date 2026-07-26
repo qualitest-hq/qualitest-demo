@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.account.mapper.AccountAddressMapper">
+
+    <resultMap type="AccountAddress" id="AccountAddressResult">
+        <result property="addressId" column="address_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="receiverPhone" column="receiver_phone"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="detailAddress" column="detail_address"/>
+        <result property="postalCode" column="postal_code"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectAccountAddressVo">
+        select address_id,
+               account_id,
+               receiver_name,
+               receiver_phone,
+               province,
+               city,
+               district,
+               detail_address,
+               postal_code,
+               is_default,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from account_address
+    </sql>
+
+    <sql id="selectAccountAddressAliasVo">
+        select aa.address_id     as addressId,
+               aa.account_id     as accountId,
+               aa.receiver_name  as receiverName,
+               aa.receiver_phone as receiverPhone,
+               aa.province       as province,
+               aa.city           as city,
+               aa.district       as district,
+               aa.detail_address as detailAddress,
+               aa.postal_code    as postalCode,
+               aa.is_default     as isDefault,
+               aa.del_flag       as delFlag,
+               aa.create_time    as createTime,
+               aa.update_time    as updateTime,
+               aa.remark         as remark
+        from account_address aa
+    </sql>
+
+    <select id="selectAccountAddressList" parameterType="AccountAddress" resultMap="AccountAddressResult">
+        <include refid="selectAccountAddressVo"/>
+        <where>
+            <if test="accountId != null ">
+                and account_id = #{accountId}
+            </if>
+            <if test="receiverName != null and receiverName != ''">
+                and receiver_name = #{receiverName}
+            </if>
+            <if test="receiverPhone != null and receiverPhone != ''">
+                and receiver_phone = #{receiverPhone}
+            </if>
+            <if test="isDefault != null ">
+                and is_default = #{isDefault}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAccountAddressById" parameterType="Long" resultMap="AccountAddressResult">
+        <include refid="selectAccountAddressVo"/>
+        where address_id = #{addressId}
+    </select>
+
+    <select id="selectAccountAddressResultList" parameterType="AccountAddressParams" resultType="AccountAddressResult">
+        select
+        aa.address_id as addressId,
+        aa.account_id as accountId,
+        a.nick_name as accountNickName,
+        a.mobile as accountMobile,
+        aa.receiver_name as receiverName,
+        aa.receiver_phone as receiverPhone,
+        aa.province as province,
+        aa.city as city,
+        aa.district as district,
+        aa.detail_address as detailAddress,
+        aa.postal_code as postalCode,
+        aa.is_default as isDefault,
+        aa.del_flag as delFlag,
+        aa.create_time as createTime,
+        aa.update_time as updateTime,
+        aa.remark as remark
+        from account_address aa
+        left join account a on aa.account_id = a.account_id and a.del_flag = 0
+        where aa.del_flag = 0
+        <if test="accountId != null">
+            and aa.account_id = #{accountId}
+        </if>
+        <if test="accountNickName != null and accountNickName != ''">
+            and a.nick_name like concat('%', #{accountNickName}, '%')
+        </if>
+        <if test="accountMobile != null and accountMobile != ''">
+            and a.mobile like concat('%', #{accountMobile}, '%')
+        </if>
+        <if test="receiverName != null and receiverName != ''">
+            and aa.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null and receiverPhone != ''">
+            and aa.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="isDefault != null">
+            and aa.is_default = #{isDefault}
+        </if>
+        order by aa.address_id desc
+    </select>
+
+    <select id="selectAccountAddressResult" parameterType="Long" resultType="AccountAddressResult">
+        select aa.address_id     as addressId,
+               aa.account_id     as accountId,
+               aa.receiver_name  as receiverName,
+               aa.receiver_phone as receiverPhone,
+               aa.province       as province,
+               aa.city           as city,
+               aa.district       as district,
+               aa.detail_address as detailAddress,
+               aa.postal_code    as postalCode,
+               aa.is_default     as isDefault,
+               aa.del_flag       as delFlag,
+               aa.create_time    as createTime,
+               aa.update_time    as updateTime,
+               aa.remark         as remark
+        from account_address aa
+        where aa.del_flag = 0
+          and aa.address_id = #{addressId}
+        limit 1
+    </select>
+
+    <select id="selectAccountAddressApiResultList" parameterType="AccountAddressApiParams"
+            resultType="AccountAddressApiResult">
+        select
+        aa.address_id as addressId,
+        aa.account_id as accountId,
+        aa.receiver_name as receiverName,
+        aa.receiver_phone as receiverPhone,
+        aa.province as province,
+        aa.city as city,
+        aa.district as district,
+        aa.detail_address as detailAddress,
+        aa.postal_code as postalCode,
+        aa.is_default as isDefault,
+        aa.del_flag as delFlag,
+        aa.create_time as createTime,
+        aa.update_time as updateTime,
+        aa.remark as remark
+        from account_address aa
+        where aa.del_flag = 0
+        <if test="accountId != null">
+            and aa.account_id = #{accountId}
+        </if>
+        <if test="receiverName != null and receiverName != ''">
+            and aa.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null and receiverPhone != ''">
+            and aa.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="isDefault != null">
+            and aa.is_default = #{isDefault}
+        </if>
+        order by aa.address_id desc
+    </select>
+
+    <select id="selectAccountAddressApiResult" parameterType="Long" resultType="AccountAddressApiResult">
+        select aa.address_id     as addressId,
+               aa.account_id     as accountId,
+               aa.receiver_name  as receiverName,
+               aa.receiver_phone as receiverPhone,
+               aa.province       as province,
+               aa.city           as city,
+               aa.district       as district,
+               aa.detail_address as detailAddress,
+               aa.postal_code    as postalCode,
+               aa.is_default     as isDefault,
+               aa.del_flag       as delFlag,
+               aa.create_time    as createTime,
+               aa.update_time    as updateTime,
+               aa.remark         as remark
+        from account_address aa
+        where aa.del_flag = 0
+          and aa.address_id = #{addressId}
+        limit 1
+    </select>
+
+    <select id="selectAccountAddressCount" parameterType="AccountAddressParams" resultType="int">
+        select count(1)
+        from account_address aa
+        where aa.del_flag = 0
+        <if test="accountId != null ">
+            and aa.account_id = #{accountId}
+        </if>
+        <if test="receiverName != null  and receiverName != ''">
+            and aa.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null  and receiverPhone != ''">
+            and aa.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="isDefault != null ">
+            and aa.is_default = #{isDefault}
+        </if>
+    </select>
+
+    <select id="selectAccountAddressOne" parameterType="AccountAddressParams" resultMap="AccountAddressResult">
+        select
+        aa.address_id,
+        aa.account_id,
+        aa.receiver_name,
+        aa.receiver_phone,
+        aa.province,
+        aa.city,
+        aa.district,
+        aa.detail_address,
+        aa.postal_code,
+        aa.is_default,
+        aa.del_flag,
+        aa.create_time,
+        aa.update_time,
+        aa.remark
+        from account_address aa
+        where aa.del_flag = 0
+        <if test="accountId != null ">
+            and aa.account_id = #{accountId}
+        </if>
+        <if test="receiverName != null  and receiverName != ''">
+            and aa.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null  and receiverPhone != ''">
+            and aa.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="isDefault != null ">
+            and aa.is_default = #{isDefault}
+        </if>
+        order by aa.address_id desc
+        limit 1
+    </select>
+
+    <insert id="insertAccountAddress" parameterType="AccountAddress">
+        insert into account_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addressId != null">
+                address_id,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="receiverName != null">
+                receiver_name,
+            </if>
+            <if test="receiverPhone != null">
+                receiver_phone,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="district != null">
+                district,
+            </if>
+            <if test="detailAddress != null">
+                detail_address,
+            </if>
+            <if test="postalCode != null">
+                postal_code,
+            </if>
+            <if test="isDefault != null">
+                is_default,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addressId != null">
+                #{addressId},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="receiverName != null">
+                #{receiverName},
+            </if>
+            <if test="receiverPhone != null">
+                #{receiverPhone},
+            </if>
+            <if test="province != null">
+                #{province},
+            </if>
+            <if test="city != null">
+                #{city},
+            </if>
+            <if test="district != null">
+                #{district},
+            </if>
+            <if test="detailAddress != null">
+                #{detailAddress},
+            </if>
+            <if test="postalCode != null">
+                #{postalCode},
+            </if>
+            <if test="isDefault != null">
+                #{isDefault},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateAccountAddress" parameterType="AccountAddress">
+        update account_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountId != null">
+                account_id = #{accountId},
+            </if>
+            <if test="receiverName != null">
+                receiver_name = #{receiverName},
+            </if>
+            <if test="receiverPhone != null">
+                receiver_phone = #{receiverPhone},
+            </if>
+            <if test="province != null">
+                province = #{province},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="district != null">
+                district = #{district},
+            </if>
+            <if test="detailAddress != null">
+                detail_address = #{detailAddress},
+            </if>
+            <if test="postalCode != null">
+                postal_code = #{postalCode},
+            </if>
+            <if test="isDefault != null">
+                is_default = #{isDefault},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where address_id = #{addressId}
+    </update>
+
+    <delete id="deleteAccountAddressById" parameterType="Long">
+        delete
+        from account_address
+        where address_id = #{addressId}
+    </delete>
+
+    <delete id="deleteAccountAddressByIdList" parameterType="java.util.List">
+        delete from account_address where address_id in
+        <foreach item="addressId" collection="list" open="(" separator="," close=")">
+            #{addressId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteAccountAddressById" parameterType="Long">
+        update account_address
+        set del_flag = 1
+        where address_id = #{addressId}
+    </update>
+
+    <update id="logicDeleteAccountAddressByIdList" parameterType="java.util.List">
+        update account_address set del_flag = 1 where address_id in
+        <foreach item="addressId" collection="list" open="(" separator="," close=")">
+            #{addressId}
+        </foreach>
+    </update>
+
+    <update id="clearDefaultByAccountId">
+        update account_address
+        set is_default = 0,
+            update_time = now()
+        where account_id = #{accountId}
+          and del_flag = 0
+          and is_default = 1
+        <if test="excludeAddressId != null">
+            and address_id != #{excludeAddressId}
+        </if>
+    </update>
+</mapper>

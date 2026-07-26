@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.account.mapper.AccountMapper">
+
+    <resultMap type="Account" id="AccountResult">
+        <result property="accountId" column="account_id"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="mobile" column="mobile"/>
+        <result property="password" column="password"/>
+        <result property="balance" column="balance"/>
+        <result property="gender" column="gender"/>
+        <result property="registerSource" column="register_source"/>
+        <result property="status" column="status"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectAccountVo">
+        select account_id,
+               nick_name,
+               mobile,
+               password,
+               balance,
+               gender,
+               register_source,
+               status,
+               last_login_ip,
+               last_login_time,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from account
+    </sql>
+
+    <sql id="selectAccountAliasVo">
+        select a.account_id      as accountId,
+               a.nick_name       as nickName,
+               a.mobile          as mobile,
+               a.password        as password,
+               a.balance         as balance,
+               a.gender          as gender,
+               a.register_source as registerSource,
+               a.status          as status,
+               a.last_login_ip   as lastLoginIp,
+               a.last_login_time as lastLoginTime,
+               a.del_flag        as delFlag,
+               a.create_time     as createTime,
+               a.update_time     as updateTime,
+               a.remark          as remark
+        from account a
+    </sql>
+
+    <select id="selectAccountList" parameterType="Account" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        <where>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+            <if test="gender != null ">
+                and gender = #{gender}
+            </if>
+            <if test="registerSource != null and registerSource != ''">
+                and register_source = #{registerSource}
+            </if>
+            <if test="status != null ">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAccountById" parameterType="Long" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        where account_id = #{accountId}
+    </select>
+
+    <select id="selectAccountByIdForUpdate" parameterType="Long" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        where account_id = #{accountId}
+          and del_flag = 0
+        for update
+    </select>
+
+    <select id="selectAccountByMobile" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        where mobile = #{mobile} and del_flag = 0
+        limit 1
+    </select>
+
+    <select id="selectAccountResultList" parameterType="AccountParams" resultType="AccountResult">
+        select
+        a.account_id as accountId,
+        a.nick_name as nickName,
+        a.mobile as mobile,
+        a.password as password,
+        a.balance as balance,
+        a.gender as gender,
+        a.register_source as registerSource,
+        a.status as status,
+        a.last_login_ip as lastLoginIp,
+        a.last_login_time as lastLoginTime,
+        a.del_flag as delFlag,
+        a.create_time as createTime,
+        a.update_time as updateTime,
+        a.remark as remark
+        from account a
+        where a.del_flag = 0
+        <if test="nickName != null and nickName != ''">
+            and a.nick_name like concat('%', #{nickName}, '%')
+        </if>
+        <if test="mobile != null and mobile != ''">
+            and a.mobile like concat('%', #{mobile}, '%')
+        </if>
+        <if test="gender != null">
+            and a.gender = #{gender}
+        </if>
+        <if test="registerSource != null and registerSource != ''">
+            and a.register_source = #{registerSource}
+        </if>
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        order by a.account_id desc
+    </select>
+
+    <select id="selectAccountResult" parameterType="Long" resultType="AccountResult">
+        select a.account_id      as accountId,
+               a.nick_name       as nickName,
+               a.mobile          as mobile,
+               a.password        as password,
+               a.balance         as balance,
+               a.gender          as gender,
+               a.register_source as registerSource,
+               a.status          as status,
+               a.last_login_ip   as lastLoginIp,
+               a.last_login_time as lastLoginTime,
+               a.del_flag        as delFlag,
+               a.create_time     as createTime,
+               a.update_time     as updateTime,
+               a.remark          as remark
+        from account a
+        where a.del_flag = 0
+          and a.account_id = #{accountId}
+        limit 1
+    </select>
+
+    <select id="selectAccountApiResultList" parameterType="AccountApiParams" resultType="AccountApiResult">
+        select
+        a.account_id as accountId,
+        a.nick_name as nickName,
+        a.mobile as mobile,
+        a.password as password,
+        a.balance as balance,
+        a.gender as gender,
+        a.register_source as registerSource,
+        a.status as status,
+        a.last_login_ip as lastLoginIp,
+        a.last_login_time as lastLoginTime,
+        a.del_flag as delFlag,
+        a.create_time as createTime,
+        a.update_time as updateTime,
+        a.remark as remark
+        from account a
+        where a.del_flag = 0
+        <if test="nickName != null and nickName != ''">
+            and a.nick_name like concat('%', #{nickName}, '%')
+        </if>
+        <if test="mobile != null and mobile != ''">
+            and a.mobile like concat('%', #{mobile}, '%')
+        </if>
+        <if test="gender != null">
+            and a.gender = #{gender}
+        </if>
+        <if test="registerSource != null and registerSource != ''">
+            and a.register_source = #{registerSource}
+        </if>
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        order by a.account_id desc
+    </select>
+
+    <select id="selectAccountApiResult" parameterType="Long" resultType="AccountApiResult">
+        select a.account_id      as accountId,
+               a.nick_name       as nickName,
+               a.mobile          as mobile,
+               a.password        as password,
+               a.balance         as balance,
+               a.gender          as gender,
+               a.register_source as registerSource,
+               a.status          as status,
+               a.last_login_ip   as lastLoginIp,
+               a.last_login_time as lastLoginTime,
+               a.del_flag        as delFlag,
+               a.create_time     as createTime,
+               a.update_time     as updateTime,
+               a.remark          as remark
+        from account a
+        where a.del_flag = 0
+          and a.account_id = #{accountId}
+        limit 1
+    </select>
+
+    <select id="selectAccountCount" parameterType="AccountParams" resultType="int">
+        select count(1)
+        from account a
+        where a.del_flag = 0
+        <if test="nickName != null  and nickName != ''">
+            and a.nick_name like concat('%', #{nickName}, '%')
+        </if>
+        <if test="mobile != null  and mobile != ''">
+            and a.mobile like concat('%', #{mobile}, '%')
+        </if>
+        <if test="gender != null ">
+            and a.gender = #{gender}
+        </if>
+        <if test="registerSource != null  and registerSource != ''">
+            and a.register_source = #{registerSource}
+        </if>
+        <if test="status != null ">
+            and a.status = #{status}
+        </if>
+    </select>
+
+    <select id="selectAccountOne" parameterType="AccountParams" resultMap="AccountResult">
+        select
+        a.account_id,
+        a.nick_name,
+        a.mobile,
+        a.password,
+        a.balance,
+        a.gender,
+        a.register_source,
+        a.status,
+        a.last_login_ip,
+        a.last_login_time,
+        a.del_flag,
+        a.create_time,
+        a.update_time,
+        a.remark
+        from account a
+        where a.del_flag = 0
+        <if test="nickName != null  and nickName != ''">
+            and a.nick_name like concat('%', #{nickName}, '%')
+        </if>
+        <if test="mobile != null  and mobile != ''">
+            and a.mobile like concat('%', #{mobile}, '%')
+        </if>
+        <if test="gender != null ">
+            and a.gender = #{gender}
+        </if>
+        <if test="registerSource != null  and registerSource != ''">
+            and a.register_source = #{registerSource}
+        </if>
+        <if test="status != null ">
+            and a.status = #{status}
+        </if>
+        order by a.account_id desc
+        limit 1
+    </select>
+
+    <insert id="insertAccount" parameterType="Account">
+        insert into account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="registerSource != null">
+                register_source,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="nickName != null">
+                #{nickName},
+            </if>
+            <if test="mobile != null">
+                #{mobile},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="balance != null">
+                #{balance},
+            </if>
+            <if test="gender != null">
+                #{gender},
+            </if>
+            <if test="registerSource != null">
+                #{registerSource},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="lastLoginIp != null">
+                #{lastLoginIp},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateAccount" parameterType="Account">
+        update account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nickName != null">
+                nick_name = #{nickName},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="balance != null">
+                balance = #{balance},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="registerSource != null">
+                register_source = #{registerSource},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip = #{lastLoginIp},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where account_id = #{accountId}
+    </update>
+
+    <delete id="deleteAccountById" parameterType="Long">
+        delete
+        from account
+        where account_id = #{accountId}
+    </delete>
+
+    <delete id="deleteAccountByIdList" parameterType="java.util.List">
+        delete from account where account_id in
+        <foreach item="accountId" collection="list" open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteAccountById" parameterType="Long">
+        update account
+        set del_flag = 1
+        where account_id = #{accountId}
+    </update>
+
+    <update id="logicDeleteAccountByIdList" parameterType="java.util.List">
+        update account set del_flag = 1 where account_id in
+        <foreach item="accountId" collection="list" open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </update>
+
+    <update id="addAccountBalance">
+        update account
+        set balance = balance + #{amount},
+            update_time = now()
+        where account_id = #{accountId}
+          and del_flag = 0
+    </update>
+</mapper>

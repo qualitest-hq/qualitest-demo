@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mall.mapper.MallOrderRefundItemMapper">
+
+    <resultMap type="MallOrderRefundItem" id="MallOrderRefundItemResult">
+        <result property="refundItemId" column="refund_item_id"/>
+        <result property="refundId" column="refund_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderItemId" column="order_item_id"/>
+        <result property="refundQuantity" column="refund_quantity"/>
+        <result property="refundAmount" column="refund_amount"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectMallOrderRefundItemVo">
+        select refund_item_id,
+               refund_id,
+               order_id,
+               order_item_id,
+               refund_quantity,
+               refund_amount,
+               del_flag,
+               create_time,
+               update_time
+        from mall_order_refund_item
+    </sql>
+
+    <sql id="selectMallOrderRefundItemAliasVo">
+        select mori.refund_item_id  as refundItemId,
+               mori.refund_id       as refundId,
+               mori.order_id        as orderId,
+               mori.order_item_id   as orderItemId,
+               mori.refund_quantity as refundQuantity,
+               mori.refund_amount   as refundAmount,
+               mori.del_flag        as delFlag,
+               mori.create_time     as createTime,
+               mori.update_time     as updateTime
+        from mall_order_refund_item mori
+    </sql>
+
+    <select id="selectMallOrderRefundItemList" parameterType="MallOrderRefundItem"
+            resultMap="MallOrderRefundItemResult">
+        <include refid="selectMallOrderRefundItemVo"/>
+        <where>
+            <if test="refundId != null ">
+                and refund_id = #{refundId}
+            </if>
+            <if test="orderId != null ">
+                and order_id = #{orderId}
+            </if>
+            <if test="orderItemId != null ">
+                and order_item_id = #{orderItemId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMallOrderRefundItemById" parameterType="Long" resultMap="MallOrderRefundItemResult">
+        <include refid="selectMallOrderRefundItemVo"/>
+        where refund_item_id = #{refundItemId}
+    </select>
+
+    <select id="selectMallOrderRefundItemResultList" parameterType="MallOrderRefundItemParams"
+            resultType="MallOrderRefundItemResult">
+        select
+        mori.refund_item_id as refundItemId,
+        mori.refund_id as refundId,
+        mor.refund_no as refundNo,
+        mori.order_id as orderId,
+        mori.order_item_id as orderItemId,
+        moi.product_name as productName,
+        moi.sku_name as skuName,
+        mori.refund_quantity as refundQuantity,
+        mori.refund_amount as refundAmount,
+        mori.del_flag as delFlag,
+        mori.create_time as createTime,
+        mori.update_time as updateTime
+        from mall_order_refund_item mori
+        left join mall_order_refund mor on mori.refund_id = mor.refund_id and mor.del_flag = 0
+        left join mall_order_item moi on mori.order_item_id = moi.order_item_id and moi.del_flag = 0
+        where mori.del_flag = 0
+        <if test="refundId != null">
+            and mori.refund_id = #{refundId}
+        </if>
+        <if test="refundNo != null and refundNo != ''">
+            and mor.refund_no like concat('%', #{refundNo}, '%')
+        </if>
+        <if test="orderId != null">
+            and mori.order_id = #{orderId}
+        </if>
+        <if test="orderItemId != null">
+            and mori.order_item_id = #{orderItemId}
+        </if>
+        <if test="productName != null and productName != ''">
+            and moi.product_name like concat('%', #{productName}, '%')
+        </if>
+        order by mori.refund_item_id desc
+    </select>
+
+    <select id="selectMallOrderRefundItemResult" parameterType="Long" resultType="MallOrderRefundItemResult">
+        select mori.refund_item_id  as refundItemId,
+               mori.refund_id       as refundId,
+               mori.order_id        as orderId,
+               mori.order_item_id   as orderItemId,
+               mori.refund_quantity as refundQuantity,
+               mori.refund_amount   as refundAmount,
+               mori.del_flag        as delFlag,
+               mori.create_time     as createTime,
+               mori.update_time     as updateTime
+        from mall_order_refund_item mori
+        where mori.del_flag = 0
+          and mori.refund_item_id = #{refundItemId}
+        limit 1
+    </select>
+
+    <select id="selectMallOrderRefundItemApiResultList" parameterType="MallOrderRefundItemApiParams"
+            resultType="MallOrderRefundItemApiResult">
+        select
+        mori.refund_item_id as refundItemId,
+        mori.refund_id as refundId,
+        mori.order_id as orderId,
+        mori.order_item_id as orderItemId,
+        mori.refund_quantity as refundQuantity,
+        mori.refund_amount as refundAmount,
+        mori.del_flag as delFlag,
+        mori.create_time as createTime,
+        mori.update_time as updateTime
+        from mall_order_refund_item mori
+        where mori.del_flag = 0
+        <if test="refundId != null">
+            and mori.refund_id = #{refundId}
+        </if>
+        <if test="orderId != null">
+            and mori.order_id = #{orderId}
+        </if>
+        <if test="orderItemId != null">
+            and mori.order_item_id = #{orderItemId}
+        </if>
+        order by mori.refund_item_id desc
+    </select>
+
+    <select id="selectMallOrderRefundItemApiResult" parameterType="Long" resultType="MallOrderRefundItemApiResult">
+        select mori.refund_item_id  as refundItemId,
+               mori.refund_id       as refundId,
+               mori.order_id        as orderId,
+               mori.order_item_id   as orderItemId,
+               mori.refund_quantity as refundQuantity,
+               mori.refund_amount   as refundAmount,
+               mori.del_flag        as delFlag,
+               mori.create_time     as createTime,
+               mori.update_time     as updateTime
+        from mall_order_refund_item mori
+        where mori.del_flag = 0
+          and mori.refund_item_id = #{refundItemId}
+        limit 1
+    </select>
+
+    <select id="selectMallOrderRefundItemCount" parameterType="MallOrderRefundItemParams" resultType="int">
+        select count(1)
+        from mall_order_refund_item mori
+        where mori.del_flag = 0
+        <if test="refundId != null ">
+            and mori.refund_id = #{refundId}
+        </if>
+        <if test="orderId != null ">
+            and mori.order_id = #{orderId}
+        </if>
+        <if test="orderItemId != null ">
+            and mori.order_item_id = #{orderItemId}
+        </if>
+    </select>
+
+    <select id="selectMallOrderRefundItemOne" parameterType="MallOrderRefundItemParams"
+            resultMap="MallOrderRefundItemResult">
+        select
+        mori.refund_item_id,
+        mori.refund_id,
+        mori.order_id,
+        mori.order_item_id,
+        mori.refund_quantity,
+        mori.refund_amount,
+        mori.del_flag,
+        mori.create_time,
+        mori.update_time
+        from mall_order_refund_item mori
+        where mori.del_flag = 0
+        <if test="refundId != null ">
+            and mori.refund_id = #{refundId}
+        </if>
+        <if test="orderId != null ">
+            and mori.order_id = #{orderId}
+        </if>
+        <if test="orderItemId != null ">
+            and mori.order_item_id = #{orderItemId}
+        </if>
+        order by mori.refund_item_id desc
+        limit 1
+    </select>
+
+    <insert id="insertMallOrderRefundItem" parameterType="MallOrderRefundItem">
+        insert into mall_order_refund_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refundItemId != null">
+                refund_item_id,
+            </if>
+            <if test="refundId != null">
+                refund_id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderItemId != null">
+                order_item_id,
+            </if>
+            <if test="refundQuantity != null">
+                refund_quantity,
+            </if>
+            <if test="refundAmount != null">
+                refund_amount,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refundItemId != null">
+                #{refundItemId},
+            </if>
+            <if test="refundId != null">
+                #{refundId},
+            </if>
+            <if test="orderId != null">
+                #{orderId},
+            </if>
+            <if test="orderItemId != null">
+                #{orderItemId},
+            </if>
+            <if test="refundQuantity != null">
+                #{refundQuantity},
+            </if>
+            <if test="refundAmount != null">
+                #{refundAmount},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMallOrderRefundItem" parameterType="MallOrderRefundItem">
+        update mall_order_refund_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="refundId != null">
+                refund_id = #{refundId},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+            <if test="orderItemId != null">
+                order_item_id = #{orderItemId},
+            </if>
+            <if test="refundQuantity != null">
+                refund_quantity = #{refundQuantity},
+            </if>
+            <if test="refundAmount != null">
+                refund_amount = #{refundAmount},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+        where refund_item_id = #{refundItemId}
+    </update>
+
+    <delete id="deleteMallOrderRefundItemById" parameterType="Long">
+        delete
+        from mall_order_refund_item
+        where refund_item_id = #{refundItemId}
+    </delete>
+
+    <delete id="deleteMallOrderRefundItemByIdList" parameterType="java.util.List">
+        delete from mall_order_refund_item where refund_item_id in
+        <foreach item="refundItemId" collection="list" open="(" separator="," close=")">
+            #{refundItemId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteMallOrderRefundItemById" parameterType="Long">
+        update mall_order_refund_item
+        set del_flag = 1
+        where refund_item_id = #{refundItemId}
+    </update>
+
+    <update id="logicDeleteMallOrderRefundItemByIdList" parameterType="java.util.List">
+        update mall_order_refund_item set del_flag = 1 where refund_item_id in
+        <foreach item="refundItemId" collection="list" open="(" separator="," close=")">
+            #{refundItemId}
+        </foreach>
+    </update>
+</mapper>

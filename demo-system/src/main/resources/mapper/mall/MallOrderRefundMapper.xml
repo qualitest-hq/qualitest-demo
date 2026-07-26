@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mall.mapper.MallOrderRefundMapper">
+
+    <resultMap type="MallOrderRefund" id="MallOrderRefundResult">
+        <result property="refundId" column="refund_id"/>
+        <result property="refundNo" column="refund_no"/>
+        <result property="orderId" column="order_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="refundType" column="refund_type"/>
+        <result property="refundAmount" column="refund_amount"/>
+        <result property="refundStatus" column="refund_status"/>
+        <result property="refundReason" column="refund_reason"/>
+        <result property="transactionNo" column="transaction_no"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="refundTime" column="refund_time"/>
+        <result property="handleTime" column="handle_time"/>
+        <result property="handleRemark" column="handle_remark"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectMallOrderRefundVo">
+        select refund_id,
+               refund_no,
+               order_id,
+               account_id,
+               refund_type,
+               refund_amount,
+               refund_status,
+               refund_reason,
+               transaction_no,
+               apply_time,
+               refund_time,
+               handle_time,
+               handle_remark,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from mall_order_refund
+    </sql>
+
+    <sql id="selectMallOrderRefundAliasVo">
+        select mor.refund_id      as refundId,
+               mor.refund_no      as refundNo,
+               mor.order_id       as orderId,
+               mor.account_id     as accountId,
+               mor.refund_type    as refundType,
+               mor.refund_amount  as refundAmount,
+               mor.refund_status  as refundStatus,
+               mor.refund_reason  as refundReason,
+               mor.transaction_no as transactionNo,
+               mor.apply_time     as applyTime,
+               mor.refund_time    as refundTime,
+               mor.handle_time    as handleTime,
+               mor.handle_remark  as handleRemark,
+               mor.del_flag       as delFlag,
+               mor.create_time    as createTime,
+               mor.update_time    as updateTime,
+               mor.remark         as remark
+        from mall_order_refund mor
+    </sql>
+
+    <select id="selectMallOrderRefundList" parameterType="MallOrderRefund" resultMap="MallOrderRefundResult">
+        <include refid="selectMallOrderRefundVo"/>
+        <where>
+            <if test="refundNo != null and refundNo != ''">
+                and refund_no = #{refundNo}
+            </if>
+            <if test="orderId != null ">
+                and order_id = #{orderId}
+            </if>
+            <if test="accountId != null ">
+                and account_id = #{accountId}
+            </if>
+            <if test="refundType != null ">
+                and refund_type = #{refundType}
+            </if>
+            <if test="refundStatus != null ">
+                and refund_status = #{refundStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMallOrderRefundById" parameterType="Long" resultMap="MallOrderRefundResult">
+        <include refid="selectMallOrderRefundVo"/>
+        where refund_id = #{refundId}
+    </select>
+
+    <select id="selectMallOrderRefundResultList" parameterType="MallOrderRefundParams"
+            resultType="MallOrderRefundResult">
+        select
+        mor.refund_id as refundId,
+        mor.refund_no as refundNo,
+        mor.order_id as orderId,
+        mo.order_no as orderNo,
+        mor.account_id as accountId,
+        a.nick_name as accountNickName,
+        a.mobile as accountMobile,
+        mor.refund_type as refundType,
+        mor.refund_amount as refundAmount,
+        mor.refund_status as refundStatus,
+        mor.refund_reason as refundReason,
+        mor.transaction_no as transactionNo,
+        mor.apply_time as applyTime,
+        mor.refund_time as refundTime,
+        mor.handle_time as handleTime,
+        mor.handle_remark as handleRemark,
+        mor.del_flag as delFlag,
+        mor.create_time as createTime,
+        mor.update_time as updateTime,
+        mor.remark as remark
+        from mall_order_refund mor
+        left join mall_order mo on mor.order_id = mo.order_id and mo.del_flag = 0
+        left join account a on mor.account_id = a.account_id and a.del_flag = 0
+        where mor.del_flag = 0
+        <if test="refundNo != null and refundNo != ''">
+            and mor.refund_no like concat('%', #{refundNo}, '%')
+        </if>
+        <if test="orderId != null">
+            and mor.order_id = #{orderId}
+        </if>
+        <if test="orderNo != null and orderNo != ''">
+            and mo.order_no like concat('%', #{orderNo}, '%')
+        </if>
+        <if test="accountId != null">
+            and mor.account_id = #{accountId}
+        </if>
+        <if test="accountNickName != null and accountNickName != ''">
+            and a.nick_name like concat('%', #{accountNickName}, '%')
+        </if>
+        <if test="accountMobile != null and accountMobile != ''">
+            and a.mobile like concat('%', #{accountMobile}, '%')
+        </if>
+        <if test="refundType != null">
+            and mor.refund_type = #{refundType}
+        </if>
+        <if test="refundStatus != null">
+            and mor.refund_status = #{refundStatus}
+        </if>
+        <if test="refundReason != null and refundReason != ''">
+            and mor.refund_reason like concat('%', #{refundReason}, '%')
+        </if>
+        order by mor.refund_id desc
+    </select>
+
+    <select id="selectMallOrderRefundResult" parameterType="Long" resultType="MallOrderRefundResult">
+        select mor.refund_id      as refundId,
+               mor.refund_no      as refundNo,
+               mor.order_id       as orderId,
+               mor.account_id     as accountId,
+               mor.refund_type    as refundType,
+               mor.refund_amount  as refundAmount,
+               mor.refund_status  as refundStatus,
+               mor.refund_reason  as refundReason,
+               mor.transaction_no as transactionNo,
+               mor.apply_time     as applyTime,
+               mor.refund_time    as refundTime,
+               mor.handle_time    as handleTime,
+               mor.handle_remark  as handleRemark,
+               mor.del_flag       as delFlag,
+               mor.create_time    as createTime,
+               mor.update_time    as updateTime,
+               mor.remark         as remark
+        from mall_order_refund mor
+        where mor.del_flag = 0
+          and mor.refund_id = #{refundId}
+        limit 1
+    </select>
+
+    <select id="selectMallOrderRefundApiResultList" parameterType="MallOrderRefundApiParams"
+            resultType="MallOrderRefundApiResult">
+        select
+        mor.refund_id as refundId,
+        mor.refund_no as refundNo,
+        mor.order_id as orderId,
+        mor.account_id as accountId,
+        mor.refund_type as refundType,
+        mor.refund_amount as refundAmount,
+        mor.refund_status as refundStatus,
+        mor.refund_reason as refundReason,
+        mor.transaction_no as transactionNo,
+        mor.apply_time as applyTime,
+        mor.refund_time as refundTime,
+        mor.handle_time as handleTime,
+        mor.handle_remark as handleRemark,
+        mor.del_flag as delFlag,
+        mor.create_time as createTime,
+        mor.update_time as updateTime,
+        mor.remark as remark
+        from mall_order_refund mor
+        where mor.del_flag = 0
+        <if test="refundNo != null and refundNo != ''">
+            and mor.refund_no = #{refundNo}
+        </if>
+        <if test="orderId != null">
+            and mor.order_id = #{orderId}
+        </if>
+        <if test="accountId != null">
+            and mor.account_id = #{accountId}
+        </if>
+        <if test="refundType != null">
+            and mor.refund_type = #{refundType}
+        </if>
+        <if test="refundStatus != null">
+            and mor.refund_status = #{refundStatus}
+        </if>
+        order by mor.refund_id desc
+    </select>
+
+    <select id="selectMallOrderRefundApiResult" parameterType="Long" resultType="MallOrderRefundApiResult">
+        select mor.refund_id      as refundId,
+               mor.refund_no      as refundNo,
+               mor.order_id       as orderId,
+               mor.account_id     as accountId,
+               mor.refund_type    as refundType,
+               mor.refund_amount  as refundAmount,
+               mor.refund_status  as refundStatus,
+               mor.refund_reason  as refundReason,
+               mor.transaction_no as transactionNo,
+               mor.apply_time     as applyTime,
+               mor.refund_time    as refundTime,
+               mor.handle_time    as handleTime,
+               mor.handle_remark  as handleRemark,
+               mor.del_flag       as delFlag,
+               mor.create_time    as createTime,
+               mor.update_time    as updateTime,
+               mor.remark         as remark
+        from mall_order_refund mor
+        where mor.del_flag = 0
+          and mor.refund_id = #{refundId}
+        limit 1
+    </select>
+
+    <select id="selectMallOrderRefundCount" parameterType="MallOrderRefundParams" resultType="int">
+        select count(1)
+        from mall_order_refund mor
+        where mor.del_flag = 0
+        <if test="refundNo != null  and refundNo != ''">
+            and mor.refund_no = #{refundNo}
+        </if>
+        <if test="orderId != null ">
+            and mor.order_id = #{orderId}
+        </if>
+        <if test="accountId != null ">
+            and mor.account_id = #{accountId}
+        </if>
+        <if test="refundType != null ">
+            and mor.refund_type = #{refundType}
+        </if>
+        <if test="refundStatus != null ">
+            and mor.refund_status = #{refundStatus}
+        </if>
+    </select>
+
+    <select id="selectMallOrderRefundOne" parameterType="MallOrderRefundParams" resultMap="MallOrderRefundResult">
+        select
+        mor.refund_id,
+        mor.refund_no,
+        mor.order_id,
+        mor.account_id,
+        mor.refund_type,
+        mor.refund_amount,
+        mor.refund_status,
+        mor.refund_reason,
+        mor.transaction_no,
+        mor.apply_time,
+        mor.refund_time,
+        mor.handle_time,
+        mor.handle_remark,
+        mor.del_flag,
+        mor.create_time,
+        mor.update_time,
+        mor.remark
+        from mall_order_refund mor
+        where mor.del_flag = 0
+        <if test="refundNo != null  and refundNo != ''">
+            and mor.refund_no = #{refundNo}
+        </if>
+        <if test="orderId != null ">
+            and mor.order_id = #{orderId}
+        </if>
+        <if test="accountId != null ">
+            and mor.account_id = #{accountId}
+        </if>
+        <if test="refundType != null ">
+            and mor.refund_type = #{refundType}
+        </if>
+        <if test="refundStatus != null ">
+            and mor.refund_status = #{refundStatus}
+        </if>
+        order by mor.refund_id desc
+        limit 1
+    </select>
+
+    <insert id="insertMallOrderRefund" parameterType="MallOrderRefund">
+        insert into mall_order_refund
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refundId != null">
+                refund_id,
+            </if>
+            <if test="refundNo != null">
+                refund_no,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="refundType != null">
+                refund_type,
+            </if>
+            <if test="refundAmount != null">
+                refund_amount,
+            </if>
+            <if test="refundStatus != null">
+                refund_status,
+            </if>
+            <if test="refundReason != null">
+                refund_reason,
+            </if>
+            <if test="transactionNo != null">
+                transaction_no,
+            </if>
+            <if test="applyTime != null">
+                apply_time,
+            </if>
+            <if test="refundTime != null">
+                refund_time,
+            </if>
+            <if test="handleTime != null">
+                handle_time,
+            </if>
+            <if test="handleRemark != null">
+                handle_remark,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refundId != null">
+                #{refundId},
+            </if>
+            <if test="refundNo != null">
+                #{refundNo},
+            </if>
+            <if test="orderId != null">
+                #{orderId},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="refundType != null">
+                #{refundType},
+            </if>
+            <if test="refundAmount != null">
+                #{refundAmount},
+            </if>
+            <if test="refundStatus != null">
+                #{refundStatus},
+            </if>
+            <if test="refundReason != null">
+                #{refundReason},
+            </if>
+            <if test="transactionNo != null">
+                #{transactionNo},
+            </if>
+            <if test="applyTime != null">
+                #{applyTime},
+            </if>
+            <if test="refundTime != null">
+                #{refundTime},
+            </if>
+            <if test="handleTime != null">
+                #{handleTime},
+            </if>
+            <if test="handleRemark != null">
+                #{handleRemark},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMallOrderRefund" parameterType="MallOrderRefund">
+        update mall_order_refund
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="refundNo != null">
+                refund_no = #{refundNo},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId},
+            </if>
+            <if test="refundType != null">
+                refund_type = #{refundType},
+            </if>
+            <if test="refundAmount != null">
+                refund_amount = #{refundAmount},
+            </if>
+            <if test="refundStatus != null">
+                refund_status = #{refundStatus},
+            </if>
+            <if test="refundReason != null">
+                refund_reason = #{refundReason},
+            </if>
+            <if test="transactionNo != null">
+                transaction_no = #{transactionNo},
+            </if>
+            <if test="applyTime != null">
+                apply_time = #{applyTime},
+            </if>
+            <if test="refundTime != null">
+                refund_time = #{refundTime},
+            </if>
+            <if test="handleTime != null">
+                handle_time = #{handleTime},
+            </if>
+            <if test="handleRemark != null">
+                handle_remark = #{handleRemark},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where refund_id = #{refundId}
+    </update>
+
+    <delete id="deleteMallOrderRefundById" parameterType="Long">
+        delete
+        from mall_order_refund
+        where refund_id = #{refundId}
+    </delete>
+
+    <delete id="deleteMallOrderRefundByIdList" parameterType="java.util.List">
+        delete from mall_order_refund where refund_id in
+        <foreach item="refundId" collection="list" open="(" separator="," close=")">
+            #{refundId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteMallOrderRefundById" parameterType="Long">
+        update mall_order_refund
+        set del_flag = 1
+        where refund_id = #{refundId}
+    </update>
+
+    <update id="logicDeleteMallOrderRefundByIdList" parameterType="java.util.List">
+        update mall_order_refund set del_flag = 1 where refund_id in
+        <foreach item="refundId" collection="list" open="(" separator="," close=")">
+            #{refundId}
+        </foreach>
+    </update>
+</mapper>

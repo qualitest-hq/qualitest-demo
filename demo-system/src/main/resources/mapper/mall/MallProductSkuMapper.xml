@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mall.mapper.MallProductSkuMapper">
+
+    <resultMap type="MallProductSku" id="MallProductSkuResult">
+        <result property="skuId" column="sku_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="skuName" column="sku_name"/>
+        <result property="marketPrice" column="market_price"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="stock" column="stock"/>
+        <result property="salesCount" column="sales_count"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectMallProductSkuVo">
+        select sku_id,
+               product_id,
+               sku_name,
+               market_price,
+               sale_price,
+               stock,
+               sales_count,
+               status,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from mall_product_sku
+    </sql>
+
+    <sql id="selectMallProductSkuAliasVo">
+        select mps.sku_id       as skuId,
+               mps.product_id   as productId,
+               mps.sku_name     as skuName,
+               mps.market_price as marketPrice,
+               mps.sale_price   as salePrice,
+               mps.stock        as stock,
+               mps.sales_count  as salesCount,
+               mps.status       as status,
+               mps.del_flag     as delFlag,
+               mps.create_time  as createTime,
+               mps.update_time  as updateTime,
+               mps.remark       as remark
+        from mall_product_sku mps
+    </sql>
+
+    <select id="selectMallProductSkuList" parameterType="MallProductSku" resultMap="MallProductSkuResult">
+        <include refid="selectMallProductSkuVo"/>
+        <where>
+            <if test="productId != null ">
+                and product_id = #{productId}
+            </if>
+            <if test="skuName != null and skuName != ''">
+                and sku_name = #{skuName}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMallProductSkuById" parameterType="Long" resultMap="MallProductSkuResult">
+        <include refid="selectMallProductSkuVo"/>
+        where sku_id = #{skuId}
+    </select>
+
+    <select id="selectMallProductSkuResultList" parameterType="MallProductSkuParams" resultType="MallProductSkuResult">
+        select
+        mps.sku_id as skuId,
+        mps.product_id as productId,
+        mp.product_name as productName,
+        mps.sku_name as skuName,
+        mps.market_price as marketPrice,
+        mps.sale_price as salePrice,
+        mps.stock as stock,
+        mps.sales_count as salesCount,
+        mps.status as status,
+        mps.del_flag as delFlag,
+        mps.create_time as createTime,
+        mps.update_time as updateTime,
+        mps.remark as remark
+        from mall_product_sku mps
+        left join mall_product mp on mps.product_id = mp.product_id and mp.del_flag = 0
+        where mps.del_flag = 0
+        <if test="productId != null">
+            and mps.product_id = #{productId}
+        </if>
+        <if test="productName != null and productName != ''">
+            and mp.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="skuName != null and skuName != ''">
+            and mps.sku_name like concat('%', #{skuName}, '%')
+        </if>
+        <if test="status != null">
+            and mps.status = #{status}
+        </if>
+        order by mps.sku_id desc
+    </select>
+
+    <select id="selectMallProductSkuResult" parameterType="Long" resultType="MallProductSkuResult">
+        select mps.sku_id       as skuId,
+               mps.product_id   as productId,
+               mps.sku_name     as skuName,
+               mps.market_price as marketPrice,
+               mps.sale_price   as salePrice,
+               mps.stock        as stock,
+               mps.sales_count  as salesCount,
+               mps.status       as status,
+               mps.del_flag     as delFlag,
+               mps.create_time  as createTime,
+               mps.update_time  as updateTime,
+               mps.remark       as remark
+        from mall_product_sku mps
+        where mps.del_flag = 0
+          and mps.sku_id = #{skuId}
+        limit 1
+    </select>
+
+    <select id="selectMallProductSkuApiResultList" parameterType="MallProductSkuApiParams"
+            resultType="MallProductSkuApiResult">
+        select
+        mps.sku_id as skuId,
+        mps.product_id as productId,
+        mps.sku_name as skuName,
+        mps.market_price as marketPrice,
+        mps.sale_price as salePrice,
+        mps.stock as stock,
+        mps.sales_count as salesCount,
+        mps.status as status,
+        mps.del_flag as delFlag,
+        mps.create_time as createTime,
+        mps.update_time as updateTime,
+        mps.remark as remark
+        from mall_product_sku mps
+        where mps.del_flag = 0
+        <if test="productId != null">
+            and mps.product_id = #{productId}
+        </if>
+        <if test="skuName != null and skuName != ''">
+            and mps.sku_name like concat('%', #{skuName}, '%')
+        </if>
+        order by mps.sku_id desc
+    </select>
+
+    <select id="selectMallProductSkuApiResult" parameterType="Long" resultType="MallProductSkuApiResult">
+        select mps.sku_id       as skuId,
+               mps.product_id   as productId,
+               mps.sku_name     as skuName,
+               mps.market_price as marketPrice,
+               mps.sale_price   as salePrice,
+               mps.stock        as stock,
+               mps.sales_count  as salesCount,
+               mps.status       as status,
+               mps.del_flag     as delFlag,
+               mps.create_time  as createTime,
+               mps.update_time  as updateTime,
+               mps.remark       as remark
+        from mall_product_sku mps
+        where mps.del_flag = 0
+          and mps.sku_id = #{skuId}
+        limit 1
+    </select>
+
+    <select id="selectMallProductSkuCount" parameterType="MallProductSkuParams" resultType="int">
+        select count(1)
+        from mall_product_sku mps
+        where mps.del_flag = 0
+        <if test="productId != null ">
+            and mps.product_id = #{productId}
+        </if>
+        <if test="skuName != null  and skuName != ''">
+            and mps.sku_name like concat('%', #{skuName}, '%')
+        </if>
+    </select>
+
+    <select id="selectMallProductSkuOne" parameterType="MallProductSkuParams" resultMap="MallProductSkuResult">
+        select
+        mps.sku_id,
+        mps.product_id,
+        mps.sku_name,
+        mps.market_price,
+        mps.sale_price,
+        mps.stock,
+        mps.sales_count,
+        mps.status,
+        mps.del_flag,
+        mps.create_time,
+        mps.update_time,
+        mps.remark
+        from mall_product_sku mps
+        where mps.del_flag = 0
+        <if test="productId != null ">
+            and mps.product_id = #{productId}
+        </if>
+        <if test="skuName != null  and skuName != ''">
+            and mps.sku_name like concat('%', #{skuName}, '%')
+        </if>
+        order by mps.sku_id desc
+        limit 1
+    </select>
+
+    <insert id="insertMallProductSku" parameterType="MallProductSku">
+        insert into mall_product_sku
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="skuName != null">
+                sku_name,
+            </if>
+            <if test="marketPrice != null">
+                market_price,
+            </if>
+            <if test="salePrice != null">
+                sale_price,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="salesCount != null">
+                sales_count,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="skuId != null">
+                #{skuId},
+            </if>
+            <if test="productId != null">
+                #{productId},
+            </if>
+            <if test="skuName != null">
+                #{skuName},
+            </if>
+            <if test="marketPrice != null">
+                #{marketPrice},
+            </if>
+            <if test="salePrice != null">
+                #{salePrice},
+            </if>
+            <if test="stock != null">
+                #{stock},
+            </if>
+            <if test="salesCount != null">
+                #{salesCount},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMallProductSku" parameterType="MallProductSku">
+        update mall_product_sku
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="skuName != null">
+                sku_name = #{skuName},
+            </if>
+            <if test="marketPrice != null">
+                market_price = #{marketPrice},
+            </if>
+            <if test="salePrice != null">
+                sale_price = #{salePrice},
+            </if>
+            <if test="stock != null">
+                stock = #{stock},
+            </if>
+            <if test="salesCount != null">
+                sales_count = #{salesCount},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where sku_id = #{skuId}
+    </update>
+
+    <delete id="deleteMallProductSkuById" parameterType="Long">
+        delete
+        from mall_product_sku
+        where sku_id = #{skuId}
+    </delete>
+
+    <delete id="deleteMallProductSkuByIdList" parameterType="java.util.List">
+        delete from mall_product_sku where sku_id in
+        <foreach item="skuId" collection="list" open="(" separator="," close=")">
+            #{skuId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteMallProductSkuById" parameterType="Long">
+        update mall_product_sku
+        set del_flag = 1
+        where sku_id = #{skuId}
+    </update>
+
+    <update id="logicDeleteMallProductSkuByIdList" parameterType="java.util.List">
+        update mall_product_sku set del_flag = 1 where sku_id in
+        <foreach item="skuId" collection="list" open="(" separator="," close=")">
+            #{skuId}
+        </foreach>
+    </update>
+</mapper>

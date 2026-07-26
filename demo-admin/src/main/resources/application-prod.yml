@@ -1,0 +1,158 @@
+# =============================================================================
+# 生产环境（profile=prod）
+# =============================================================================
+
+demo:
+  name: Qualitest Demo
+  version: 1.0.0
+  copyrightYear: 2026
+  profile: /home/demo/uploadPath  # Linux 部署上传目录
+  addressEnabled: false
+  captchaType: math
+  # RustFS（生产按环境填写；默认关闭，走本地 profile 兜底）
+  rustfs:
+    enabled: false
+    endpoint: http://127.0.0.1:9000
+    access-key: rustfsadmin
+    secret-key: rustfsadmin
+    bucket: qualitest-demo
+    region: us-east-1
+    public-base-url: http://127.0.0.1:9000/qualitest-demo
+
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    accept-count: 1000
+    threads:
+      max: 800
+      min-spare: 100
+
+logging:
+  level:
+    com.demo: info              # 生产降低日志量
+    org.springframework: warn
+
+user:
+  password:
+    maxRetryCount: 5
+    lockTime: 10
+
+spring:
+  messages:
+    basename: i18n/messages
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  devtools:
+    restart:
+      enabled: false            # 生产关闭热部署
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 11
+      password:
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      master:
+        url: jdbc:mysql://localhost:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: 123456        # 部署前改为生产库账号
+      slave:
+        enabled: false
+        url:
+        username:
+        password:
+      initialSize: 5
+      minIdle: 10
+      maxActive: 20
+      maxWait: 60000
+      connectTimeout: 30000
+      socketTimeout: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      maxEvictableIdleTimeMillis: 900000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: false          # 关闭 Web 统计暴露
+      statViewServlet:
+        enabled: false          # 关闭 /druid 控制台
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+
+token:
+  header: Authorization
+  secret: abcdefghijklmnopqrstuvwxyz  # 部署前必须更换
+  expireTime: 30
+
+mybatis:
+  typeAliasesPackage: com.demo.**.domain,com.demo.**.params,com.demo.**.result,com.demo.**.apiParams,com.demo.**.apiResult
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: false              # 生产关闭在线 API 文档
+    path: /swagger-ui.html
+    tags-sorter: alpha
+  group-configs:
+    - group: admin
+      display-name: 管理端
+      paths-to-match: /web/**
+      packages-to-scan:
+        - com.demo.web.controller.mall
+        - com.demo.web.controller.account
+        - com.demo.web.controller.coupon
+        - com.demo.web.controller.system
+    - group: api
+      display-name: 客户端
+      paths-to-match: /api/**
+      packages-to-scan: com.demo.web.apiController
+    - group: tool
+      display-name: 示例
+      paths-to-match: /test/**
+      packages-to-scan: com.demo.web.controller.tool
+
+referer:
+  enabled: true                 # 生产开启防盗链
+  allowed-domains: localhost,127.0.0.1
+
+xss:
+  enabled: true
+  excludes: /system/notice
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+qualitest:
+  test-support:
+    enabled: false
+    default-timeout-ms: 30000

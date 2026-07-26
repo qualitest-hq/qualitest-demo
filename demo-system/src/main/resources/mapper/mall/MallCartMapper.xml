@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mall.mapper.MallCartMapper">
+
+    <resultMap type="MallCart" id="MallCartResult">
+        <result property="cartId" column="cart_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectMallCartVo">
+        select cart_id,
+               account_id,
+               product_id,
+               sku_id,
+               quantity,
+               del_flag,
+               create_time,
+               update_time
+        from mall_cart
+    </sql>
+
+    <sql id="selectMallCartAliasVo">
+        select mc.cart_id     as cartId,
+               mc.account_id  as accountId,
+               mc.product_id  as productId,
+               mc.sku_id      as skuId,
+               mc.quantity    as quantity,
+               mc.del_flag    as delFlag,
+               mc.create_time as createTime,
+               mc.update_time as updateTime
+        from mall_cart mc
+    </sql>
+
+    <select id="selectMallCartList" parameterType="MallCart" resultMap="MallCartResult">
+        <include refid="selectMallCartVo"/>
+        <where>
+            <if test="accountId != null ">
+                and account_id = #{accountId}
+            </if>
+            <if test="productId != null ">
+                and product_id = #{productId}
+            </if>
+            <if test="skuId != null ">
+                and sku_id = #{skuId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMallCartById" parameterType="Long" resultMap="MallCartResult">
+        <include refid="selectMallCartVo"/>
+        where cart_id = #{cartId}
+    </select>
+
+    <select id="selectMallCartResultList" parameterType="MallCartParams" resultType="MallCartResult">
+        select
+        mc.cart_id as cartId,
+        mc.account_id as accountId,
+        a.nick_name as accountNickName,
+        a.mobile as accountMobile,
+        mc.product_id as productId,
+        mp.product_name as productName,
+        mc.sku_id as skuId,
+        mps.sku_name as skuName,
+        mc.quantity as quantity,
+        mc.del_flag as delFlag,
+        mc.create_time as createTime,
+        mc.update_time as updateTime
+        from mall_cart mc
+        left join account a on mc.account_id = a.account_id and a.del_flag = 0
+        left join mall_product mp on mc.product_id = mp.product_id and mp.del_flag = 0
+        left join mall_product_sku mps on mc.sku_id = mps.sku_id and mps.del_flag = 0
+        where mc.del_flag = 0
+        <if test="accountId != null">
+            and mc.account_id = #{accountId}
+        </if>
+        <if test="accountNickName != null and accountNickName != ''">
+            and a.nick_name like concat('%', #{accountNickName}, '%')
+        </if>
+        <if test="accountMobile != null and accountMobile != ''">
+            and a.mobile like concat('%', #{accountMobile}, '%')
+        </if>
+        <if test="productId != null">
+            and mc.product_id = #{productId}
+        </if>
+        <if test="productName != null and productName != ''">
+            and mp.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="skuId != null">
+            and mc.sku_id = #{skuId}
+        </if>
+        <if test="skuName != null and skuName != ''">
+            and mps.sku_name like concat('%', #{skuName}, '%')
+        </if>
+        order by mc.cart_id desc
+    </select>
+
+    <select id="selectMallCartResult" parameterType="Long" resultType="MallCartResult">
+        select mc.cart_id     as cartId,
+               mc.account_id  as accountId,
+               mc.product_id  as productId,
+               mc.sku_id      as skuId,
+               mc.quantity    as quantity,
+               mc.del_flag    as delFlag,
+               mc.create_time as createTime,
+               mc.update_time as updateTime
+        from mall_cart mc
+        where mc.del_flag = 0
+          and mc.cart_id = #{cartId}
+        limit 1
+    </select>
+
+    <select id="selectMallCartApiResultList" parameterType="MallCartApiParams" resultType="MallCartApiResult">
+        select mc.cart_id      as cartId,
+               mc.account_id   as accountId,
+               mc.product_id   as productId,
+               mp.product_name as productName,
+               mc.sku_id       as skuId,
+               mps.sku_name    as skuName,
+               mps.sale_price  as salePrice,
+               mc.quantity     as quantity,
+               (mps.sale_price * mc.quantity) as subtotal
+        from mall_cart mc
+                 inner join mall_product mp on mc.product_id = mp.product_id and mp.del_flag = 0
+                 inner join mall_product_sku mps on mc.sku_id = mps.sku_id and mps.del_flag = 0
+        where mc.del_flag = 0
+          and mc.account_id = #{accountId}
+        order by mc.cart_id desc
+    </select>
+
+    <select id="selectMallCartApiResult" parameterType="Long" resultType="MallCartApiResult">
+        select mc.cart_id     as cartId,
+               mc.account_id  as accountId,
+               mc.product_id  as productId,
+               mc.sku_id      as skuId,
+               mc.quantity    as quantity,
+               mc.del_flag    as delFlag,
+               mc.create_time as createTime,
+               mc.update_time as updateTime
+        from mall_cart mc
+        where mc.del_flag = 0
+          and mc.cart_id = #{cartId}
+        limit 1
+    </select>
+
+    <select id="selectMallCartCount" parameterType="MallCartParams" resultType="int">
+        select count(1)
+        from mall_cart mc
+        where mc.del_flag = 0
+        <if test="accountId != null ">
+            and mc.account_id = #{accountId}
+        </if>
+        <if test="productId != null ">
+            and mc.product_id = #{productId}
+        </if>
+        <if test="skuId != null ">
+            and mc.sku_id = #{skuId}
+        </if>
+    </select>
+
+    <select id="selectMallCartOne" parameterType="MallCartParams" resultMap="MallCartResult">
+        select
+        mc.cart_id,
+        mc.account_id,
+        mc.product_id,
+        mc.sku_id,
+        mc.quantity,
+        mc.del_flag,
+        mc.create_time,
+        mc.update_time
+        from mall_cart mc
+        where mc.del_flag = 0
+        <if test="accountId != null ">
+            and mc.account_id = #{accountId}
+        </if>
+        <if test="productId != null ">
+            and mc.product_id = #{productId}
+        </if>
+        <if test="skuId != null ">
+            and mc.sku_id = #{skuId}
+        </if>
+        order by mc.cart_id desc
+        limit 1
+    </select>
+
+    <insert id="insertMallCart" parameterType="MallCart">
+        insert into mall_cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cartId != null">
+                cart_id,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cartId != null">
+                #{cartId},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="productId != null">
+                #{productId},
+            </if>
+            <if test="skuId != null">
+                #{skuId},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMallCart" parameterType="MallCart">
+        update mall_cart
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountId != null">
+                account_id = #{accountId},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="skuId != null">
+                sku_id = #{skuId},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+        where cart_id = #{cartId}
+    </update>
+
+    <delete id="deleteMallCartById" parameterType="Long">
+        delete
+        from mall_cart
+        where cart_id = #{cartId}
+    </delete>
+
+    <delete id="deleteMallCartByIdList" parameterType="java.util.List">
+        delete from mall_cart where cart_id in
+        <foreach item="cartId" collection="list" open="(" separator="," close=")">
+            #{cartId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteMallCartById" parameterType="Long">
+        update mall_cart
+        set del_flag = 1
+        where cart_id = #{cartId}
+    </update>
+
+    <update id="logicDeleteMallCartByIdList" parameterType="java.util.List">
+        update mall_cart set del_flag = 1 where cart_id in
+        <foreach item="cartId" collection="list" open="(" separator="," close=")">
+            #{cartId}
+        </foreach>
+    </update>
+
+    <update id="logicDeleteByAccountId">
+        update mall_cart
+        set del_flag    = 1,
+            update_time = now()
+        where account_id = #{accountId}
+          and del_flag = 0
+    </update>
+</mapper>

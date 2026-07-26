@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mall.mapper.MallCategoryMapper">
+
+    <resultMap type="MallCategory" id="MallCategoryResult">
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectMallCategoryVo">
+        select category_id,
+               category_name,
+               order_num,
+               status,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from mall_category
+    </sql>
+
+    <sql id="selectMallCategoryAliasVo">
+        select mc.category_id   as categoryId,
+               mc.category_name as categoryName,
+               mc.order_num     as orderNum,
+               mc.status        as status,
+               mc.del_flag      as delFlag,
+               mc.create_time   as createTime,
+               mc.update_time   as updateTime,
+               mc.remark        as remark
+        from mall_category mc
+    </sql>
+
+    <select id="selectMallCategoryList" parameterType="MallCategory" resultMap="MallCategoryResult">
+        <include refid="selectMallCategoryVo"/>
+        <where>
+            <if test="categoryName != null and categoryName != ''">
+                and category_name = #{categoryName}
+            </if>
+            <if test="status != null ">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMallCategoryById" parameterType="Long" resultMap="MallCategoryResult">
+        <include refid="selectMallCategoryVo"/>
+        where category_id = #{categoryId}
+    </select>
+
+    <select id="selectMallCategoryResultList" parameterType="MallCategoryParams" resultType="MallCategoryResult">
+        select
+        mc.category_id as categoryId,
+        mc.category_name as categoryName,
+        mc.order_num as orderNum,
+        mc.status as status,
+        mc.del_flag as delFlag,
+        mc.create_time as createTime,
+        mc.update_time as updateTime,
+        mc.remark as remark
+        from mall_category mc
+        where mc.del_flag = 0
+        <if test="categoryName != null and categoryName != ''">
+            and mc.category_name like concat('%', #{categoryName}, '%')
+        </if>
+        <if test="status != null">
+            and mc.status = #{status}
+        </if>
+        order by mc.category_id desc
+    </select>
+
+    <select id="selectMallCategoryResult" parameterType="Long" resultType="MallCategoryResult">
+        select mc.category_id   as categoryId,
+               mc.category_name as categoryName,
+               mc.order_num     as orderNum,
+               mc.status        as status,
+               mc.del_flag      as delFlag,
+               mc.create_time   as createTime,
+               mc.update_time   as updateTime,
+               mc.remark        as remark
+        from mall_category mc
+        where mc.del_flag = 0
+          and mc.category_id = #{categoryId}
+        limit 1
+    </select>
+
+    <select id="selectMallCategoryApiResultList" parameterType="MallCategoryApiParams"
+            resultType="MallCategoryApiResult">
+        select
+        mc.category_id as categoryId,
+        mc.category_name as categoryName,
+        mc.order_num as orderNum,
+        mc.status as status,
+        mc.del_flag as delFlag,
+        mc.create_time as createTime,
+        mc.update_time as updateTime,
+        mc.remark as remark
+        from mall_category mc
+        where mc.del_flag = 0
+        <if test="categoryName != null and categoryName != ''">
+            and mc.category_name like concat('%', #{categoryName}, '%')
+        </if>
+        <if test="status != null">
+            and mc.status = #{status}
+        </if>
+        order by mc.category_id desc
+    </select>
+
+    <select id="selectMallCategoryApiResult" parameterType="Long" resultType="MallCategoryApiResult">
+        select mc.category_id   as categoryId,
+               mc.category_name as categoryName,
+               mc.order_num     as orderNum,
+               mc.status        as status,
+               mc.del_flag      as delFlag,
+               mc.create_time   as createTime,
+               mc.update_time   as updateTime,
+               mc.remark        as remark
+        from mall_category mc
+        where mc.del_flag = 0
+          and mc.category_id = #{categoryId}
+        limit 1
+    </select>
+
+    <select id="selectMallCategoryCount" parameterType="MallCategoryParams" resultType="int">
+        select count(1)
+        from mall_category mc
+        where mc.del_flag = 0
+        <if test="categoryName != null  and categoryName != ''">
+            and mc.category_name like concat('%', #{categoryName}, '%')
+        </if>
+        <if test="status != null ">
+            and mc.status = #{status}
+        </if>
+    </select>
+
+    <select id="selectMallCategoryOne" parameterType="MallCategoryParams" resultMap="MallCategoryResult">
+        select
+        mc.category_id,
+        mc.category_name,
+        mc.order_num,
+        mc.status,
+        mc.del_flag,
+        mc.create_time,
+        mc.update_time,
+        mc.remark
+        from mall_category mc
+        where mc.del_flag = 0
+        <if test="categoryName != null  and categoryName != ''">
+            and mc.category_name like concat('%', #{categoryName}, '%')
+        </if>
+        <if test="status != null ">
+            and mc.status = #{status}
+        </if>
+        order by mc.category_id desc
+        limit 1
+    </select>
+
+    <insert id="insertMallCategory" parameterType="MallCategory">
+        insert into mall_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                #{categoryId},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMallCategory" parameterType="MallCategory">
+        update mall_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null">
+                category_name = #{categoryName},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteMallCategoryById" parameterType="Long">
+        delete
+        from mall_category
+        where category_id = #{categoryId}
+    </delete>
+
+    <delete id="deleteMallCategoryByIdList" parameterType="java.util.List">
+        delete from mall_category where category_id in
+        <foreach item="categoryId" collection="list" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteMallCategoryById" parameterType="Long">
+        update mall_category
+        set del_flag = 1
+        where category_id = #{categoryId}
+    </update>
+
+    <update id="logicDeleteMallCategoryByIdList" parameterType="java.util.List">
+        update mall_category set del_flag = 1 where category_id in
+        <foreach item="categoryId" collection="list" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </update>
+</mapper>
