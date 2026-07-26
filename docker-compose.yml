@@ -1,0 +1,125 @@
+# 质衡 Demo — Docker Compose 全栈（独立于主仓 qualitest）
+# 用法：
+#   docker compose up -d --build                    # 全栈（MySQL + Redis + 后端 + Nginx）
+#   docker compose up -d mysql redis                # 仅依赖（本机跑 mvn / npm）
+#   docker compose --profile rustfs up -d --build   # 全栈 + RustFS
+# 一键脚本见 scripts/quick-start.sh|.bat
+#
+# 默认宿主机端口避开主仓：MySQL 3307、Redis 6380、Web 8082；API 仍为 8081
+
+name: qualitest-demo
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: qualitest-demo-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-qualitest}
+      MYSQL_DATABASE: qualitest-demo
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+    ports:
+      - "${MYSQL_PORT:-3307}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/qualitest-demo_20260628_192719.sql:/docker-entrypoint-initdb.d/01-qualitest-demo.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 40s
+
+  redis:
+    image: redis:7-alpine
+    container_name: qualitest-demo-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6380}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # 可选：S3 兼容对象存储（文件上传 API）
+  # 启用：docker compose --profile rustfs up -d
+  rustfs:
+    profiles: ["rustfs"]
+    image: rustfs/rustfs:latest
+    container_name: qualitest-demo-rustfs
+    restart: unless-stopped
+    command: ["/data"]
+    environment:
+      RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-rustfsadmin}
+      RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:-rustfsadmin}
+      RUSTFS_ADDRESS: ":9000"
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_CONSOLE_ADDRESS: ":9001"
+    ports:
+      - "${RUSTFS_API_PORT:-9000}:9000"
+      - "${RUSTFS_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - rustfs_data:/data
+    # 镜像自带 HEALTHCHECK
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: qualitest-hq/qualitest-demo-app:${DEMO_IMAGE_TAG:-latest}
+    container_name: qualitest-demo-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: "8081"
+      DEMO_PROFILE: /data/upload
+      SPRING_DATASOURCE_DRUID_MASTER_URL: jdbc:mysql://mysql:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+      SPRING_DATASOURCE_DRUID_MASTER_USERNAME: root
+      SPRING_DATASOURCE_DRUID_MASTER_PASSWORD: ${MYSQL_ROOT_PASSWORD:-qualitest}
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: "6379"
+      SPRING_DATA_REDIS_DATABASE: "11"
+      SPRING_DATA_REDIS_PASSWORD: ""
+      TOKEN_SECRET: ${TOKEN_SECRET:-demo-compose-dev-change-me-32chars!!!!!!}
+      LOGGING_LEVEL_COM_DEMO: ${LOGGING_LEVEL_COM_DEMO:-info}
+      DEMO_RUSTFS_ENABLED: ${DEMO_RUSTFS_ENABLED:-false}
+      DEMO_RUSTFS_ENDPOINT: ${DEMO_RUSTFS_ENDPOINT:-http://rustfs:9000}
+      DEMO_RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-rustfsadmin}
+      DEMO_RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:-rustfsadmin}
+      DEMO_RUSTFS_BUCKET: ${DEMO_RUSTFS_BUCKET:-qualitest-demo}
+      DEMO_RUSTFS_PUBLIC_BASE_URL: ${DEMO_RUSTFS_PUBLIC_BASE_URL:-http://127.0.0.1:9000/qualitest-demo}
+    volumes:
+      - upload_data:/data/upload
+    ports:
+      - "${APP_PORT:-8081}:8081"
+
+  web:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.web
+    image: qualitest-hq/qualitest-demo-web:${DEMO_IMAGE_TAG:-latest}
+    container_name: qualitest-demo-web
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8082}:80"
+
+volumes:
+  mysql_data:
+  redis_data:
+  upload_data:
+  rustfs_data:
