@@ -1,0 +1,17 @@
+# 质衡 Demo 前端构建 + Nginx
+# 构建上下文：仓库根目录
+
+FROM node:20-alpine AS build
+WORKDIR /ui
+
+COPY demo-ui/package.json ./
+RUN npm install
+
+COPY demo-ui/ ./
+RUN npm run build:prod
+
+FROM nginx:1.27-alpine
+COPY deploy/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /ui/dist /usr/share/nginx/html
+
+EXPOSE 80
