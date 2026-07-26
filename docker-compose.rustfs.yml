@@ -1,0 +1,14 @@
+# 与 --profile rustfs 配套：开启 app 侧 RustFS 客户端
+# 用法（勿单独使用本文件）：
+#   docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
+# 或：scripts/quick-start.bat|sh rustfs
+
+services:
+  app:
+    environment:
+      DEMO_RUSTFS_ENABLED: "true"
+      DEMO_RUSTFS_ENDPOINT: ${DEMO_RUSTFS_ENDPOINT:-http://rustfs:9000}
+      DEMO_RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-rustfsadmin}
+      DEMO_RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:-rustfsadmin}
+      DEMO_RUSTFS_BUCKET: ${DEMO_RUSTFS_BUCKET:-qualitest-demo}
+      DEMO_RUSTFS_PUBLIC_BASE_URL: ${DEMO_RUSTFS_PUBLIC_BASE_URL:-http://127.0.0.1:9000/qualitest-demo}

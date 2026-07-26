@@ -2,8 +2,10 @@
 # 用法：
 #   docker compose up -d --build                    # 全栈（MySQL + Redis + 后端 + Nginx）
 #   docker compose up -d mysql redis                # 仅依赖（本机跑 mvn / npm）
-#   docker compose --profile rustfs up -d --build   # 全栈 + RustFS
-# 一键脚本见 scripts/quick-start.sh|.bat
+#   docker compose --profile rustfs up -d --build   # 仅起 RustFS 容器（app 未开客户端）
+#   全栈 + RustFS（推荐）:
+#     docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
+#     或 scripts/quick-start.sh|.bat rustfs
 #
 # 默认宿主机端口避开主仓：MySQL 3307、Redis 6380、Web 8082；API 仍为 8081
 
@@ -81,6 +83,9 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      rustfs:
+        condition: service_started
+        required: false
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SERVER_PORT: "8081"
