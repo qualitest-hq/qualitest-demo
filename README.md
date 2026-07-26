@@ -1,11 +1,18 @@
 # qualitest-demo
 
-独立于 `qualitest` 的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8081**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8081`。
+独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) 的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8081**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8081`。
+
+## 相关仓库
+
+| 仓库 | 说明 |
+|------|------|
+| [qualitest](https://github.com/qualitest-hq/qualitest) | 质衡主平台（含前端 `qualitest-ui/`） |
+| [qualitest-intellij-plugin](https://github.com/qualitest-hq/qualitest-intellij-plugin) | IDEA 接口同步；示例工程可用本靶场 |
 
 ## 快速启动
 
 1. 建库 `qualitest-demo`，执行 `sql/qualitest-demo_20260628_192719.sql`
-2. 改 `demo-admin/src/main/resources/application-dev.yml` 数据库账号（生产用 `application-prod.yml`）
+2. 改 `demo-admin/.../application-dev.yml`，或复制 [`.env.example`](./.env.example) 为 `.env` 后用环境变量覆盖（生产务必改 `TOKEN_SECRET` / 库口令）
 3. `mvn clean install`，启动 `demo-admin` 或运行 `demo.bat` / `demo.sh`
 
 ## 测接口（推荐流程）

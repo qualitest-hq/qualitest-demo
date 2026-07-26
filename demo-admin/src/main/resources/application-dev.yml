@@ -9,18 +9,18 @@ demo:
   name: Qualitest Demo          # 显示名称
   version: 1.0.0                # 版本号
   copyrightYear: 2026           # 版权年份
-  profile: D:/demo/uploadPath     # 本地上传文件落盘根目录
+  profile: ${DEMO_PROFILE:D:/demo/uploadPath}     # 本地上传文件落盘根目录
   addressEnabled: false         # 登录日志是否解析 IP 所在地
   captchaType: math             # 登录验证码：math 算术 / char 字符
   # RustFS（S3 兼容对象存储，进阶文件 API）
   rustfs:
-    enabled: true
-    endpoint: http://127.0.0.1:9000
-    access-key: rustfsadmin
-    secret-key: rustfsadmin
-    bucket: qualitest-demo
+    enabled: ${DEMO_RUSTFS_ENABLED:true}
+    endpoint: ${DEMO_RUSTFS_ENDPOINT:http://127.0.0.1:9000}
+    access-key: ${DEMO_RUSTFS_ACCESS_KEY:rustfsadmin}
+    secret-key: ${DEMO_RUSTFS_SECRET_KEY:rustfsadmin}
+    bucket: ${DEMO_RUSTFS_BUCKET:qualitest-demo}
     region: us-east-1
-    public-base-url: http://127.0.0.1:9000/qualitest-demo
+    public-base-url: ${DEMO_RUSTFS_PUBLIC_BASE_URL:http://127.0.0.1:9000/qualitest-demo}
 
 # -----------------------------------------------------------------------------
 # 内嵌 Tomcat
@@ -67,10 +67,10 @@ spring:
       enabled: true             # 开发热重启
   data:
     redis:
-      host: localhost
-      port: 6379
-      database: 11              # 逻辑库号（与主系统错开）
-      password:                 # 无密码留空
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      database: ${SPRING_DATA_REDIS_DATABASE:11}              # 逻辑库号（与主系统错开）
+      password: ${SPRING_DATA_REDIS_PASSWORD:}                 # 无密码留空
       timeout: 10s              # 命令超时
       lettuce:
         pool:
@@ -83,9 +83,9 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     druid:
       master:
-        url: jdbc:mysql://localhost:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-        password: 123456
+        url: ${SPRING_DATASOURCE_DRUID_MASTER_URL:jdbc:mysql://localhost:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8}
+        username: ${SPRING_DATASOURCE_DRUID_MASTER_USERNAME:root}
+        password: ${SPRING_DATASOURCE_DRUID_MASTER_PASSWORD:123456}
       slave:
         enabled: false          # 从库开关
         url:
@@ -110,8 +110,8 @@ spring:
         enabled: true           # Druid 监控页 /druid/*
         allow:                  # 监控页 IP 白名单（空=不限制）
         url-pattern: /druid/*
-        login-username: demo    # 监控页登录名
-        login-password: 123456  # 监控页密码
+        login-username: ${DRUID_STAT_USERNAME:demo}    # 监控页登录名
+        login-password: ${DRUID_STAT_PASSWORD:123456}  # 监控页密码
       filter:
         stat:
           enabled: true
@@ -127,7 +127,7 @@ spring:
 # -----------------------------------------------------------------------------
 token:
   header: Authorization         # 请求头携带 Token 的字段名
-  secret: abcdefghijklmnopqrstuvwxyz  # 签名密钥（生产务必更换）
+  secret: ${TOKEN_SECRET:abcdefghijklmnopqrstuvwxyz}  # 签名密钥（生产务必更换）
   expireTime: 30                # Token 有效期（分钟）
 
 # -----------------------------------------------------------------------------

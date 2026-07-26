@@ -6,21 +6,21 @@ demo:
   name: Qualitest Demo
   version: 1.0.0
   copyrightYear: 2026
-  profile: /home/demo/uploadPath  # Linux 部署上传目录
+  profile: ${DEMO_PROFILE:/home/demo/uploadPath}  # Linux 部署上传目录
   addressEnabled: false
   captchaType: math
   # RustFS（生产按环境填写；默认关闭，走本地 profile 兜底）
   rustfs:
-    enabled: false
-    endpoint: http://127.0.0.1:9000
-    access-key: rustfsadmin
-    secret-key: rustfsadmin
-    bucket: qualitest-demo
+    enabled: ${DEMO_RUSTFS_ENABLED:false}
+    endpoint: ${DEMO_RUSTFS_ENDPOINT:http://127.0.0.1:9000}
+    access-key: ${DEMO_RUSTFS_ACCESS_KEY:}
+    secret-key: ${DEMO_RUSTFS_SECRET_KEY:}
+    bucket: ${DEMO_RUSTFS_BUCKET:qualitest-demo}
     region: us-east-1
-    public-base-url: http://127.0.0.1:9000/qualitest-demo
+    public-base-url: ${DEMO_RUSTFS_PUBLIC_BASE_URL:}
 
 server:
-  port: 8081
+  port: ${SERVER_PORT:8081}
   servlet:
     context-path: /
   tomcat:
@@ -32,7 +32,7 @@ server:
 
 logging:
   level:
-    com.demo: info              # 生产降低日志量
+    com.demo: ${LOGGING_LEVEL_COM_DEMO:info}              # 生产降低日志量
     org.springframework: warn
 
 user:
@@ -52,10 +52,10 @@ spring:
       enabled: false            # 生产关闭热部署
   data:
     redis:
-      host: localhost
-      port: 6379
-      database: 11
-      password:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      database: ${SPRING_DATA_REDIS_DATABASE:11}
+      password: ${SPRING_DATA_REDIS_PASSWORD:}
       timeout: 10s
       lettuce:
         pool:
@@ -68,9 +68,9 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     druid:
       master:
-        url: jdbc:mysql://localhost:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-        password: 123456        # 部署前改为生产库账号
+        url: ${SPRING_DATASOURCE_DRUID_MASTER_URL:jdbc:mysql://localhost:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8}
+        username: ${SPRING_DATASOURCE_DRUID_MASTER_USERNAME:root}
+        password: ${SPRING_DATASOURCE_DRUID_MASTER_PASSWORD:}        # 生产必须通过环境变量注入
       slave:
         enabled: false
         url:
@@ -105,7 +105,7 @@ spring:
 
 token:
   header: Authorization
-  secret: abcdefghijklmnopqrstuvwxyz  # 部署前必须更换
+  secret: ${TOKEN_SECRET:}  # 生产必须通过环境变量注入
   expireTime: 30
 
 mybatis:
