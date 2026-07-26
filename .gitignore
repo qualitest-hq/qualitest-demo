@@ -24,6 +24,8 @@ target/
 *.iws
 *.iml
 *.ipr
+*.ids
+*.orig
 
 ### JRebel ###
 rebel.xml
@@ -37,10 +39,39 @@ nbdist/
 .nb-gradle/
 
 ######################################################################
-# Others
+# Local secrets / overrides（勿提交）
+
+.env
+.env.*
+!.env.example
+!**/.env.example
+!**/.env.*.example
+
+**/application-local.yml
+**/application-*-local.yml
+**/application-local.yaml
+**/application-*-local.yaml
+
+*.pem
+*.p12
+*.jks
+*.keystore
+id_rsa
+id_rsa.*
+*.key
+
+######################################################################
+# Runtime / uploads
+
+logs/
+**/logs/
+uploadPath/
+**/uploadPath/
 *.log
 *.xml.versionsBackup
 *.swp
+.DS_Store
+Thumbs.db
 
 !*/build/*.java
 !*/build/*.html
