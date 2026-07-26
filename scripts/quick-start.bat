@@ -2,7 +2,7 @@
 REM 质衡 Demo 一键启动：Docker Compose 全栈（独立仓）
 REM 用法：
 REM   scripts\quick-start.bat           启动 MySQL + Redis + 后端 + Nginx
-REM   scripts\quick-start.bat rustfs    同上，并启用可选 RustFS
+REM   scripts\quick-start.bat rustfs    同上，并启用可选 RustFS（含 app 客户端开关）
 REM   scripts\quick-start.bat -h        显示本说明
 REM 说明：从任意目录调用即可；依赖 Docker Desktop + Compose V2
 REM 默认端口：Web 8082 / API 8081 / MySQL 3307 / Redis 6380（避开主仓）
@@ -41,11 +41,9 @@ if not exist ".env" (
 
 echo [info] 构建并启动 MySQL + Redis + 后端 + Nginx ...
 if /I "%~1"=="rustfs" (
-  echo [info] 已启用可选 profile: rustfs
-  set "DEMO_RUSTFS_ENABLED=true"
-  docker compose --profile rustfs up -d --build
+  echo [info] 已启用可选 profile: rustfs（并加载 docker-compose.rustfs.yml）
+  docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
 ) else (
-  set "DEMO_RUSTFS_ENABLED=false"
   docker compose up -d --build
 )
 if errorlevel 1 exit /b 1
@@ -62,6 +60,7 @@ echo  含 RustFS:   scripts\quick-start.bat rustfs
 if /I "%~1"=="rustfs" (
   echo  RustFS API:  http://localhost:9000  控制台: http://localhost:9001
   echo  默认密钥:    rustfsadmin / rustfsadmin
+  echo  停 RustFS:   docker compose --profile rustfs down
 )
 echo ==============================================
 endlocal
@@ -75,5 +74,6 @@ echo   scripts\quick-start.bat -h        显示本说明
 echo.
 echo 默认端口: Web 8082 / API 8081 / MySQL 3307 / Redis 6380
 echo 仅依赖:   docker compose up -d mysql redis
+echo 仅 RustFS: docker compose --profile rustfs up -d rustfs
 echo 停止:     docker compose down
 exit /b 0

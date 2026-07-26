@@ -26,7 +26,7 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 - Swagger / 质衡 `baseUrl`：**http://localhost:8081**
 - 默认宿主机端口避开主仓：MySQL **3307**、Redis **6380**
 - 仅依赖：`docker compose up -d mysql redis`
-- 可选 RustFS：`scripts\quick-start.bat rustfs`
+- 可选 RustFS：`scripts\quick-start.bat rustfs`（详见 [`docs/deploy.md`](./docs/deploy.md)）
 
 ### 方式 B · 本机
 
@@ -46,8 +46,8 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 
 - 被测数据 snapshot/restore（供质衡 checkpoint 联调）见 **[test-support-starter 接入文档](test-support-starter/README.md)**（开启数据还原时，同一环境请串行跑）
 - **进阶 · 文件 / RustFS**（插件扫 `form-data` `file` + 对象落盘）：
-  1. 启动 RustFS：本仓 `docker compose --profile rustfs up -d` 或 `scripts\quick-start.bat rustfs`（默认 `http://127.0.0.1:9000`，账号/密钥 `rustfsadmin`，bucket `qualitest-demo`）
-  2. Compose 全栈 + rustfs 时已注入 `DEMO_RUSTFS_ENABLED=true`；本机跑后端时确认 `application-dev.yml` 中 `demo.rustfs.enabled=true`
+  1. 启动 RustFS：`scripts\quick-start.bat rustfs`（全栈+客户端）或本机仅 `docker compose --profile rustfs up -d rustfs`（默认 `http://127.0.0.1:9000`，`rustfsadmin` / `rustfsadmin`，bucket `qualitest-demo`）
+  2. Compose 全栈 + rustfs 时由 `docker-compose.rustfs.yml` 注入 `DEMO_RUSTFS_ENABLED=true`；本机跑后端时确认 `application-dev.yml` 中 `demo.rustfs.enabled=true`
   3. 客户端 Token 调用：
      - `POST /api/file/upload`（multipart：`file` 必填 + `bizType` 可选）
      - `GET /api/file?key=`（元信息 / 预签名 URL）
@@ -77,6 +77,7 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 ## 参考
 
 - Compose 部署：[docs/deploy.md](./docs/deploy.md)
+- Compose 测试指南：[docs/compose-测试指南.md](./docs/compose-测试指南.md)
 - [AI 测试流提示集](docs/ai-test-flow-prompts.md)
 - 场景元数据：`sql/seed/scenarios/manifest.json`
 - 状态枚举、金额公式、验收用例链：见各场景 SQL 头部注释与 Swagger 字段说明

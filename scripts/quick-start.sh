@@ -3,7 +3,7 @@
 #
 # 用法：
 #   ./scripts/quick-start.sh           # 启动 MySQL + Redis + 后端 + Nginx
-#   ./scripts/quick-start.sh rustfs    # 同上，并启用可选 RustFS
+#   ./scripts/quick-start.sh rustfs    # 同上，并启用可选 RustFS（含 app 客户端开关）
 #   ./scripts/quick-start.sh -h        # 显示本说明
 #
 # 说明：从任意目录调用即可；依赖 Docker Engine/Desktop + Compose V2
@@ -19,6 +19,7 @@ usage() {
 
 默认端口: Web 8082 / API 8081 / MySQL 3307 / Redis 6380
 仅依赖:   docker compose up -d mysql redis
+仅 RustFS: docker compose --profile rustfs up -d rustfs
 停止:     docker compose down
 EOF
 }
@@ -57,15 +58,13 @@ if [[ ! -f .env ]]; then
   fi
 fi
 
-PROFILE_ARGS=()
-if [[ "${1:-}" == "rustfs" ]]; then
-  PROFILE_ARGS=(--profile rustfs)
-  export DEMO_RUSTFS_ENABLED=true
-  echo "[info] 已启用可选 profile: rustfs"
-fi
-
 echo "[info] 构建并启动 MySQL + Redis + 后端 + Nginx ..."
-docker compose "${PROFILE_ARGS[@]}" up -d --build
+if [[ "${1:-}" == "rustfs" ]]; then
+  echo "[info] 已启用可选 profile: rustfs（并加载 docker-compose.rustfs.yml）"
+  docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
+else
+  docker compose up -d --build
+fi
 
 echo
 echo "=============================================="
@@ -80,5 +79,6 @@ if [[ "${1:-}" == "rustfs" ]]; then
   echo " RustFS API:  http://localhost:${RUSTFS_API_PORT:-9000}"
   echo " 控制台:      http://localhost:${RUSTFS_CONSOLE_PORT:-9001}"
   echo " 默认密钥:    rustfsadmin / rustfsadmin"
+  echo " 停 RustFS:   docker compose --profile rustfs down"
 fi
 echo "=============================================="

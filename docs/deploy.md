@@ -10,7 +10,7 @@
 | API / Swagger | **8081** |
 | MySQL | **3307** |
 | Redis | **6380** |
-| RustFS（可选） | 9000 / 9001 |
+| RustFS（可选） | **9000** / **9001** |
 
 ## 一键全栈
 
@@ -49,21 +49,48 @@ mvn -pl demo-admin -am -DskipTests package
 cd demo-ui && npm install && npm run dev
 ```
 
-## 可选：RustFS
-
-默认不启动。需要文件上传 API 时：
+本机开发若只需 RustFS（文件 API），可：
 
 ```bash
-docker compose --profile rustfs up -d --build
-# 或
-scripts\quick-start.bat rustfs
-# ./scripts/quick-start.sh rustfs
+docker compose --profile rustfs up -d rustfs
 ```
 
-`quick-start … rustfs` 会设置 `DEMO_RUSTFS_ENABLED=true`，容器内 endpoint 为 `http://rustfs:9000`。  
-控制台 http://localhost:9001，密钥默认 `rustfsadmin` / `rustfsadmin`。
+并保持 `application-dev.yml` 中 `demo.rustfs.enabled=true`、`endpoint=http://127.0.0.1:9000`。
 
-若主仓已起 RustFS 占用 9000，请改 `.env` 中 `RUSTFS_*_PORT`，或只用一边。
+## 可选：RustFS（文件上传 API）
+
+默认**不启动**。需要时二选一：
+
+```bash
+# 推荐：全栈 + RustFS（同时打开 app 客户端）
+scripts\quick-start.bat rustfs
+# ./scripts/quick-start.sh rustfs
+
+# 等价手动命令
+docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
+```
+
+| 项 | 默认 |
+|----|------|
+| S3 API | http://localhost:9000 |
+| 控制台 | http://localhost:9001 |
+| Access / Secret | `rustfsadmin` / `rustfsadmin` |
+| Bucket | `qualitest-demo`（首次可在控制台创建；demo 启动时也会尝试自动创建） |
+| 容器内 endpoint | `http://rustfs:9000` |
+| 浏览器/预签名 | `http://127.0.0.1:9000/qualitest-demo` |
+
+说明：
+
+- 仅 `docker compose --profile rustfs up -d` **只会起 RustFS 容器**，不会把 `DEMO_RUSTFS_ENABLED` 设为 true；全栈联调请用上面的 `-f docker-compose.rustfs.yml` 或 `quick-start … rustfs`。
+- 端口冲突时改 `.env` 的 `RUSTFS_API_PORT` / `RUSTFS_CONSOLE_PORT`。
+
+验收接口（需客户端 Token）：
+
+- `POST /api/file/upload`
+- `GET /api/file?key=`
+- `DELETE /api/file?key=`
+
+样例附件（若仓库含）：`docs/fixtures/`。
 
 ## 架构
 
@@ -73,7 +100,7 @@ scripts\quick-start.bat rustfs
 | redis | qualitest-demo-redis | DB 11 |
 | app | qualitest-demo-app | `profile=docker`，端口 8081 |
 | web | qualitest-demo-web | Nginx + `/prod-api` → app |
-| rustfs（可选） | qualitest-demo-rustfs | `--profile rustfs` |
+| rustfs（可选） | qualitest-demo-rustfs | `--profile rustfs` + `docker-compose.rustfs.yml` |
 
 ## 常用命令
 
@@ -81,13 +108,16 @@ scripts\quick-start.bat rustfs
 docker compose logs -f app
 docker compose ps
 docker compose down
-docker compose down -v   # 清空数据卷（慎用）
+docker compose --profile rustfs down   # 若曾启用 rustfs
+docker compose down -v                 # 清空数据卷（含 rustfs_data，慎用）
 ```
 
 ## 相关文件
 
 - [`docker-compose.yml`](../docker-compose.yml)
+- [`docker-compose.rustfs.yml`](../docker-compose.rustfs.yml)
 - [`Dockerfile`](../Dockerfile)
 - [`deploy/docker/Dockerfile.web`](../deploy/docker/Dockerfile.web)
 - [`.env.example`](../.env.example)
 - [`application-docker.yml`](../demo-admin/src/main/resources/application-docker.yml)
+- 测试指南：[compose-测试指南.md](./compose-测试指南.md)
