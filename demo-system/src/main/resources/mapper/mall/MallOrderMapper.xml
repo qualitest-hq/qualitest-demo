@@ -1,0 +1,848 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mall.mapper.MallOrderMapper">
+
+    <resultMap type="MallOrder" id="MallOrderResult">
+        <result property="orderId" column="order_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="accountId" column="account_id"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="discountAmount" column="discount_amount"/>
+        <result property="couponId" column="coupon_id"/>
+        <result property="couponName" column="coupon_name"/>
+        <result property="couponThresholdAmount" column="coupon_threshold_amount"/>
+        <result property="couponDiscountAmount" column="coupon_discount_amount"/>
+        <result property="couponAmount" column="coupon_amount"/>
+        <result property="freightAmount" column="freight_amount"/>
+        <result property="payAmount" column="pay_amount"/>
+        <result property="accountCouponId" column="account_coupon_id"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="receiverPhone" column="receiver_phone"/>
+        <result property="receiverAddress" column="receiver_address"/>
+        <result property="buyerRemark" column="buyer_remark"/>
+        <result property="cancelReason" column="cancel_reason"/>
+        <result property="deliveryTime" column="delivery_time"/>
+        <result property="receiveTime" column="receive_time"/>
+        <result property="finishTime" column="finish_time"/>
+        <result property="paymentNo" column="payment_no"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payStatus" column="pay_status"/>
+        <result property="transactionNo" column="transaction_no"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="refundAmount" column="refund_amount"/>
+        <result property="refundStatus" column="refund_status"/>
+        <result property="refundCount" column="refund_count"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectMallOrderVo">
+        select order_id,
+               order_no,
+               account_id,
+               order_status,
+               total_amount,
+               discount_amount,
+               coupon_id,
+               coupon_name,
+               coupon_threshold_amount,
+               coupon_discount_amount,
+               coupon_amount,
+               freight_amount,
+               pay_amount,
+               account_coupon_id,
+               receiver_name,
+               receiver_phone,
+               receiver_address,
+               buyer_remark,
+               cancel_reason,
+               delivery_time,
+               receive_time,
+               finish_time,
+               payment_no,
+               pay_type,
+               pay_status,
+               transaction_no,
+               pay_time,
+               refund_amount,
+               refund_status,
+               refund_count,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from mall_order
+    </sql>
+
+    <sql id="selectMallOrderAliasVo">
+        select mo.order_id                as orderId,
+               mo.order_no                as orderNo,
+               mo.account_id              as accountId,
+               mo.order_status            as orderStatus,
+               mo.total_amount            as totalAmount,
+               mo.discount_amount         as discountAmount,
+               mo.coupon_id               as couponId,
+               mo.coupon_name             as couponName,
+               mo.coupon_threshold_amount as couponThresholdAmount,
+               mo.coupon_discount_amount  as couponDiscountAmount,
+               mo.coupon_amount           as couponAmount,
+               mo.freight_amount          as freightAmount,
+               mo.pay_amount              as payAmount,
+               mo.account_coupon_id       as accountCouponId,
+               mo.receiver_name           as receiverName,
+               mo.receiver_phone          as receiverPhone,
+               mo.receiver_address        as receiverAddress,
+               mo.buyer_remark            as buyerRemark,
+               mo.cancel_reason           as cancelReason,
+               mo.delivery_time           as deliveryTime,
+               mo.receive_time            as receiveTime,
+               mo.finish_time             as finishTime,
+               mo.payment_no              as paymentNo,
+               mo.pay_type                as payType,
+               mo.pay_status              as payStatus,
+               mo.transaction_no          as transactionNo,
+               mo.pay_time                as payTime,
+               mo.refund_amount           as refundAmount,
+               mo.refund_status           as refundStatus,
+               mo.refund_count            as refundCount,
+               mo.del_flag                as delFlag,
+               mo.create_time             as createTime,
+               mo.update_time             as updateTime,
+               mo.remark                  as remark
+        from mall_order mo
+    </sql>
+
+    <select id="selectMallOrderList" parameterType="MallOrder" resultMap="MallOrderResult">
+        <include refid="selectMallOrderVo"/>
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no = #{orderNo}
+            </if>
+            <if test="accountId != null ">
+                and account_id = #{accountId}
+            </if>
+            <if test="orderStatus != null ">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="couponId != null ">
+                and coupon_id = #{couponId}
+            </if>
+            <if test="accountCouponId != null ">
+                and account_coupon_id = #{accountCouponId}
+            </if>
+            <if test="receiverName != null and receiverName != ''">
+                and receiver_name = #{receiverName}
+            </if>
+            <if test="receiverPhone != null and receiverPhone != ''">
+                and receiver_phone = #{receiverPhone}
+            </if>
+            <if test="payType != null ">
+                and pay_type = #{payType}
+            </if>
+            <if test="payStatus != null ">
+                and pay_status = #{payStatus}
+            </if>
+            <if test="refundStatus != null ">
+                and refund_status = #{refundStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMallOrderById" parameterType="Long" resultMap="MallOrderResult">
+        <include refid="selectMallOrderVo"/>
+        where order_id = #{orderId}
+    </select>
+
+    <select id="selectMallOrderResultList" parameterType="MallOrderParams" resultType="MallOrderResult">
+        select
+        mo.order_id as orderId,
+        mo.order_no as orderNo,
+        mo.account_id as accountId,
+        a.nick_name as accountNickName,
+        a.mobile as accountMobile,
+        mo.order_status as orderStatus,
+        mo.total_amount as totalAmount,
+        mo.discount_amount as discountAmount,
+        mo.coupon_id as couponId,
+        mo.coupon_name as couponName,
+        mo.coupon_threshold_amount as couponThresholdAmount,
+        mo.coupon_discount_amount as couponDiscountAmount,
+        mo.coupon_amount as couponAmount,
+        mo.freight_amount as freightAmount,
+        mo.pay_amount as payAmount,
+        mo.account_coupon_id as accountCouponId,
+        mo.receiver_name as receiverName,
+        mo.receiver_phone as receiverPhone,
+        mo.receiver_address as receiverAddress,
+        mo.buyer_remark as buyerRemark,
+        mo.cancel_reason as cancelReason,
+        mo.delivery_time as deliveryTime,
+        mo.receive_time as receiveTime,
+        mo.finish_time as finishTime,
+        mo.payment_no as paymentNo,
+        mo.pay_type as payType,
+        mo.pay_status as payStatus,
+        mo.transaction_no as transactionNo,
+        mo.pay_time as payTime,
+        mo.refund_amount as refundAmount,
+        mo.refund_status as refundStatus,
+        mo.refund_count as refundCount,
+        mo.del_flag as delFlag,
+        mo.create_time as createTime,
+        mo.update_time as updateTime,
+        mo.remark as remark
+        from mall_order mo
+        left join account a on mo.account_id = a.account_id and a.del_flag = 0
+        where mo.del_flag = 0
+        <if test="orderNo != null and orderNo != ''">
+            and mo.order_no like concat('%', #{orderNo}, '%')
+        </if>
+        <if test="accountId != null">
+            and mo.account_id = #{accountId}
+        </if>
+        <if test="accountNickName != null and accountNickName != ''">
+            and a.nick_name like concat('%', #{accountNickName}, '%')
+        </if>
+        <if test="accountMobile != null and accountMobile != ''">
+            and a.mobile like concat('%', #{accountMobile}, '%')
+        </if>
+        <if test="orderStatus != null">
+            and mo.order_status = #{orderStatus}
+        </if>
+        <if test="couponId != null">
+            and mo.coupon_id = #{couponId}
+        </if>
+        <if test="accountCouponId != null">
+            and mo.account_coupon_id = #{accountCouponId}
+        </if>
+        <if test="couponName != null and couponName != ''">
+            and mo.coupon_name like concat('%', #{couponName}, '%')
+        </if>
+        <if test="receiverName != null and receiverName != ''">
+            and mo.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null and receiverPhone != ''">
+            and mo.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="payType != null">
+            and mo.pay_type = #{payType}
+        </if>
+        <if test="payStatus != null">
+            and mo.pay_status = #{payStatus}
+        </if>
+        <if test="refundStatus != null">
+            and mo.refund_status = #{refundStatus}
+        </if>
+        order by mo.order_id desc
+    </select>
+
+    <select id="selectMallOrderResult" parameterType="Long" resultType="MallOrderResult">
+        select mo.order_id                as orderId,
+               mo.order_no                as orderNo,
+               mo.account_id              as accountId,
+               mo.order_status            as orderStatus,
+               mo.total_amount            as totalAmount,
+               mo.discount_amount         as discountAmount,
+               mo.coupon_id               as couponId,
+               mo.coupon_name             as couponName,
+               mo.coupon_threshold_amount as couponThresholdAmount,
+               mo.coupon_discount_amount  as couponDiscountAmount,
+               mo.coupon_amount           as couponAmount,
+               mo.freight_amount          as freightAmount,
+               mo.pay_amount              as payAmount,
+               mo.account_coupon_id       as accountCouponId,
+               mo.receiver_name           as receiverName,
+               mo.receiver_phone          as receiverPhone,
+               mo.receiver_address        as receiverAddress,
+               mo.buyer_remark            as buyerRemark,
+               mo.cancel_reason           as cancelReason,
+               mo.delivery_time           as deliveryTime,
+               mo.receive_time            as receiveTime,
+               mo.finish_time             as finishTime,
+               mo.payment_no              as paymentNo,
+               mo.pay_type                as payType,
+               mo.pay_status              as payStatus,
+               mo.transaction_no          as transactionNo,
+               mo.pay_time                as payTime,
+               mo.refund_amount           as refundAmount,
+               mo.refund_status           as refundStatus,
+               mo.refund_count            as refundCount,
+               mo.del_flag                as delFlag,
+               mo.create_time             as createTime,
+               mo.update_time             as updateTime,
+               mo.remark                  as remark
+        from mall_order mo
+        where mo.del_flag = 0
+          and mo.order_id = #{orderId}
+        limit 1
+    </select>
+
+    <select id="selectMallOrderApiResultList" parameterType="MallOrderApiParams" resultType="MallOrderApiResult">
+        select
+        mo.order_id as orderId,
+        mo.order_no as orderNo,
+        mo.account_id as accountId,
+        mo.order_status as orderStatus,
+        mo.total_amount as totalAmount,
+        mo.discount_amount as discountAmount,
+        mo.coupon_id as couponId,
+        mo.coupon_name as couponName,
+        mo.coupon_threshold_amount as couponThresholdAmount,
+        mo.coupon_discount_amount as couponDiscountAmount,
+        mo.coupon_amount as couponAmount,
+        mo.freight_amount as freightAmount,
+        mo.pay_amount as payAmount,
+        mo.account_coupon_id as accountCouponId,
+        mo.receiver_name as receiverName,
+        mo.receiver_phone as receiverPhone,
+        mo.receiver_address as receiverAddress,
+        mo.buyer_remark as buyerRemark,
+        mo.cancel_reason as cancelReason,
+        mo.delivery_time as deliveryTime,
+        mo.receive_time as receiveTime,
+        mo.finish_time as finishTime,
+        mo.payment_no as paymentNo,
+        mo.pay_type as payType,
+        mo.pay_status as payStatus,
+        mo.transaction_no as transactionNo,
+        mo.pay_time as payTime,
+        mo.refund_amount as refundAmount,
+        mo.refund_status as refundStatus,
+        mo.refund_count as refundCount,
+        mo.del_flag as delFlag,
+        mo.create_time as createTime,
+        mo.update_time as updateTime,
+        mo.remark as remark
+        from mall_order mo
+        where mo.del_flag = 0
+        <if test="orderNo != null and orderNo != ''">
+            and mo.order_no = #{orderNo}
+        </if>
+        <if test="accountId != null">
+            and mo.account_id = #{accountId}
+        </if>
+        <if test="orderStatus != null">
+            and mo.order_status = #{orderStatus}
+        </if>
+        <if test="couponId != null">
+            and mo.coupon_id = #{couponId}
+        </if>
+        <if test="accountCouponId != null">
+            and mo.account_coupon_id = #{accountCouponId}
+        </if>
+        <if test="receiverName != null and receiverName != ''">
+            and mo.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null and receiverPhone != ''">
+            and mo.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="payType != null">
+            and mo.pay_type = #{payType}
+        </if>
+        <if test="payStatus != null">
+            and mo.pay_status = #{payStatus}
+        </if>
+        <if test="refundStatus != null">
+            and mo.refund_status = #{refundStatus}
+        </if>
+        order by mo.order_id desc
+    </select>
+
+    <select id="selectMallOrderApiResult" parameterType="Long" resultType="MallOrderApiResult">
+        select mo.order_id                as orderId,
+               mo.order_no                as orderNo,
+               mo.account_id              as accountId,
+               mo.order_status            as orderStatus,
+               mo.total_amount            as totalAmount,
+               mo.discount_amount         as discountAmount,
+               mo.coupon_id               as couponId,
+               mo.coupon_name             as couponName,
+               mo.coupon_threshold_amount as couponThresholdAmount,
+               mo.coupon_discount_amount  as couponDiscountAmount,
+               mo.coupon_amount           as couponAmount,
+               mo.freight_amount          as freightAmount,
+               mo.pay_amount              as payAmount,
+               mo.account_coupon_id       as accountCouponId,
+               mo.receiver_name           as receiverName,
+               mo.receiver_phone          as receiverPhone,
+               mo.receiver_address        as receiverAddress,
+               mo.buyer_remark            as buyerRemark,
+               mo.cancel_reason           as cancelReason,
+               mo.delivery_time           as deliveryTime,
+               mo.receive_time            as receiveTime,
+               mo.finish_time             as finishTime,
+               mo.payment_no              as paymentNo,
+               mo.pay_type                as payType,
+               mo.pay_status              as payStatus,
+               mo.transaction_no          as transactionNo,
+               mo.pay_time                as payTime,
+               mo.refund_amount           as refundAmount,
+               mo.refund_status           as refundStatus,
+               mo.refund_count            as refundCount,
+               mo.del_flag                as delFlag,
+               mo.create_time             as createTime,
+               mo.update_time             as updateTime,
+               mo.remark                  as remark
+        from mall_order mo
+        where mo.del_flag = 0
+          and mo.order_id = #{orderId}
+        limit 1
+    </select>
+
+    <select id="selectMallOrderCount" parameterType="MallOrderParams" resultType="int">
+        select count(1)
+        from mall_order mo
+        where mo.del_flag = 0
+        <if test="orderNo != null  and orderNo != ''">
+            and mo.order_no = #{orderNo}
+        </if>
+        <if test="accountId != null ">
+            and mo.account_id = #{accountId}
+        </if>
+        <if test="orderStatus != null ">
+            and mo.order_status = #{orderStatus}
+        </if>
+        <if test="couponId != null ">
+            and mo.coupon_id = #{couponId}
+        </if>
+        <if test="accountCouponId != null ">
+            and mo.account_coupon_id = #{accountCouponId}
+        </if>
+        <if test="receiverName != null  and receiverName != ''">
+            and mo.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null  and receiverPhone != ''">
+            and mo.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="payType != null ">
+            and mo.pay_type = #{payType}
+        </if>
+        <if test="payStatus != null ">
+            and mo.pay_status = #{payStatus}
+        </if>
+        <if test="refundStatus != null ">
+            and mo.refund_status = #{refundStatus}
+        </if>
+    </select>
+
+    <select id="selectMallOrderOne" parameterType="MallOrderParams" resultMap="MallOrderResult">
+        select
+        mo.order_id,
+        mo.order_no,
+        mo.account_id,
+        mo.order_status,
+        mo.total_amount,
+        mo.discount_amount,
+        mo.coupon_id,
+        mo.coupon_name,
+        mo.coupon_threshold_amount,
+        mo.coupon_discount_amount,
+        mo.coupon_amount,
+        mo.freight_amount,
+        mo.pay_amount,
+        mo.account_coupon_id,
+        mo.receiver_name,
+        mo.receiver_phone,
+        mo.receiver_address,
+        mo.buyer_remark,
+        mo.cancel_reason,
+        mo.delivery_time,
+        mo.receive_time,
+        mo.finish_time,
+        mo.payment_no,
+        mo.pay_type,
+        mo.pay_status,
+        mo.transaction_no,
+        mo.pay_time,
+        mo.refund_amount,
+        mo.refund_status,
+        mo.refund_count,
+        mo.del_flag,
+        mo.create_time,
+        mo.update_time,
+        mo.remark
+        from mall_order mo
+        where mo.del_flag = 0
+        <if test="orderNo != null  and orderNo != ''">
+            and mo.order_no = #{orderNo}
+        </if>
+        <if test="accountId != null ">
+            and mo.account_id = #{accountId}
+        </if>
+        <if test="orderStatus != null ">
+            and mo.order_status = #{orderStatus}
+        </if>
+        <if test="couponId != null ">
+            and mo.coupon_id = #{couponId}
+        </if>
+        <if test="accountCouponId != null ">
+            and mo.account_coupon_id = #{accountCouponId}
+        </if>
+        <if test="receiverName != null  and receiverName != ''">
+            and mo.receiver_name like concat('%', #{receiverName}, '%')
+        </if>
+        <if test="receiverPhone != null  and receiverPhone != ''">
+            and mo.receiver_phone like concat('%', #{receiverPhone}, '%')
+        </if>
+        <if test="payType != null ">
+            and mo.pay_type = #{payType}
+        </if>
+        <if test="payStatus != null ">
+            and mo.pay_status = #{payStatus}
+        </if>
+        <if test="refundStatus != null ">
+            and mo.refund_status = #{refundStatus}
+        </if>
+        order by mo.order_id desc
+        limit 1
+    </select>
+
+    <insert id="insertMallOrder" parameterType="MallOrder">
+        insert into mall_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="totalAmount != null">
+                total_amount,
+            </if>
+            <if test="discountAmount != null">
+                discount_amount,
+            </if>
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="couponName != null">
+                coupon_name,
+            </if>
+            <if test="couponThresholdAmount != null">
+                coupon_threshold_amount,
+            </if>
+            <if test="couponDiscountAmount != null">
+                coupon_discount_amount,
+            </if>
+            <if test="couponAmount != null">
+                coupon_amount,
+            </if>
+            <if test="freightAmount != null">
+                freight_amount,
+            </if>
+            <if test="payAmount != null">
+                pay_amount,
+            </if>
+            <if test="accountCouponId != null">
+                account_coupon_id,
+            </if>
+            <if test="receiverName != null">
+                receiver_name,
+            </if>
+            <if test="receiverPhone != null">
+                receiver_phone,
+            </if>
+            <if test="receiverAddress != null">
+                receiver_address,
+            </if>
+            <if test="buyerRemark != null">
+                buyer_remark,
+            </if>
+            <if test="cancelReason != null">
+                cancel_reason,
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time,
+            </if>
+            <if test="receiveTime != null">
+                receive_time,
+            </if>
+            <if test="finishTime != null">
+                finish_time,
+            </if>
+            <if test="paymentNo != null">
+                payment_no,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="payStatus != null">
+                pay_status,
+            </if>
+            <if test="transactionNo != null">
+                transaction_no,
+            </if>
+            <if test="payTime != null">
+                pay_time,
+            </if>
+            <if test="refundAmount != null">
+                refund_amount,
+            </if>
+            <if test="refundStatus != null">
+                refund_status,
+            </if>
+            <if test="refundCount != null">
+                refund_count,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus},
+            </if>
+            <if test="totalAmount != null">
+                #{totalAmount},
+            </if>
+            <if test="discountAmount != null">
+                #{discountAmount},
+            </if>
+            <if test="couponId != null">
+                #{couponId},
+            </if>
+            <if test="couponName != null">
+                #{couponName},
+            </if>
+            <if test="couponThresholdAmount != null">
+                #{couponThresholdAmount},
+            </if>
+            <if test="couponDiscountAmount != null">
+                #{couponDiscountAmount},
+            </if>
+            <if test="couponAmount != null">
+                #{couponAmount},
+            </if>
+            <if test="freightAmount != null">
+                #{freightAmount},
+            </if>
+            <if test="payAmount != null">
+                #{payAmount},
+            </if>
+            <if test="accountCouponId != null">
+                #{accountCouponId},
+            </if>
+            <if test="receiverName != null">
+                #{receiverName},
+            </if>
+            <if test="receiverPhone != null">
+                #{receiverPhone},
+            </if>
+            <if test="receiverAddress != null">
+                #{receiverAddress},
+            </if>
+            <if test="buyerRemark != null">
+                #{buyerRemark},
+            </if>
+            <if test="cancelReason != null">
+                #{cancelReason},
+            </if>
+            <if test="deliveryTime != null">
+                #{deliveryTime},
+            </if>
+            <if test="receiveTime != null">
+                #{receiveTime},
+            </if>
+            <if test="finishTime != null">
+                #{finishTime},
+            </if>
+            <if test="paymentNo != null">
+                #{paymentNo},
+            </if>
+            <if test="payType != null">
+                #{payType},
+            </if>
+            <if test="payStatus != null">
+                #{payStatus},
+            </if>
+            <if test="transactionNo != null">
+                #{transactionNo},
+            </if>
+            <if test="payTime != null">
+                #{payTime},
+            </if>
+            <if test="refundAmount != null">
+                #{refundAmount},
+            </if>
+            <if test="refundStatus != null">
+                #{refundStatus},
+            </if>
+            <if test="refundCount != null">
+                #{refundCount},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMallOrder" parameterType="MallOrder">
+        update mall_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null">
+                order_no = #{orderNo},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test="totalAmount != null">
+                total_amount = #{totalAmount},
+            </if>
+            <if test="discountAmount != null">
+                discount_amount = #{discountAmount},
+            </if>
+            <if test="couponId != null">
+                coupon_id = #{couponId},
+            </if>
+            <if test="couponName != null">
+                coupon_name = #{couponName},
+            </if>
+            <if test="couponThresholdAmount != null">
+                coupon_threshold_amount = #{couponThresholdAmount},
+            </if>
+            <if test="couponDiscountAmount != null">
+                coupon_discount_amount = #{couponDiscountAmount},
+            </if>
+            <if test="couponAmount != null">
+                coupon_amount = #{couponAmount},
+            </if>
+            <if test="freightAmount != null">
+                freight_amount = #{freightAmount},
+            </if>
+            <if test="payAmount != null">
+                pay_amount = #{payAmount},
+            </if>
+            <if test="accountCouponId != null">
+                account_coupon_id = #{accountCouponId},
+            </if>
+            <if test="receiverName != null">
+                receiver_name = #{receiverName},
+            </if>
+            <if test="receiverPhone != null">
+                receiver_phone = #{receiverPhone},
+            </if>
+            <if test="receiverAddress != null">
+                receiver_address = #{receiverAddress},
+            </if>
+            <if test="buyerRemark != null">
+                buyer_remark = #{buyerRemark},
+            </if>
+            <if test="cancelReason != null">
+                cancel_reason = #{cancelReason},
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time = #{deliveryTime},
+            </if>
+            <if test="receiveTime != null">
+                receive_time = #{receiveTime},
+            </if>
+            <if test="finishTime != null">
+                finish_time = #{finishTime},
+            </if>
+            <if test="paymentNo != null">
+                payment_no = #{paymentNo},
+            </if>
+            <if test="payType != null">
+                pay_type = #{payType},
+            </if>
+            <if test="payStatus != null">
+                pay_status = #{payStatus},
+            </if>
+            <if test="transactionNo != null">
+                transaction_no = #{transactionNo},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="refundAmount != null">
+                refund_amount = #{refundAmount},
+            </if>
+            <if test="refundStatus != null">
+                refund_status = #{refundStatus},
+            </if>
+            <if test="refundCount != null">
+                refund_count = #{refundCount},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <delete id="deleteMallOrderById" parameterType="Long">
+        delete
+        from mall_order
+        where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteMallOrderByIdList" parameterType="java.util.List">
+        delete from mall_order where order_id in
+        <foreach item="orderId" collection="list" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteMallOrderById" parameterType="Long">
+        update mall_order
+        set del_flag = 1
+        where order_id = #{orderId}
+    </update>
+
+    <update id="logicDeleteMallOrderByIdList" parameterType="java.util.List">
+        update mall_order set del_flag = 1 where order_id in
+        <foreach item="orderId" collection="list" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </update>
+</mapper>

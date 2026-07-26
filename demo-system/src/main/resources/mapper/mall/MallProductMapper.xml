@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mall.mapper.MallProductMapper">
+
+    <resultMap type="MallProduct" id="MallProductResult">
+        <result property="productId" column="product_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="marketPrice" column="market_price"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="freightAmount" column="freight_amount"/>
+        <result property="stockTotal" column="stock_total"/>
+        <result property="salesCount" column="sales_count"/>
+        <result property="shelfStatus" column="shelf_status"/>
+        <result property="sortNum" column="sort_num"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectMallProductVo">
+        select product_id,
+               category_id,
+               product_name,
+               unit_name,
+               market_price,
+               sale_price,
+               freight_amount,
+               stock_total,
+               sales_count,
+               shelf_status,
+               sort_num,
+               del_flag,
+               create_time,
+               update_time,
+               remark
+        from mall_product
+    </sql>
+
+    <sql id="selectMallProductAliasVo">
+        select mp.product_id   as productId,
+               mp.category_id  as categoryId,
+               mp.product_name as productName,
+               mp.unit_name    as unitName,
+               mp.market_price as marketPrice,
+               mp.sale_price   as salePrice,
+               mp.freight_amount as freightAmount,
+               mp.stock_total  as stockTotal,
+               mp.sales_count  as salesCount,
+               mp.shelf_status as shelfStatus,
+               mp.sort_num     as sortNum,
+               mp.del_flag     as delFlag,
+               mp.create_time  as createTime,
+               mp.update_time  as updateTime,
+               mp.remark       as remark
+        from mall_product mp
+    </sql>
+
+    <select id="selectMallProductList" parameterType="MallProduct" resultMap="MallProductResult">
+        <include refid="selectMallProductVo"/>
+        <where>
+            <if test="categoryId != null ">
+                and category_id = #{categoryId}
+            </if>
+            <if test="productName != null and productName != ''">
+                and product_name = #{productName}
+            </if>
+            <if test="shelfStatus != null ">
+                and shelf_status = #{shelfStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMallProductById" parameterType="Long" resultMap="MallProductResult">
+        <include refid="selectMallProductVo"/>
+        where product_id = #{productId}
+    </select>
+
+    <select id="selectMallProductResultList" parameterType="MallProductParams" resultType="MallProductResult">
+        select
+        mp.product_id as productId,
+        mp.category_id as categoryId,
+        mc.category_name as categoryName,
+        mp.product_name as productName,
+        mp.unit_name as unitName,
+        mp.market_price as marketPrice,
+        mp.sale_price as salePrice,
+        mp.freight_amount as freightAmount,
+        mp.stock_total as stockTotal,
+        mp.sales_count as salesCount,
+        mp.shelf_status as shelfStatus,
+        mp.sort_num as sortNum,
+        mp.del_flag as delFlag,
+        mp.create_time as createTime,
+        mp.update_time as updateTime,
+        mp.remark as remark
+        from mall_product mp
+        left join mall_category mc on mp.category_id = mc.category_id and mc.del_flag = 0
+        where mp.del_flag = 0
+        <if test="categoryId != null">
+            and mp.category_id = #{categoryId}
+        </if>
+        <if test="categoryName != null and categoryName != ''">
+            and mc.category_name like concat('%', #{categoryName}, '%')
+        </if>
+        <if test="productName != null and productName != ''">
+            and mp.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="shelfStatus != null">
+            and mp.shelf_status = #{shelfStatus}
+        </if>
+        order by mp.product_id desc
+    </select>
+
+    <select id="selectMallProductResult" parameterType="Long" resultType="MallProductResult">
+        select mp.product_id   as productId,
+               mp.category_id  as categoryId,
+               mp.product_name as productName,
+               mp.unit_name    as unitName,
+               mp.market_price as marketPrice,
+               mp.sale_price   as salePrice,
+               mp.freight_amount as freightAmount,
+               mp.stock_total  as stockTotal,
+               mp.sales_count  as salesCount,
+               mp.shelf_status as shelfStatus,
+               mp.sort_num     as sortNum,
+               mp.del_flag     as delFlag,
+               mp.create_time  as createTime,
+               mp.update_time  as updateTime,
+               mp.remark       as remark
+        from mall_product mp
+        where mp.del_flag = 0
+          and mp.product_id = #{productId}
+        limit 1
+    </select>
+
+    <select id="selectMallProductApiResultList" parameterType="MallProductApiParams" resultType="MallProductApiResult">
+        select
+        mp.product_id as productId,
+        mp.category_id as categoryId,
+        mp.product_name as productName,
+        mp.unit_name as unitName,
+        mp.market_price as marketPrice,
+        mp.sale_price as salePrice,
+        mp.freight_amount as freightAmount,
+        mp.stock_total as stockTotal,
+        mp.sales_count as salesCount,
+        mp.shelf_status as shelfStatus,
+        mp.sort_num as sortNum,
+        mp.del_flag as delFlag,
+        mp.create_time as createTime,
+        mp.update_time as updateTime,
+        mp.remark as remark
+        from mall_product mp
+        where mp.del_flag = 0
+          and mp.shelf_status = 1
+        <if test="categoryId != null">
+            and mp.category_id = #{categoryId}
+        </if>
+        <if test="productName != null and productName != ''">
+            and mp.product_name like concat('%', #{productName}, '%')
+        </if>
+        order by mp.product_id desc
+    </select>
+
+    <select id="selectMallProductApiResult" parameterType="Long" resultType="MallProductApiResult">
+        select mp.product_id   as productId,
+               mp.category_id  as categoryId,
+               mp.product_name as productName,
+               mp.unit_name    as unitName,
+               mp.market_price as marketPrice,
+               mp.sale_price   as salePrice,
+               mp.freight_amount as freightAmount,
+               mp.stock_total  as stockTotal,
+               mp.sales_count  as salesCount,
+               mp.shelf_status as shelfStatus,
+               mp.sort_num     as sortNum,
+               mp.del_flag     as delFlag,
+               mp.create_time  as createTime,
+               mp.update_time  as updateTime,
+               mp.remark       as remark
+        from mall_product mp
+        where mp.del_flag = 0
+          and mp.product_id = #{productId}
+        limit 1
+    </select>
+
+    <select id="selectMallProductCount" parameterType="MallProductParams" resultType="int">
+        select count(1)
+        from mall_product mp
+        where mp.del_flag = 0
+        <if test="categoryId != null ">
+            and mp.category_id = #{categoryId}
+        </if>
+        <if test="productName != null  and productName != ''">
+            and mp.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="shelfStatus != null ">
+            and mp.shelf_status = #{shelfStatus}
+        </if>
+    </select>
+
+    <select id="selectMallProductOne" parameterType="MallProductParams" resultMap="MallProductResult">
+        select
+        mp.product_id,
+        mp.category_id,
+        mp.product_name,
+        mp.unit_name,
+        mp.market_price,
+        mp.sale_price,
+        mp.freight_amount,
+        mp.stock_total,
+        mp.sales_count,
+        mp.shelf_status,
+        mp.sort_num,
+        mp.del_flag,
+        mp.create_time,
+        mp.update_time,
+        mp.remark
+        from mall_product mp
+        where mp.del_flag = 0
+        <if test="categoryId != null ">
+            and mp.category_id = #{categoryId}
+        </if>
+        <if test="productName != null  and productName != ''">
+            and mp.product_name like concat('%', #{productName}, '%')
+        </if>
+        <if test="shelfStatus != null ">
+            and mp.shelf_status = #{shelfStatus}
+        </if>
+        order by mp.product_id desc
+        limit 1
+    </select>
+
+    <insert id="insertMallProduct" parameterType="MallProduct">
+        insert into mall_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="productName != null">
+                product_name,
+            </if>
+            <if test="unitName != null">
+                unit_name,
+            </if>
+            <if test="marketPrice != null">
+                market_price,
+            </if>
+            <if test="salePrice != null">
+                sale_price,
+            </if>
+            <if test="freightAmount != null">
+                freight_amount,
+            </if>
+            <if test="stockTotal != null">
+                stock_total,
+            </if>
+            <if test="salesCount != null">
+                sales_count,
+            </if>
+            <if test="shelfStatus != null">
+                shelf_status,
+            </if>
+            <if test="sortNum != null">
+                sort_num,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">
+                #{productId},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId},
+            </if>
+            <if test="productName != null">
+                #{productName},
+            </if>
+            <if test="unitName != null">
+                #{unitName},
+            </if>
+            <if test="marketPrice != null">
+                #{marketPrice},
+            </if>
+            <if test="salePrice != null">
+                #{salePrice},
+            </if>
+            <if test="freightAmount != null">
+                #{freightAmount},
+            </if>
+            <if test="stockTotal != null">
+                #{stockTotal},
+            </if>
+            <if test="salesCount != null">
+                #{salesCount},
+            </if>
+            <if test="shelfStatus != null">
+                #{shelfStatus},
+            </if>
+            <if test="sortNum != null">
+                #{sortNum},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMallProduct" parameterType="MallProduct">
+        update mall_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName},
+            </if>
+            <if test="unitName != null">
+                unit_name = #{unitName},
+            </if>
+            <if test="marketPrice != null">
+                market_price = #{marketPrice},
+            </if>
+            <if test="salePrice != null">
+                sale_price = #{salePrice},
+            </if>
+            <if test="freightAmount != null">
+                freight_amount = #{freightAmount},
+            </if>
+            <if test="stockTotal != null">
+                stock_total = #{stockTotal},
+            </if>
+            <if test="salesCount != null">
+                sales_count = #{salesCount},
+            </if>
+            <if test="shelfStatus != null">
+                shelf_status = #{shelfStatus},
+            </if>
+            <if test="sortNum != null">
+                sort_num = #{sortNum},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+    <delete id="deleteMallProductById" parameterType="Long">
+        delete
+        from mall_product
+        where product_id = #{productId}
+    </delete>
+
+    <delete id="deleteMallProductByIdList" parameterType="java.util.List">
+        delete from mall_product where product_id in
+        <foreach item="productId" collection="list" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+
+    <update id="logicDeleteMallProductById" parameterType="Long">
+        update mall_product
+        set del_flag = 1
+        where product_id = #{productId}
+    </update>
+
+    <update id="logicDeleteMallProductByIdList" parameterType="java.util.List">
+        update mall_product set del_flag = 1 where product_id in
+        <foreach item="productId" collection="list" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </update>
+</mapper>

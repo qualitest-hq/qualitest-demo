@@ -1,0 +1,1682 @@
+[
+  {
+    "method": "REQUEST",
+    "path": "/",
+    "controller": "SysIndexController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysIndexController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/accountAddress/my",
+    "controller": "AccountAddressApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAddressApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/account/accountAddress/my",
+    "controller": "AccountAddressApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAddressApiController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/account/accountAddress/my",
+    "controller": "AccountAddressApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAddressApiController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/account/accountAddress/my/{addressId}",
+    "controller": "AccountAddressApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAddressApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/accountAddress/my/{addressId}",
+    "controller": "AccountAddressApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAddressApiController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/account/accountAddress/my/{addressId}/default",
+    "controller": "AccountAddressApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAddressApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/accountBalanceRecord/my",
+    "controller": "AccountBalanceRecordApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountBalanceRecordApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/accountBalanceRecord/my/{balanceRecordId}",
+    "controller": "AccountBalanceRecordApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountBalanceRecordApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/account/accountBalanceRecord/recharge",
+    "controller": "AccountBalanceRecordApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountBalanceRecordApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/account/auth/login",
+    "controller": "AccountAuthController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAuthController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/account/auth/logout",
+    "controller": "AccountAuthController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAuthController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/account/auth/password",
+    "controller": "AccountAuthController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAuthController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/auth/profile",
+    "controller": "AccountAuthController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAuthController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/account/auth/profile",
+    "controller": "AccountAuthController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAuthController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/account/auth/register",
+    "controller": "AccountAuthController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/account/AccountAuthController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coupon/accountCoupon/my",
+    "controller": "AccountCouponApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/coupon/AccountCouponApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coupon/accountCoupon/my/available",
+    "controller": "AccountCouponApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/coupon/AccountCouponApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coupon/coupon/available",
+    "controller": "CouponApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/coupon/CouponApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/coupon/coupon/{couponId}/receive",
+    "controller": "CouponApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/coupon/CouponApiController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/file",
+    "controller": "FileApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/file/FileApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/file",
+    "controller": "FileApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/file/FileApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/file/upload",
+    "controller": "FileApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/file/FileApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallCart/my",
+    "controller": "MallCartApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallCartApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallCart/my",
+    "controller": "MallCartApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallCartApiController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/mall/mallCart/my/clear",
+    "controller": "MallCartApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallCartApiController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/mall/mallCart/my/quantity",
+    "controller": "MallCartApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallCartApiController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/mall/mallCart/my/{cartId}",
+    "controller": "MallCartApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallCartApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallCategory/enabled",
+    "controller": "MallCategoryApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallCategoryApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrder/create",
+    "controller": "MallOrderApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallOrder/my",
+    "controller": "MallOrderApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallOrder/my/{orderId}",
+    "controller": "MallOrderApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrder/my/{orderId}/cancel",
+    "controller": "MallOrderApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrder/my/{orderId}/confirmReceive",
+    "controller": "MallOrderApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrder/my/{orderId}/pay",
+    "controller": "MallOrderApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrder/preview",
+    "controller": "MallOrderApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrderRefund/apply",
+    "controller": "MallOrderRefundApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderRefundApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallOrderRefund/my",
+    "controller": "MallOrderRefundApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderRefundApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallOrderRefund/my/{refundId}",
+    "controller": "MallOrderRefundApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderRefundApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrderRefund/my/{refundId}/cancel",
+    "controller": "MallOrderRefundApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderRefundApiController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mall/mallOrderRefund/preview",
+    "controller": "MallOrderRefundApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallOrderRefundApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallProduct/list",
+    "controller": "MallProductApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallProductApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallProduct/{productId}",
+    "controller": "MallProductApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallProductApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mall/mallProduct/{productId}/detail",
+    "controller": "MallProductApiController",
+    "file": "demo-admin/src/main/java/com/demo/web/apiController/mall/MallProductApiController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/captchaImage",
+    "controller": "CaptchaController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/common/CaptchaController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/common/download",
+    "controller": "CommonController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/common/CommonController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/common/download/resource",
+    "controller": "CommonController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/common/CommonController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/common/upload",
+    "controller": "CommonController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/common/CommonController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/common/uploads",
+    "controller": "CommonController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/common/CommonController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/login",
+    "controller": "SysLoginController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysLoginController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/cache",
+    "controller": "CacheController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/CacheController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/cache/clearCacheAll",
+    "controller": "CacheController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/CacheController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/cache/clearCacheKey/{cacheKey}",
+    "controller": "CacheController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/CacheController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/cache/clearCacheName/{cacheName}",
+    "controller": "CacheController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/CacheController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/cache/getKeys/{cacheName}",
+    "controller": "CacheController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/CacheController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/cache/getNames",
+    "controller": "CacheController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/CacheController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/cache/getValue/{cacheName}/{cacheKey}",
+    "controller": "CacheController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/CacheController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/monitor/job",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/monitor/job",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/monitor/job/changeStatus",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/monitor/job/export",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/job/list",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/monitor/job/run",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/job/{jobIds}",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/job/{jobId}",
+    "controller": "SysJobController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/jobLog/clean",
+    "controller": "SysJobLogController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobLogController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/monitor/jobLog/export",
+    "controller": "SysJobLogController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobLogController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/jobLog/list",
+    "controller": "SysJobLogController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobLogController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/jobLog/{jobLogIds}",
+    "controller": "SysJobLogController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobLogController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/jobLog/{jobLogId}",
+    "controller": "SysJobLogController",
+    "file": "demo-quartz/src/main/java/com/demo/quartz/controller/SysJobLogController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/logininfor/clean",
+    "controller": "SysLogininforController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysLogininforController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/monitor/logininfor/export",
+    "controller": "SysLogininforController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysLogininforController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/logininfor/list",
+    "controller": "SysLogininforController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysLogininforController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/logininfor/unlock/{userName}",
+    "controller": "SysLogininforController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysLogininforController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/logininfor/{infoIds}",
+    "controller": "SysLogininforController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysLogininforController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/online/list",
+    "controller": "SysUserOnlineController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysUserOnlineController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/online/{tokenId}",
+    "controller": "SysUserOnlineController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysUserOnlineController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/operlog/clean",
+    "controller": "SysOperlogController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysOperlogController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/monitor/operlog/export",
+    "controller": "SysOperlogController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysOperlogController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/operlog/list",
+    "controller": "SysOperlogController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysOperlogController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/monitor/operlog/{operIds}",
+    "controller": "SysOperlogController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/SysOperlogController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/monitor/server",
+    "controller": "ServerController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/monitor/ServerController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/register",
+    "controller": "SysRegisterController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRegisterController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/config",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/config",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/config/configKey/{configKey}",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/config/export",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/config/list",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/config/refreshCache",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/config/{configIds}",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/config/{configId}",
+    "controller": "SysConfigController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysConfigController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/dept",
+    "controller": "SysDeptController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDeptController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/dept",
+    "controller": "SysDeptController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDeptController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dept/list",
+    "controller": "SysDeptController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDeptController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dept/list/exclude/{deptId}",
+    "controller": "SysDeptController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDeptController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/dept/updateSort",
+    "controller": "SysDeptController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDeptController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/dept/{deptId}",
+    "controller": "SysDeptController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDeptController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dept/{deptId}",
+    "controller": "SysDeptController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDeptController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/dict/data",
+    "controller": "SysDictDataController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictDataController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/dict/data",
+    "controller": "SysDictDataController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictDataController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/dict/data/export",
+    "controller": "SysDictDataController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictDataController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dict/data/list",
+    "controller": "SysDictDataController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictDataController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dict/data/type/{dictType}",
+    "controller": "SysDictDataController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictDataController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/dict/data/{dictCodes}",
+    "controller": "SysDictDataController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictDataController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dict/data/{dictCode}",
+    "controller": "SysDictDataController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictDataController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/dict/type",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/dict/type",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/dict/type/export",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dict/type/list",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dict/type/optionselect",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/dict/type/refreshCache",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/dict/type/{dictIds}",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/dict/type/{dictId}",
+    "controller": "SysDictTypeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysDictTypeController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/menu",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/menu",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/menu/list",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/menu/roleMenuTreeselect/{roleId}",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/menu/treeselect",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/menu/updateSort",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/menu/{menuId}",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/menu/{menuId}",
+    "controller": "SysMenuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysMenuController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/notice",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/notice",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/notice/list",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/notice/listTop",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/notice/markRead",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/notice/markReadAll",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/notice/readUsers/list",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/notice/{noticeIds}",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/notice/{noticeId}",
+    "controller": "SysNoticeController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysNoticeController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/post",
+    "controller": "SysPostController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysPostController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/post",
+    "controller": "SysPostController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysPostController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/post/export",
+    "controller": "SysPostController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysPostController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/post/list",
+    "controller": "SysPostController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysPostController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/post/optionselect",
+    "controller": "SysPostController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysPostController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/post/{postIds}",
+    "controller": "SysPostController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysPostController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/post/{postId}",
+    "controller": "SysPostController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysPostController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/role",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/role",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/role/authUser/allocatedList",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/role/authUser/cancel",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/role/authUser/cancelAll",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/role/authUser/selectAll",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/role/authUser/unallocatedList",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/role/changeStatus",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/role/dataScope",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/role/deptTree/{roleId}",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/role/export",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/role/list",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/role/optionselect",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/role/{roleIds}",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/role/{roleId}",
+    "controller": "SysRoleController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysRoleController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/user",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/user",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/user",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/user/authRole",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/user/authRole/{userId}",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/user/changeStatus",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/user/deptTree",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/user/export",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/user/importData",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/user/importTemplate",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/user/list",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/system/user/profile",
+    "controller": "SysProfileController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysProfileController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/user/profile",
+    "controller": "SysProfileController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysProfileController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/system/user/profile/avatar",
+    "controller": "SysProfileController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysProfileController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/user/profile/updatePwd",
+    "controller": "SysProfileController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysProfileController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/system/user/resetPwd",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/system/user/{userIds}",
+    "controller": "SysUserController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysUserController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/test-support/restore",
+    "controller": "TestSupportController",
+    "file": "test-support-starter/src/main/java/com/qualitest/testsupport/web/TestSupportController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/test-support/snapshot",
+    "controller": "TestSupportController",
+    "file": "test-support-starter/src/main/java/com/qualitest/testsupport/web/TestSupportController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/test/user/list",
+    "controller": "TestController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/tool/TestController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/test/user/save",
+    "controller": "TestController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/tool/TestController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/test/user/update",
+    "controller": "TestController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/tool/TestController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/test/user/{userId}",
+    "controller": "TestController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/tool/TestController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/test/user/{userId}",
+    "controller": "TestController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/tool/TestController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/tool/gen",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/batchGenCode",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/column/{tableId}",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/tool/gen/createTable",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/db/list",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/download/{tableName}",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/genCode/{tableName}",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/tool/gen/importTable",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/list",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/preview/{tableId}",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/synchDb/{tableName}",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/tool/gen/{tableIds}",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/tool/gen/{tableId}",
+    "controller": "GenController",
+    "file": "demo-generator/src/main/java/com/demo/generator/controller/GenController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/unlockscreen",
+    "controller": "SysIndexController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysIndexController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/account/account",
+    "controller": "AccountController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/account/account",
+    "controller": "AccountController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/account/account/export",
+    "controller": "AccountController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/account/account/giftBalance",
+    "controller": "AccountController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/account/account/list",
+    "controller": "AccountController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/account/account/{accountIds}",
+    "controller": "AccountController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/account/account/{accountId}",
+    "controller": "AccountController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/account/accountAddress",
+    "controller": "AccountAddressController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountAddressController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/account/accountAddress",
+    "controller": "AccountAddressController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountAddressController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/account/accountAddress/export",
+    "controller": "AccountAddressController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountAddressController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/account/accountAddress/list",
+    "controller": "AccountAddressController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountAddressController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/account/accountAddress/{addressIds}",
+    "controller": "AccountAddressController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountAddressController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/account/accountAddress/{addressId}",
+    "controller": "AccountAddressController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountAddressController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/account/accountBalanceRecord/export",
+    "controller": "AccountBalanceRecordController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountBalanceRecordController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/account/accountBalanceRecord/list",
+    "controller": "AccountBalanceRecordController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountBalanceRecordController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/account/accountBalanceRecord/{balanceRecordId}",
+    "controller": "AccountBalanceRecordController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/account/AccountBalanceRecordController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/coupon/accountCoupon",
+    "controller": "AccountCouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/AccountCouponController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/coupon/accountCoupon",
+    "controller": "AccountCouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/AccountCouponController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/coupon/accountCoupon/export",
+    "controller": "AccountCouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/AccountCouponController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/coupon/accountCoupon/list",
+    "controller": "AccountCouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/AccountCouponController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/coupon/accountCoupon/{accountCouponIds}",
+    "controller": "AccountCouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/AccountCouponController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/coupon/accountCoupon/{accountCouponId}",
+    "controller": "AccountCouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/AccountCouponController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/coupon/coupon",
+    "controller": "CouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/CouponController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/coupon/coupon",
+    "controller": "CouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/CouponController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/coupon/coupon/export",
+    "controller": "CouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/CouponController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/coupon/coupon/list",
+    "controller": "CouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/CouponController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/coupon/coupon/{couponIds}",
+    "controller": "CouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/CouponController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/coupon/coupon/{couponId}",
+    "controller": "CouponController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/coupon/CouponController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallCart",
+    "controller": "MallCartController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCartController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallCart",
+    "controller": "MallCartController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCartController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallCart/export",
+    "controller": "MallCartController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCartController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallCart/list",
+    "controller": "MallCartController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCartController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallCart/{cartIds}",
+    "controller": "MallCartController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCartController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallCart/{cartId}",
+    "controller": "MallCartController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCartController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallCategory",
+    "controller": "MallCategoryController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCategoryController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallCategory",
+    "controller": "MallCategoryController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCategoryController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallCategory/export",
+    "controller": "MallCategoryController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCategoryController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallCategory/list",
+    "controller": "MallCategoryController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCategoryController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallCategory/{categoryIds}",
+    "controller": "MallCategoryController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCategoryController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallCategory/{categoryId}",
+    "controller": "MallCategoryController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallCategoryController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrder",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallOrder",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrder/export",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrder/list",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallOrder/{orderIds}",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrder/{orderId}",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrder/{orderId}/close",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrder/{orderId}/deliver",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrder/{orderId}/detail",
+    "controller": "MallOrderController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderItem",
+    "controller": "MallOrderItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderItemController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallOrderItem",
+    "controller": "MallOrderItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderItemController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderItem/export",
+    "controller": "MallOrderItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderItemController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrderItem/list",
+    "controller": "MallOrderItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderItemController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallOrderItem/{orderItemIds}",
+    "controller": "MallOrderItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderItemController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrderItem/{orderItemId}",
+    "controller": "MallOrderItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderItemController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderRefund",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallOrderRefund",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderRefund/export",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrderRefund/list",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallOrderRefund/{refundIds}",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrderRefund/{refundId}",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderRefund/{refundId}/approve",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderRefund/{refundId}/complete",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrderRefund/{refundId}/detail",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderRefund/{refundId}/reject",
+    "controller": "MallOrderRefundController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderRefundItem",
+    "controller": "MallOrderRefundItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundItemController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallOrderRefundItem",
+    "controller": "MallOrderRefundItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundItemController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallOrderRefundItem/export",
+    "controller": "MallOrderRefundItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundItemController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrderRefundItem/list",
+    "controller": "MallOrderRefundItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundItemController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallOrderRefundItem/{refundItemIds}",
+    "controller": "MallOrderRefundItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundItemController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallOrderRefundItem/{refundItemId}",
+    "controller": "MallOrderRefundItemController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallOrderRefundItemController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallProduct",
+    "controller": "MallProductController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallProduct",
+    "controller": "MallProductController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallProduct/changeShelfStatus",
+    "controller": "MallProductController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallProduct/export",
+    "controller": "MallProductController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallProduct/list",
+    "controller": "MallProductController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallProduct/{productIds}",
+    "controller": "MallProductController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallProduct/{productId}",
+    "controller": "MallProductController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallProductSku",
+    "controller": "MallProductSkuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductSkuController.java"
+  },
+  {
+    "method": "PUT",
+    "path": "/web/mall/mallProductSku",
+    "controller": "MallProductSkuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductSkuController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/mall/mallProductSku/export",
+    "controller": "MallProductSkuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductSkuController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallProductSku/list",
+    "controller": "MallProductSkuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductSkuController.java"
+  },
+  {
+    "method": "DELETE",
+    "path": "/web/mall/mallProductSku/{skuIds}",
+    "controller": "MallProductSkuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductSkuController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/mall/mallProductSku/{skuId}",
+    "controller": "MallProductSkuController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/mall/MallProductSkuController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/test/scenario/current",
+    "controller": "TestScenarioController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/test/TestScenarioController.java"
+  },
+  {
+    "method": "GET",
+    "path": "/web/test/scenario/list",
+    "controller": "TestScenarioController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/test/TestScenarioController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/test/scenario/load/{id}",
+    "controller": "TestScenarioController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/test/TestScenarioController.java"
+  },
+  {
+    "method": "POST",
+    "path": "/web/test/scenario/reset",
+    "controller": "TestScenarioController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/test/TestScenarioController.java"
+  },
+  {
+    "method": "GET",
+    "path": "getInfo",
+    "controller": "SysLoginController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysLoginController.java"
+  },
+  {
+    "method": "GET",
+    "path": "getRouters",
+    "controller": "SysLoginController",
+    "file": "demo-admin/src/main/java/com/demo/web/controller/system/SysLoginController.java"
+  }
+]

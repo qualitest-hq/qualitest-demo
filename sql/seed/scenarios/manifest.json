@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "defaults": {
+    "autoReset": true,
+    "dbName": "qualitest-demo"
+  },
+  "scenarios": [
+    {
+      "id": "S01",
+      "name": "购物车已有商品",
+      "type": "success",
+      "file": "scenarios/success/S01_cart_ready.sql",
+      "acceptanceCases": ["3"],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "购物车 2 行；preview 195 元",
+      "orderHint": "cart_id 5001/5002"
+    },
+    {
+      "id": "S02",
+      "name": "待付款 + 券占券",
+      "type": "success",
+      "file": "scenarios/success/S02_unpaid_order_coupon_hold.sql",
+      "acceptanceCases": ["4", "4b", "6b"],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "占券未核销；关单后释放",
+      "orderHint": "订单 7001，payAmount 299"
+    },
+    {
+      "id": "S03",
+      "name": "待发货已支付",
+      "type": "success",
+      "file": "scenarios/success/S03_paid_pending_ship.sql",
+      "acceptanceCases": ["5", "4c", "7", "7b", "7c", "7e", "9"],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号，余额 701（已扣 299）"
+      },
+      "expect": "refund/preview canRefund=true；重复 pay 失败",
+      "orderHint": "订单 7002，payAmount 299"
+    },
+    {
+      "id": "S04",
+      "name": "已发货订单",
+      "type": "success",
+      "file": "scenarios/success/S04_paid_shipped.sql",
+      "acceptanceCases": ["7d"],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "已发货态订单",
+      "orderHint": "订单 7003"
+    },
+    {
+      "id": "S05",
+      "name": "部分退款已完成",
+      "type": "success",
+      "file": "scenarios/success/S05_partial_refund_completed.sql",
+      "acceptanceCases": ["18", "20"],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "部分退款已完成态",
+      "orderHint": "订单 7004"
+    },
+    {
+      "id": "S06",
+      "name": "退款待审核",
+      "type": "success",
+      "file": "scenarios/success/S06_refund_pending_review.sql",
+      "acceptanceCases": ["7c"],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "订单退款中",
+      "orderHint": "订单 7005 + 退款单 9002"
+    },
+    {
+      "id": "S07",
+      "name": "直接购买待付款",
+      "type": "success",
+      "file": "scenarios/success/S07_direct_buy_unpaid.sql",
+      "acceptanceCases": ["15", "6", "6c"],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "无购物车、无券待付订单",
+      "orderHint": "订单 7006，payAmount 57"
+    },
+    {
+      "id": "S08",
+      "name": "可领券基线",
+      "type": "success",
+      "file": "scenarios/success/S08_coupon_receive_ready.sql",
+      "acceptanceCases": ["4", "12"],
+      "account": {
+        "phone": "13800000002",
+        "password": "Test@123456",
+        "remark": "账号2 未领券"
+      },
+      "expect": "账号2 未领券，可测领取",
+      "orderHint": "coupon_id 3001"
+    },
+    {
+      "id": "F01",
+      "name": "停用账号不可登录",
+      "type": "fail",
+      "file": "scenarios/fail/F01_disabled_account.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000002",
+        "password": "Test@123456",
+        "remark": "账号已停用"
+      },
+      "expect": "登录失败",
+      "orderHint": "account_id 30002"
+    },
+    {
+      "id": "F02",
+      "name": "商品 SPU 已下架",
+      "type": "fail",
+      "file": "scenarios/fail/F02_off_shelf_product.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "加购失败",
+      "orderHint": "product_id 2002"
+    },
+    {
+      "id": "F03",
+      "name": "SKU 已停用",
+      "type": "fail",
+      "file": "scenarios/fail/F03_disabled_sku.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "加购失败",
+      "orderHint": "sku_id 2111"
+    },
+    {
+      "id": "F04",
+      "name": "库存不足",
+      "type": "fail",
+      "file": "scenarios/fail/F04_low_stock_sku.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "超量下单失败",
+      "orderHint": "sku_id 2101 库存 2"
+    },
+    {
+      "id": "F05",
+      "name": "过期优惠券",
+      "type": "fail",
+      "file": "scenarios/fail/F05_expired_coupon.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000002",
+        "password": "Test@123456",
+        "remark": "账号2 持有过期券"
+      },
+      "expect": "available 不返回该券",
+      "orderHint": "account_coupon 过期"
+    },
+    {
+      "id": "F06",
+      "name": "满减门槛不满足",
+      "type": "fail",
+      "file": "scenarios/fail/F06_coupon_threshold_unmet.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "用券失败",
+      "orderHint": "总额 98 未满 100"
+    },
+    {
+      "id": "F07",
+      "name": "余额不足支付",
+      "type": "fail",
+      "file": "scenarios/fail/F07_balance_insufficient_order.sql",
+      "acceptanceCases": ["5b"],
+      "account": {
+        "phone": "13800000002",
+        "password": "Test@123456",
+        "remark": "余额 100，待付 210"
+      },
+      "expect": "pay 失败后可 recharge 再 pay；流水含充值与支付",
+      "orderHint": "订单 7008，payAmount 210；recharge≥110"
+    },
+    {
+      "id": "F08",
+      "name": "并行退款拦截",
+      "type": "fail",
+      "file": "scenarios/fail/F08_parallel_refund_blocked.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "已有待审核退款，再次 apply 失败",
+      "orderHint": "退款单待审核"
+    },
+    {
+      "id": "F09",
+      "name": "越权访问数据",
+      "type": "fail",
+      "file": "scenarios/fail/F09_cross_account_order.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000003",
+        "password": "Test@123456",
+        "remark": "越权测试账号"
+      },
+      "expect": "访问他人订单 403",
+      "orderHint": "订单属账号1"
+    },
+    {
+      "id": "F10",
+      "name": "已支付关单拒绝",
+      "type": "fail",
+      "file": "scenarios/fail/F10_paid_order_admin_close.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "管理端 admin 关单"
+      },
+      "expect": "管理端关单被拒绝",
+      "orderHint": "已支付待发货订单"
+    },
+    {
+      "id": "F11",
+      "name": "已发货不可退款",
+      "type": "fail",
+      "file": "scenarios/fail/F11_shipped_no_refund.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "主测试账号"
+      },
+      "expect": "canRefund=false",
+      "orderHint": "已发货订单"
+    },
+    {
+      "id": "F12",
+      "name": "重复领取优惠券",
+      "type": "fail",
+      "file": "scenarios/fail/F12_duplicate_coupon_receive.sql",
+      "acceptanceCases": [],
+      "account": {
+        "phone": "13800000001",
+        "password": "Test@123456",
+        "remark": "已领 coupon_id 3001"
+      },
+      "expect": "重复领取失败",
+      "orderHint": "account_coupon_id 6001"
+    }
+  ]
+}

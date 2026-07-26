@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.account.mapper.AccountBalanceRecordMapper">
+
+    <resultMap type="AccountBalanceRecord" id="AccountBalanceRecordResult">
+        <result property="balanceRecordId" column="balance_record_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="recordType" column="record_type"/>
+        <result property="changeType" column="change_type"/>
+        <result property="changeAmount" column="change_amount"/>
+        <result property="balanceBefore" column="balance_before"/>
+        <result property="balanceAfter" column="balance_after"/>
+        <result property="bizId" column="biz_id"/>
+        <result property="bizNo" column="biz_no"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectAccountBalanceRecordVo">
+        select balance_record_id,
+               account_id,
+               record_type,
+               change_type,
+               change_amount,
+               balance_before,
+               balance_after,
+               biz_id,
+               biz_no,
+               del_flag,
+               create_time,
+               remark
+        from account_balance_record
+    </sql>
+
+    <sql id="selectAccountBalanceRecordAliasVo">
+        select abr.balance_record_id as balanceRecordId,
+               abr.account_id        as accountId,
+               abr.record_type       as recordType,
+               abr.change_type       as changeType,
+               abr.change_amount     as changeAmount,
+               abr.balance_before    as balanceBefore,
+               abr.balance_after     as balanceAfter,
+               abr.biz_id            as bizId,
+               abr.biz_no            as bizNo,
+               abr.del_flag          as delFlag,
+               abr.create_time       as createTime,
+               abr.remark            as remark
+        from account_balance_record abr
+    </sql>
+
+    <select id="selectAccountBalanceRecordById" parameterType="Long" resultMap="AccountBalanceRecordResult">
+        <include refid="selectAccountBalanceRecordVo"/>
+        where balance_record_id = #{balanceRecordId}
+          and del_flag = 0
+    </select>
+
+    <select id="selectAccountBalanceRecordResult" parameterType="Long" resultType="AccountBalanceRecordResult">
+        select abr.balance_record_id as balanceRecordId,
+               abr.account_id        as accountId,
+               a.nick_name           as accountNickName,
+               a.mobile              as accountMobile,
+               abr.record_type       as recordType,
+               abr.change_type       as changeType,
+               abr.change_amount     as changeAmount,
+               abr.balance_before    as balanceBefore,
+               abr.balance_after     as balanceAfter,
+               abr.biz_id            as bizId,
+               abr.biz_no            as bizNo,
+               abr.remark            as remark,
+               abr.create_time       as createTime
+        from account_balance_record abr
+                 left join account a on abr.account_id = a.account_id and a.del_flag = 0
+        where abr.balance_record_id = #{balanceRecordId}
+          and abr.del_flag = 0
+    </select>
+
+    <select id="selectAccountBalanceRecordApiResult" resultType="AccountBalanceRecordApiResult">
+        <include refid="selectAccountBalanceRecordAliasVo"/>
+        where abr.balance_record_id = #{balanceRecordId}
+          and abr.del_flag = 0
+        <if test="accountId != null">
+            and abr.account_id = #{accountId}
+        </if>
+    </select>
+
+    <select id="selectAccountBalanceRecordResultList" parameterType="AccountBalanceRecordParams"
+            resultType="AccountBalanceRecordResult">
+        select abr.balance_record_id as balanceRecordId,
+               abr.account_id        as accountId,
+               a.nick_name           as accountNickName,
+               a.mobile              as accountMobile,
+               abr.record_type       as recordType,
+               abr.change_type       as changeType,
+               abr.change_amount     as changeAmount,
+               abr.balance_before    as balanceBefore,
+               abr.balance_after     as balanceAfter,
+               abr.biz_id            as bizId,
+               abr.biz_no            as bizNo,
+               abr.remark            as remark,
+               abr.create_time       as createTime
+        from account_balance_record abr
+                 left join account a on abr.account_id = a.account_id and a.del_flag = 0
+        where abr.del_flag = 0
+        <if test="accountId != null">
+            and abr.account_id = #{accountId}
+        </if>
+        <if test="accountNickName != null and accountNickName != ''">
+            and a.nick_name like concat('%', #{accountNickName}, '%')
+        </if>
+        <if test="accountMobile != null and accountMobile != ''">
+            and a.mobile like concat('%', #{accountMobile}, '%')
+        </if>
+        <if test="recordType != null">
+            and abr.record_type = #{recordType}
+        </if>
+        <if test="changeType != null">
+            and abr.change_type = #{changeType}
+        </if>
+        <if test="bizNo != null and bizNo != ''">
+            and abr.biz_no like concat('%', #{bizNo}, '%')
+        </if>
+        <if test="params != null and params.beginTime != null and params.beginTime != ''">
+            and date_format(abr.create_time,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
+        </if>
+        <if test="params != null and params.endTime != null and params.endTime != ''">
+            and date_format(abr.create_time,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
+        </if>
+        order by abr.balance_record_id desc
+    </select>
+
+    <select id="selectAccountBalanceRecordApiResultList" parameterType="AccountBalanceRecordApiParams"
+            resultType="AccountBalanceRecordApiResult">
+        <include refid="selectAccountBalanceRecordAliasVo"/>
+        where abr.del_flag = 0
+        <if test="accountId != null">
+            and abr.account_id = #{accountId}
+        </if>
+        <if test="recordType != null">
+            and abr.record_type = #{recordType}
+        </if>
+        <if test="changeType != null">
+            and abr.change_type = #{changeType}
+        </if>
+        order by abr.balance_record_id desc
+    </select>
+
+    <insert id="insertAccountBalanceRecord" parameterType="AccountBalanceRecord">
+        insert into account_balance_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="balanceRecordId != null">balance_record_id,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="recordType != null">record_type,</if>
+            <if test="changeType != null">change_type,</if>
+            <if test="changeAmount != null">change_amount,</if>
+            <if test="balanceBefore != null">balance_before,</if>
+            <if test="balanceAfter != null">balance_after,</if>
+            <if test="bizId != null">biz_id,</if>
+            <if test="bizNo != null">biz_no,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="balanceRecordId != null">#{balanceRecordId},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="recordType != null">#{recordType},</if>
+            <if test="changeType != null">#{changeType},</if>
+            <if test="changeAmount != null">#{changeAmount},</if>
+            <if test="balanceBefore != null">#{balanceBefore},</if>
+            <if test="balanceAfter != null">#{balanceAfter},</if>
+            <if test="bizId != null">#{bizId},</if>
+            <if test="bizNo != null">#{bizNo},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+</mapper>
