@@ -1,6 +1,6 @@
 # 质衡 Demo 部署说明（独立 Compose 全栈）
 
-与主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) **互不依赖**：本仓自带 MySQL / Redis / 后端 / 前端 Nginx；可选 RustFS。
+与主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) **并行独立 Compose**：主仓 **不会** 用 `--profile demo` 拉起本仓；两边各起即可联调。本仓库表靠 initdb dump + 场景 seed，**不使用 Flyway**（Flyway 仅质衡主仓）。
 
 默认宿主机端口（避开主仓 80/3306/6379）：
 
@@ -11,6 +11,8 @@
 | MySQL | **3307** |
 | Redis | **6380** |
 | RustFS（可选） | **9000** / **9001** |
+
+与质衡联调时，质衡项目环境 `baseUrl` 一般为 `http://localhost:8081`；若质衡 **app 跑在 Compose 容器内**，见主仓 [docs/deploy.md · 与靶场联调](https://github.com/qualitest-hq/qualitest/blob/main/docs/deploy.md)（`host.docker.internal`）。
 
 ## 一键全栈
 
@@ -30,7 +32,8 @@ docker compose up -d --build
 
 - UI：**http://localhost:8082**，账号 **`admin` / `admin123`**
 - Swagger：**http://localhost:8081/swagger-ui.html**
-- 质衡联调 `baseUrl`：`http://localhost:8081`
+- 质衡联调 `baseUrl`：本机多为 `http://localhost:8081`（容器内质衡见主仓 deploy）
+- 库初始化：`sql/qualitest-demo_*.sql` 挂 initdb；业务场景用管理端加载，**无 Flyway**
 
 生产务必修改 `.env` 中的 `MYSQL_ROOT_PASSWORD`、`TOKEN_SECRET`。
 
