@@ -39,6 +39,11 @@
       <el-table-column label="商品ID" align="center" key="productId" prop="productId" width="100" v-if="columnVisible['productId']" />
       <el-table-column label="分类" align="center" key="categoryName" prop="categoryName" min-width="120" show-overflow-tooltip v-if="columnVisible['categoryName']" />
       <el-table-column label="商品名称" align="center" key="productName" prop="productName" min-width="140" show-overflow-tooltip v-if="columnVisible['productName']" />
+      <el-table-column label="封面" align="center" key="coverImage" prop="coverImage" width="80" v-if="columnVisible['coverImage']">
+        <template #default="scope">
+          <image-preview v-if="scope.row.coverImage" :src="scope.row.coverImage" :width="40" :height="40" />
+        </template>
+      </el-table-column>
       <el-table-column label="销售价" align="center" key="salePrice" prop="salePrice" width="90" v-if="columnVisible['salePrice']" />
       <el-table-column label="固定运费" align="center" key="freightAmount" prop="freightAmount" width="90" v-if="columnVisible['freightAmount']" />
       <el-table-column label="总库存" align="center" key="stockTotal" prop="stockTotal" width="80" v-if="columnVisible['stockTotal']" />
@@ -60,7 +65,7 @@
 
     <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="640px" append-to-body>
       <el-form ref="mallProductRef" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="分类" prop="categoryId">
           <RemoteSelect v-model="form.categoryId" :remote="categoryRemote" placeholder="分类名称搜索" width="100%" />
@@ -76,6 +81,15 @@
         </el-form-item>
         <el-form-item label="销售价" prop="salePrice">
           <el-input v-model="form.salePrice" placeholder="请输入销售价" />
+        </el-form-item>
+        <el-form-item label="封面图" prop="coverImage">
+          <image-upload v-model="form.coverImage" :limit="1" />
+        </el-form-item>
+        <el-form-item label="详情图" prop="detailImages">
+          <image-upload v-model="form.detailImages" :limit="5" />
+        </el-form-item>
+        <el-form-item label="视频" prop="videoUrl">
+          <file-upload v-model="form.videoUrl" :limit="1" :file-size="20" :file-type="['mp4', 'avi', 'rmvb']" />
         </el-form-item>
         <el-form-item label="固定运费" prop="freightAmount">
           <el-input v-model="form.freightAmount" placeholder="请输入固定运费" />
@@ -126,6 +140,7 @@ const columns = ref([
   { key: 'categoryName', label: '分类', visible: true },
   { key: 'categoryId', label: '分类ID', visible: false },
   { key: 'productName', label: '商品名称', visible: true },
+  { key: 'coverImage', label: '封面', visible: true },
   { key: 'salePrice', label: '销售价', visible: true },
   { key: 'freightAmount', label: '固定运费', visible: true },
   { key: 'stockTotal', label: '总库存', visible: true },
@@ -179,6 +194,9 @@ function reset() {
     unitName: null,
     marketPrice: null,
     salePrice: null,
+    coverImage: null,
+    detailImages: null,
+    videoUrl: null,
     freightAmount: null,
     stockTotal: null,
     salesCount: null,

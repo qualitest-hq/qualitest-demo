@@ -67,6 +67,24 @@ public class MallProductResult implements Serializable {
     private BigDecimal salePrice;
 
     /**
+     * 封面图 URL
+     */
+    @Excel(name = "封面图")
+    private String coverImage;
+
+    /**
+     * 详情图 URL（逗号分隔）
+     */
+    @Excel(name = "详情图")
+    private String detailImages;
+
+    /**
+     * 视频 URL
+     */
+    @Excel(name = "视频")
+    private String videoUrl;
+
+    /**
      * 固定运费
      */
     @Excel(name = "固定运费")

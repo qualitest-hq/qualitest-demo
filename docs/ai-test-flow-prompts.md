@@ -102,6 +102,38 @@
 无需登录，浏览商品分类与商品列表，查看上架商品 productId 2001 详情，确认包含可购 SKU 及价格、库存等信息。
 ```
 
+### 2.1 商品详情含媒体字段（demo/product-media）
+
+**加载场景**：基线 seed（本分支 2001 已预制封面/详情图/视频 URL）
+
+```
+无需登录，查看上架商品 productId 2001 详情，确认返回 coverImage、detailImages、videoUrl，且 coverImage 非空。
+```
+
+---
+
+## 二附、商品媒体上传与写入（demo/product-media）
+
+### M.1 新建有图商品流
+
+**加载场景**：基线 seed
+
+```
+管理端 admin / admin123 登录。客户端或管理端先调用文件上传接口上传封面图（bizType=product-image）与视频（bizType=product-video），提取返回的 url。再用管理端创建商品接口写入 coverImage、detailImages、videoUrl 及基本价库存字段，最后用客户端详情接口断言这些媒体字段与上传结果一致。
+```
+
+样例附件路径（相对 demo 仓）：`docs/fixtures/sample-cover.jpeg`、`docs/fixtures/sample-product.mp4`。测试流 form-data 文件测值填本地绝对路径即可。
+
+### M.2 从无图流升级为有图流（AI Diff 演示）
+
+**前提**：曾在无媒体分支（main）造过「管理端创建商品 / 客户端查详情」类测试流；现已切换到 `demo/product-media` 并重灌库、插件重同步接口资产。
+
+**加载场景**：基线 seed
+
+```
+接口资产已增加 coverImage、detailImages、videoUrl。请在现有商品创建相关测试流上：先增加文件上传节点（form-data，file + bizType），将返回 url 写入创建/更新商品 body 的新媒体字段，并在详情断言中校验 coverImage 与 videoUrl。保持原有登录与基本字段逻辑不变。
+```
+
 ---
 
 ## 三、购物车

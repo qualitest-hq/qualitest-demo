@@ -2,6 +2,15 @@
 
 独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) 的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8081**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8081`。
 
+### 分支说明（商品媒体演示）
+
+| 分支 | 说明 |
+|------|------|
+| `main` | 无商品封面/详情图/视频字段（无图基线，造旧流） |
+| `demo/product-media` | 商品 SPU 含 `coverImage` / `detailImages` / `videoUrl`；切分支后请 **重灌库** 再起 |
+
+有图改版演示：`main` 造流 → 切本分支并重灌 → IDEA 插件重同步 → 质衡 AI Diff 升级流。提示见 [`docs/ai-test-flow-prompts.md`](./docs/ai-test-flow-prompts.md)（M.1 / M.2）。样例附件：[`docs/fixtures/`](./docs/fixtures/)（`sample-cover.jpeg`、`sample-product.mp4` 等）。已有库可执行 [`sql/patch/20260731_mall_product_media.sql`](./sql/patch/20260731_mall_product_media.sql)。
+
 ## 相关仓库
 
 | 仓库 | 说明 |
@@ -52,7 +61,7 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
      - `POST /api/file/upload`（multipart：`file` 必填 + `bizType` 可选）
      - `GET /api/file?key=`（元信息 / 预签名 URL）
      - `DELETE /api/file?key=`（清理）
-  4. 样例附件：[docs/fixtures/sample-avatar.png](docs/fixtures/sample-avatar.png)
+  4. 样例附件：[docs/fixtures/sample-cover.jpeg](docs/fixtures/sample-cover.jpeg)、[sample-detail-1.jpeg](docs/fixtures/sample-detail-1.jpeg)、[sample-product.mp4](docs/fixtures/sample-product.mp4)
 
 ## 认证说明
 
