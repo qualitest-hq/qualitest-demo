@@ -11,6 +11,9 @@
         <result property="unitName" column="unit_name"/>
         <result property="marketPrice" column="market_price"/>
         <result property="salePrice" column="sale_price"/>
+        <result property="coverImage" column="cover_image"/>
+        <result property="detailImages" column="detail_images"/>
+        <result property="videoUrl" column="video_url"/>
         <result property="freightAmount" column="freight_amount"/>
         <result property="stockTotal" column="stock_total"/>
         <result property="salesCount" column="sales_count"/>
@@ -29,6 +32,9 @@
                unit_name,
                market_price,
                sale_price,
+               cover_image,
+               detail_images,
+               video_url,
                freight_amount,
                stock_total,
                sales_count,
@@ -48,6 +54,9 @@
                mp.unit_name    as unitName,
                mp.market_price as marketPrice,
                mp.sale_price   as salePrice,
+               mp.cover_image  as coverImage,
+               mp.detail_images as detailImages,
+               mp.video_url    as videoUrl,
                mp.freight_amount as freightAmount,
                mp.stock_total  as stockTotal,
                mp.sales_count  as salesCount,
@@ -89,6 +98,9 @@
         mp.unit_name as unitName,
         mp.market_price as marketPrice,
         mp.sale_price as salePrice,
+        mp.cover_image as coverImage,
+        mp.detail_images as detailImages,
+        mp.video_url as videoUrl,
         mp.freight_amount as freightAmount,
         mp.stock_total as stockTotal,
         mp.sales_count as salesCount,
@@ -123,6 +135,9 @@
                mp.unit_name    as unitName,
                mp.market_price as marketPrice,
                mp.sale_price   as salePrice,
+               mp.cover_image  as coverImage,
+               mp.detail_images as detailImages,
+               mp.video_url    as videoUrl,
                mp.freight_amount as freightAmount,
                mp.stock_total  as stockTotal,
                mp.sales_count  as salesCount,
@@ -146,6 +161,9 @@
         mp.unit_name as unitName,
         mp.market_price as marketPrice,
         mp.sale_price as salePrice,
+        mp.cover_image as coverImage,
+        mp.detail_images as detailImages,
+        mp.video_url as videoUrl,
         mp.freight_amount as freightAmount,
         mp.stock_total as stockTotal,
         mp.sales_count as salesCount,
@@ -174,6 +192,9 @@
                mp.unit_name    as unitName,
                mp.market_price as marketPrice,
                mp.sale_price   as salePrice,
+               mp.cover_image  as coverImage,
+               mp.detail_images as detailImages,
+               mp.video_url    as videoUrl,
                mp.freight_amount as freightAmount,
                mp.stock_total  as stockTotal,
                mp.sales_count  as salesCount,
@@ -212,6 +233,9 @@
         mp.unit_name,
         mp.market_price,
         mp.sale_price,
+        mp.cover_image,
+        mp.detail_images,
+        mp.video_url,
         mp.freight_amount,
         mp.stock_total,
         mp.sales_count,
@@ -256,6 +280,15 @@
             </if>
             <if test="salePrice != null">
                 sale_price,
+            </if>
+            <if test="coverImage != null">
+                cover_image,
+            </if>
+            <if test="detailImages != null">
+                detail_images,
+            </if>
+            <if test="videoUrl != null">
+                video_url,
             </if>
             <if test="freightAmount != null">
                 freight_amount,
@@ -304,6 +337,15 @@
             <if test="salePrice != null">
                 #{salePrice},
             </if>
+            <if test="coverImage != null">
+                #{coverImage},
+            </if>
+            <if test="detailImages != null">
+                #{detailImages},
+            </if>
+            <if test="videoUrl != null">
+                #{videoUrl},
+            </if>
             <if test="freightAmount != null">
                 #{freightAmount},
             </if>
@@ -351,6 +393,15 @@
             </if>
             <if test="salePrice != null">
                 sale_price = #{salePrice},
+            </if>
+            <if test="coverImage != null">
+                cover_image = #{coverImage},
+            </if>
+            <if test="detailImages != null">
+                detail_images = #{detailImages},
+            </if>
+            <if test="videoUrl != null">
+                video_url = #{videoUrl},
             </if>
             <if test="freightAmount != null">
                 freight_amount = #{freightAmount},

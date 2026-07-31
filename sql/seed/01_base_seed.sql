@@ -17,12 +17,13 @@ INSERT INTO `mall_category` (`category_id`, `category_name`, `order_num`, `statu
 -- ---------------------------------------------------------------------------
 -- 商品 SPU（3 条，固定 ID 2001-2003）
 -- freight_amount: 2001=8.00, 2002=0.00, 2003=12.00
+-- 媒体字段（demo/product-media）：2001 带封面/详情/视频示例 URL，其余为 NULL
 -- stock_total = 各 SKU stock 之和（每 SPU 2 SKU × 100 = 200）
 -- ---------------------------------------------------------------------------
-INSERT INTO `mall_product` (`product_id`, `category_id`, `product_name`, `unit_name`, `market_price`, `sale_price`, `freight_amount`, `stock_total`, `sales_count`, `shelf_status`, `sort_num`, `del_flag`, `create_time`, `update_time`, `remark`) VALUES
-(2001, 1001, 'iPhone 壳',   '件',  59.00,  49.00,  8.00, 200, 0, 1, 1, 0, '2026-06-21 10:00:00', '2026-06-21 10:00:00', 'seed'),
-(2002, 1002, 'T 恤',       '件', 129.00,  89.00,  0.00, 200, 0, 1, 2, 0, '2026-06-21 10:00:00', '2026-06-21 10:00:00', 'seed'),
-(2003, 1003, '坚果礼盒',   '盒', 258.00, 128.00, 12.00, 200, 0, 1, 3, 0, '2026-06-21 10:00:00', '2026-06-21 10:00:00', 'seed');
+INSERT INTO `mall_product` (`product_id`, `category_id`, `product_name`, `unit_name`, `market_price`, `sale_price`, `cover_image`, `detail_images`, `video_url`, `freight_amount`, `stock_total`, `sales_count`, `shelf_status`, `sort_num`, `del_flag`, `create_time`, `update_time`, `remark`) VALUES
+(2001, 1001, 'iPhone 壳',   '件',  59.00,  49.00, '/profile/upload/seed/sample-cover.jpeg', '/profile/upload/seed/sample-detail-1.jpeg,/profile/upload/seed/sample-detail-2.jpeg', '/profile/upload/seed/sample-product.mp4',  8.00, 200, 0, 1, 1, 0, '2026-06-21 10:00:00', '2026-06-21 10:00:00', 'seed'),
+(2002, 1002, 'T 恤',       '件', 129.00,  89.00, NULL, NULL, NULL,  0.00, 200, 0, 1, 2, 0, '2026-06-21 10:00:00', '2026-06-21 10:00:00', 'seed'),
+(2003, 1003, '坚果礼盒',   '盒', 258.00, 128.00, NULL, NULL, NULL, 12.00, 200, 0, 1, 3, 0, '2026-06-21 10:00:00', '2026-06-21 10:00:00', 'seed');
 
 -- ---------------------------------------------------------------------------
 -- 商品 SKU（每 SPU 2 个 SKU，库存 100，固定 ID 2101-2122）

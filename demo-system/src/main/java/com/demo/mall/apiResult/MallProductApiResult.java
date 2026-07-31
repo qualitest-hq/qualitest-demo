@@ -56,6 +56,21 @@ public class MallProductApiResult implements Serializable {
     private BigDecimal salePrice;
 
     /**
+     * 封面图 URL
+     */
+    private String coverImage;
+
+    /**
+     * 详情图 URL（逗号分隔）
+     */
+    private String detailImages;
+
+    /**
+     * 视频 URL
+     */
+    private String videoUrl;
+
+    /**
      * 固定运费
      */
     private BigDecimal freightAmount;
