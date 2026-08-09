@@ -58,15 +58,17 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 
 | 端 | 前缀 | 登录 |
 |---|---|---|
-| 管理端 | `/web/**` | `POST /login` → Bearer adminToken |
-| 客户端 | `/api/**` | `POST /api/account/auth/login` → Bearer accountToken |
+| 管理端 | `/web/**`、`/system/**` 等 | `POST /login` → Bearer **adminToken** |
+| 客户端 | `/api/**` | `POST /api/account/auth/login` → Bearer **accountToken**（质衡里常用 `flow.token`） |
 
-两端 Token **不可混用**；客户端接口从 Token 取 `accountId`，勿信请求体里的账号 ID。
+两端 Token **不可混用**；客户端接口从 Token 取 `accountId`，勿信请求体里的账号 ID。免登录：方法/类 `@Anonymous`，另有 `/login`、`/register`、`/captchaImage`、`/test-support/**` 等 path 白名单。
+
+**联调质衡时注意**：插件「项目级上传」在质衡 `auth_config` 为空时只会种子**通用单套** Bearer（不分端、不带匿名 path）。本靶场双端 JWT 请到测试项目鉴权配置手工贴 **双端参考模板**（质衡 `ProjectAuthConfigSupport.dualBearerTemplate` / [`鉴权注入与Bearer方案.md`](https://github.com/qualitest-hq/qualitest/blob/main/docs/%E9%89%B4%E6%9D%83%E6%B3%A8%E5%85%A5%E4%B8%8EBearer%E6%96%B9%E6%A1%88.md) §4.1）：`/api/` → `flow.token`，`/system|/monitor|/tool|/web/` → `flow.adminToken`，并带上上述匿名 path。
 
 ## Swagger 与质衡
 
 - 文档：[swagger-ui.html](http://localhost:8081/swagger-ui.html)（admin / api / tool 三组）
-- 上传接口到质衡：IDEA 装 Qualitest Helper，扫 Controller（`@api.group`）上传到 `http://localhost:8080`
+- 上传接口到质衡：IDEA 装 Qualitest Helper，扫 Controller（`@api.group`）上传到 `http://localhost:8080`；上传后按上一节补齐双端鉴权配置再造流
 
 ## AI 测试流自然语言
 
