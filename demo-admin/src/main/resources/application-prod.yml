@@ -106,7 +106,7 @@ spring:
 token:
   header: Authorization
   secret: ${TOKEN_SECRET:}  # 生产必须通过环境变量注入
-  expireTime: 30
+  expireTime: 10080             # Token 有效期（分钟，7 天）
 
 mybatis:
   typeAliasesPackage: com.demo.**.domain,com.demo.**.params,com.demo.**.result,com.demo.**.apiParams,com.demo.**.apiResult

@@ -129,7 +129,7 @@ spring:
 token:
   header: Authorization         # 请求头携带 Token 的字段名
   secret: ${TOKEN_SECRET:abcdefghijklmnopqrstuvwxyz}  # 签名密钥（生产务必更换）
-  expireTime: 30                # Token 有效期（分钟）
+  expireTime: 10080             # Token 有效期（分钟，7 天）
 
 # -----------------------------------------------------------------------------
 # MyBatis
