@@ -1,0 +1,10 @@
+overrides:
+  quill: 2.0.2
+
+allowBuilds:
+  esbuild: true
+  vue-demi: true
+  '@parcel/watcher': true
+
+minimumReleaseAge: 0
+confirmModulesPurge: false

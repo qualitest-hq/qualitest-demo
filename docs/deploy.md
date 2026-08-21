@@ -49,7 +49,7 @@ docker compose up -d mysql redis
 mvn -pl demo-admin -am -DskipTests package
 # 或 demo.bat / demo.sh（需已有 jar）
 
-cd demo-ui && npm install && npm run dev
+cd demo-ui && pnpm install && pnpm dev
 ```
 
 本机开发若只需 RustFS（文件 API），可：

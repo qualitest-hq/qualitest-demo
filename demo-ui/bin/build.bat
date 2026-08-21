@@ -7,6 +7,4 @@ echo.
 cd %~dp0
 
 cd ..
-yarn build:prod
-
-pause
+pnpm build:prod

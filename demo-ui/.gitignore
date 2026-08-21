@@ -4,6 +4,7 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 **/*.log
 
 tests/**/coverage/
@@ -19,5 +20,6 @@ selenium-debug.log
 *.sln
 *.local
 
+# 提交 pnpm-lock.yaml；忽略其它包管理器锁文件
 package-lock.json
 yarn.lock

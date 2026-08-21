@@ -5,6 +5,11 @@
   "author": "质衡",
   "license": "Apache-2.0",
   "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=11"
+  },
   "scripts": {
     "dev": "vite",
     "build:prod": "vite build",
@@ -26,6 +31,7 @@
     "jsencrypt": "3.3.2",
     "nprogress": "0.2.0",
     "pinia": "3.0.4",
+    "sortablejs": "1.14.0",
     "vue": "3.5.26",
     "vue-cropper": "1.1.1",
     "vue-router": "4.6.4",
@@ -39,11 +45,5 @@
     "vite": "6.4.1",
     "vite-plugin-compression": "0.5.1",
     "vite-plugin-svg-icons": "2.0.1"
-  },
-  "overrides": {
-    "quill": "2.0.2"
-  },
-  "resolutions": {
-    "quill": "2.0.2"
   }
 }
