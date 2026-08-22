@@ -4,7 +4,7 @@ import { getRouters } from '@/api/menu'
 import Layout from '@/layout/index'
 import ParentView from '@/components/ParentView'
 import InnerLink from '@/layout/components/InnerLink'
-import { getNormalPath } from '@/utils/ruoyi'
+import { getNormalPath } from '@/utils/qualitest'
 
 // 跳转页：侧边栏隐藏，高亮父级菜单
 const JUMP_PAGE_ACTIVE_MENU = {
