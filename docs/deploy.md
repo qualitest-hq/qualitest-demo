@@ -6,13 +6,13 @@
 
 | 服务 | 默认端口 |
 |------|----------|
-| 管理端 UI（Nginx） | **8082** |
-| API / Swagger | **8081** |
+| 管理端 UI（Nginx） | **5181** |
+| API / Swagger | **8801** |
 | MySQL | **3307** |
 | Redis | **6380** |
 | RustFS（可选） | **9000** / **9001** |
 
-与质衡联调时，质衡项目环境 `baseUrl` 一般为 `http://localhost:8081`；若质衡 **app 跑在 Compose 容器内**，见主仓 [docs/deploy.md · 与靶场联调](https://github.com/qualitest-hq/qualitest/blob/main/docs/deploy.md)（`host.docker.internal`）。
+与质衡联调时，质衡项目环境 `baseUrl` 一般为 `http://localhost:8801`；若质衡 **app 跑在 Compose 容器内**，见主仓 [docs/deploy.md · 与靶场联调](https://github.com/qualitest-hq/qualitest/blob/main/docs/deploy.md)（`host.docker.internal`）。
 
 ## 一键全栈
 
@@ -30,9 +30,9 @@ scripts\quick-start.bat
 docker compose up -d --build
 ```
 
-- UI：**http://localhost:8082**，账号 **`admin` / `admin123`**
-- Swagger：**http://localhost:8081/swagger-ui.html**
-- 质衡联调 `baseUrl`：本机多为 `http://localhost:8081`（容器内质衡见主仓 deploy）
+- UI：**http://localhost:5181**，账号 **`admin` / `admin123`**
+- Swagger：**http://localhost:8801/swagger-ui.html**
+- 质衡联调 `baseUrl`：本机多为 `http://localhost:8801`（容器内质衡见主仓 deploy）
 - 库初始化：`sql/qualitest-demo_*.sql` 挂 initdb；业务场景用管理端加载，**无 Flyway**
 
 生产务必修改 `.env` 中的 `MYSQL_ROOT_PASSWORD`、`TOKEN_SECRET`。
@@ -101,7 +101,7 @@ docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rust
 |------|--------|------|
 | mysql | qualitest-demo-mysql | 初始化：`sql/qualitest-demo_*.sql` |
 | redis | qualitest-demo-redis | DB 11 |
-| app | qualitest-demo-app | `profile=docker`，端口 8081 |
+| app | qualitest-demo-app | `profile=docker`，端口 8801 |
 | web | qualitest-demo-web | Nginx + `/prod-api` → app |
 | rustfs（可选） | qualitest-demo-rustfs | `--profile rustfs` + `docker-compose.rustfs.yml` |
 

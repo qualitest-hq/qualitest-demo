@@ -20,7 +20,7 @@ demo:
     public-base-url: ${DEMO_RUSTFS_PUBLIC_BASE_URL:}
 
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8801}
   servlet:
     context-path: /
   tomcat:

@@ -7,7 +7,7 @@
 #   ./scripts/quick-start.sh -h        # 显示本说明
 #
 # 说明：从任意目录调用即可；依赖 Docker Engine/Desktop + Compose V2
-# 默认端口：Web 8082 / API 8081 / MySQL 3307 / Redis 6380（避开主仓）
+# 默认端口：Web 5181 / API 8801 / MySQL 3307 / Redis 6380（避开主仓）
 set -euo pipefail
 
 usage() {
@@ -17,7 +17,7 @@ usage() {
   ./scripts/quick-start.sh rustfs    全栈 + 可选 RustFS（S3 API :9000 / 控制台 :9001）
   ./scripts/quick-start.sh -h        显示本说明
 
-默认端口: Web 8082 / API 8081 / MySQL 3307 / Redis 6380
+默认端口: Web 5181 / API 8801 / MySQL 3307 / Redis 6380
 仅依赖:   docker compose up -d mysql redis
 仅 RustFS: docker compose --profile rustfs up -d rustfs
 停止:     docker compose down
@@ -69,8 +69,8 @@ fi
 echo
 echo "=============================================="
 echo " 质衡 Demo 已启动"
-echo " 管理端 UI:   http://localhost:${WEB_PORT:-8082}"
-echo " API/Swagger: http://localhost:${APP_PORT:-8081}/swagger-ui.html"
+echo " 管理端 UI:   http://localhost:${WEB_PORT:-5181}"
+echo " API/Swagger: http://localhost:${APP_PORT:-8801}/swagger-ui.html"
 echo " 默认账号:    admin / admin123"
 echo " 停止:        docker compose down"
 echo " 仅依赖:      docker compose up -d mysql redis"

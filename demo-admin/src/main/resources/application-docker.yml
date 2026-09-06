@@ -21,7 +21,7 @@ demo:
     public-base-url: ${DEMO_RUSTFS_PUBLIC_BASE_URL:http://127.0.0.1:9000/qualitest-demo}
 
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8801}
   servlet:
     context-path: /
   tomcat:

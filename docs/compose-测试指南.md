@@ -11,7 +11,7 @@
 |----|------|
 | Docker | Desktop 已安装并运行 |
 | Compose | `docker compose version`（V2） |
-| 端口 | **8082 / 8081 / 3307 / 6380** 尽量空闲；测 RustFS 另需 **9000 / 9001** |
+| 端口 | **5181 / 8801 / 3307 / 6380** 尽量空闲；测 RustFS 另需 **9000 / 9001** |
 | 代码 | 在 `qualitest-demo/` 根目录 |
 
 ```bat
@@ -33,8 +33,8 @@ scripts\quick-start.bat
 
 ### 浏览器
 
-1. UI：**http://localhost:8082** → `admin` / `admin123`
-2. Swagger：**http://localhost:8081/swagger-ui.html**
+1. UI：**http://localhost:5181** → `admin` / `admin123`
+2. Swagger：**http://localhost:8801/swagger-ui.html**
 3. 登录后能进「测试场景」或系统菜单
 
 ### 停掉
@@ -89,8 +89,8 @@ docker compose up -d mysql redis
 
 ## 5. 验收清单
 
-- [ ] `scripts\quick-start.bat` 成功；http://localhost:8082 可登录
-- [ ] Swagger http://localhost:8081/swagger-ui.html 可开
+- [ ] `scripts\quick-start.bat` 成功；http://localhost:5181 可登录
+- [ ] Swagger http://localhost:8801/swagger-ui.html 可开
 - [ ] （可选）`scripts\quick-start.bat rustfs`：控制台 9001 可登录
 - [ ] （可选）客户端 Token 调 `POST /api/file/upload` 成功
 - [ ] `docker compose up -d mysql redis` 仅依赖可用

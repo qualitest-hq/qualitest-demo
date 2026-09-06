@@ -95,7 +95,7 @@ public class MySnapshotStrategy implements SnapshotStrategy {
 
 ## 端点契约
 
-基路径示例：`http://your-app:8081/test-support`（质衡环境配置为 `resetEndpoint`）。
+基路径示例：`http://your-app:8801/test-support`（质衡环境配置为 `resetEndpoint`）。
 
 ### `POST /test-support/snapshot`
 
@@ -154,14 +154,14 @@ public class MySnapshotStrategy implements SnapshotStrategy {
 
 ```bash
 # 1. 打快照
-curl -s -X POST http://localhost:8081/test-support/snapshot \
+curl -s -X POST http://localhost:8801/test-support/snapshot \
   -H "Content-Type: application/json" \
   -d '{"scope":"tables","tables":["mall_order","mall_product_sku"],"label":"manual-test:node-1"}'
 
 # 2. 执行业务写操作改脏数据
 
 # 3. 还原
-curl -s -X POST http://localhost:8081/test-support/restore \
+curl -s -X POST http://localhost:8801/test-support/restore \
   -H "Content-Type: application/json" \
   -d '{"snapshotId":"<上一步返回的 snapshotId>"}'
 
@@ -191,7 +191,7 @@ curl -s -X POST http://localhost:8081/test-support/restore \
 - **范围**：未带 `tables` 时整库导出；请求体带 `tables` 时仅导出指定表。
 - **配置**：`MYSQL_BIN_DIR`、`SNAPSHOT_DIR`、超时等在类内常量，不读 `application.yml`。
 
-启动 demo（端口 8081）后，用上方 curl 即可验收阶段 A（curl 场景下由你自行保存上一步返回的 `snapshotId`）。
+启动 demo（端口 8801）后，用上方 curl 即可验收阶段 A（curl 场景下由你自行保存上一步返回的 `snapshotId`）。
 
 ---
 

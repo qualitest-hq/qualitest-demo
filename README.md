@@ -1,6 +1,6 @@
 # qualitest-demo
 
-独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) 的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8081**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8081`。
+独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) 的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8801**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8801`。
 
 ## 相关仓库
 
@@ -22,8 +22,8 @@ scripts\quick-start.bat
 chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 ```
 
-- 管理端 UI：**http://localhost:8082**（账号 **`admin` / `admin123`**）
-- Swagger / 质衡 `baseUrl`：**http://localhost:8081**
+- 管理端 UI：**http://localhost:5181**（账号 **`admin` / `admin123`**）
+- Swagger / 质衡 `baseUrl`：**http://localhost:8801**
 - 默认宿主机端口避开主仓：MySQL **3307**、Redis **6380**
 - 仅依赖：`docker compose up -d mysql redis`
 - 可选 RustFS：`scripts\quick-start.bat rustfs`（详见 [`docs/deploy.md`](./docs/deploy.md)）
@@ -36,11 +36,30 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 
 ## 测接口（推荐流程）
 
-1. 登录管理端 → 首页 **「进入测试场景控制台」**（或 **系统工具 → 测试场景**）
-2. 点 **「加载此场景」**（自动 reset 基线 + 写入数据；共 S01–S08 / F01–F12）
-3. 复制页面推荐账号，去 [Swagger](http://localhost:8081/swagger-ui.html) 或质衡跑用例
+1. **命令加载场景**（demo API **8801** 已起；需管理端 Token）：
 
-自动化可用 API：`POST /web/test/scenario/load/{id}`（需管理端 Token，默认 reset+load）。服务未启动时见 `sql/seed/` 下 bat 脚本。
+```powershell
+$base = 'http://localhost:8801'
+$login = Invoke-RestMethod -Method Post -Uri "$base/login" -ContentType 'application/json' `
+  -Body '{"username":"admin","password":"admin123"}'
+Invoke-RestMethod -Method Post -Uri "$base/web/test/scenario/load/S01" `
+  -Headers @{ Authorization = "Bearer $($login.token)" }
+```
+
+```bash
+BASE=http://localhost:8801
+TOKEN=$(curl -s -X POST "$BASE/login" -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"admin123"}' | jq -r .token)
+curl -s -X POST "$BASE/web/test/scenario/load/S01" -H "Authorization: Bearer $TOKEN"
+```
+
+`load/{id}` 默认 **reset + 写入场景**；仅基线：`POST /web/test/scenario/reset`。场景 ID 见 [docs/ai-test-flow-prompts.md](docs/ai-test-flow-prompts.md)。
+
+2. 复制场景推荐账号，去 [Swagger](http://localhost:8801/swagger-ui.html) 或质衡跑用例。
+
+3. （可选）管理端 UI / demo-ui：**首页「进入测试场景控制台」** 或 **系统工具 → 测试场景**，仅浏览或目视确认；**加载不必切页**。
+
+服务未启动时见 `sql/seed/reset_test_data.bat` + `load_scenario.bat`。
 
 **进阶**：
 
@@ -67,14 +86,14 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 
 ## Swagger 与质衡
 
-- 文档：[swagger-ui.html](http://localhost:8081/swagger-ui.html)（admin / api / tool 三组）
-- 上传接口到质衡：IDEA 装 Qualitest Helper，扫 Controller（`@api.group`）上传到 `http://localhost:8080`；上传后按上一节补齐双端鉴权配置再造流
+- 文档：[swagger-ui.html](http://localhost:8801/swagger-ui.html)（admin / api / tool 三组）
+- 上传接口到质衡：IDEA 装 Qualitest Helper，扫 Controller（`@api.group`）上传到 `http://localhost:8800`；上传后按上一节补齐双端鉴权配置再造流
 
 ## AI 测试流自然语言
 
-在质衡测试流画布中使用 **AI 设计助手** 时，见 **[docs/ai-test-flow-prompts.md](docs/ai-test-flow-prompts.md)**：先将文档中标注的**测试场景**在靶场加载，再把「加载场景 + 提示正文」粘贴到对话框。账号、SPU/SKU/券 ID、停用状态等 AI 无法推断的信息已写入提示正文。
+在质衡测试流画布中使用 **AI 设计助手** 时，见 **[docs/ai-test-flow-prompts.md](docs/ai-test-flow-prompts.md)**：先按上文 **命令加载** 标注场景，再粘贴提示正文（鉴权模板不内置商城业务芯片）。账号、SPU/SKU/券 ID、停用状态等 AI 无法推断的信息已写入提示正文。
 
-使用前请先将 demo 接口上传到质衡测试项目，并将环境 `baseUrl` 指向 `http://localhost:8081`。
+使用前请先将 demo 接口上传到质衡测试项目，并将环境 `baseUrl` 指向 `http://localhost:8801`。
 
 ## 参考
 

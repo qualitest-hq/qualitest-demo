@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import createVitePlugins from './vite/plugins'
 
-const baseUrl = 'http://127.0.0.1:8081' // demo-admin 后端接口（与主工程 8080 隔离）
+const baseUrl = 'http://127.0.0.1:8801' // demo-admin 后端接口（与主工程 8800 隔离）
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
@@ -42,7 +42,7 @@ export default defineConfig(({ mode, command }) => {
     },
     // vite 相关配置
     server: {
-      port: Number(process.env.VITE_DEV_SERVER_PORT) || 5174,
+      port: Number(process.env.VITE_DEV_SERVER_PORT) || 5181,
       strictPort: true,
       host: true,
       open: false,
