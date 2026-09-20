@@ -1,7 +1,7 @@
 # qualitest-test-support-spring-boot-starter
 
 > **进阶文档**：被测系统（JVM / Spring Boot）接入质衡「节点级 checkpoint + 失败后还原」能力。  
-> 能力摘要见 [质衡开源与工程路线图 §5](../../qualitest/docs/质衡开源与工程路线图.md#5-已交付能力被测数据快照与还原重试)。
+> 能力摘要见主仓文档与本 starter 下文「端点契约」。
 
 Starter 负责暴露 HTTP 端点、**非生产 profile 硬禁用**与超时包装；**具体怎么备份/还原**由你实现 `SnapshotStrategy`。**不做 token 鉴权**——安全边界是「生产环境根本不注册端点」。
 
@@ -144,7 +144,7 @@ public class MySnapshotStrategy implements SnapshotStrategy {
 | 幂等 | 同一 `snapshotId` 多次 restore 结果一致 |
 | 存活探测 | 不单独提供 `/health`；snapshot 调用失败即视为不可达 |
 
-完整契约与护栏说明见本文 [端点契约](#端点契约)；能力摘要见 [质衡路线图 · 已交付能力](../../qualitest/docs/质衡开源与工程路线图.md#5-已交付能力被测数据快照与还原重试)。
+完整契约与护栏说明见本文 [端点契约](#端点契约)。
 
 ---
 
@@ -199,5 +199,5 @@ curl -s -X POST http://localhost:8801/test-support/restore \
 
 | 文档 | 说明 |
 |------|------|
-| [质衡开源与工程路线图 §5](../../qualitest/docs/质衡开源与工程路线图.md#5-已交付能力被测数据快照与还原重试) | 已交付能力摘要与串行约定 |
+| 本文 [端点契约](#端点契约) | 快照 / 还原契约与串行约定 |
 | [qualitest-demo README](../README.md) | 靶场快速启动；test-support 细节以本文为准 |

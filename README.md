@@ -82,7 +82,7 @@ curl -s -X POST "$BASE/web/test/scenario/load/S01" -H "Authorization: Bearer $TO
 
 两端 Token **不可混用**；客户端接口从 Token 取 `accountId`，勿信请求体里的账号 ID。免登录：方法/类 `@Anonymous`，另有 `/login`、`/register`、`/captchaImage`、`/test-support/**` 等 path 白名单。
 
-**联调质衡时注意**：插件「项目级上传」在质衡 `auth_config` 为空时只会种子**通用单套** Bearer（不分端、不带匿名 path）。本靶场双端 JWT 请到测试项目鉴权配置手工贴 **双端参考模板**（质衡 `ProjectAuthConfigSupport.dualBearerTemplate` / [`鉴权注入与Bearer方案.md`](https://github.com/qualitest-hq/qualitest/blob/main/docs/%E9%89%B4%E6%9D%83%E6%B3%A8%E5%85%A5%E4%B8%8EBearer%E6%96%B9%E6%A1%88.md) §4.1）：`/api/` → `flow.token`，`/system|/monitor|/tool|/web/` → `flow.adminToken`，并带上上述匿名 path。
+**联调质衡时注意**：插件「项目级上传」在质衡 `auth_config` 为空时只会种子**通用单套** Bearer（不分端、不带匿名 path）。本靶场双端 JWT 请到测试项目鉴权配置手工贴双端 Profile：`/api/` → `flow.token`，`/system|/monitor|/tool|/web/` → `flow.adminToken`，并带上上述匿名 path。说明见质衡 [`project-summary.md` §4](https://github.com/qualitest-hq/qualitest/blob/main/docs/project-summary.md) · [`project-template.md`](https://github.com/qualitest-hq/qualitest/blob/main/docs/project-template.md)（建项建议勾「管理端 Bearer」+「客户端 Bearer」）。
 
 ## Swagger 与质衡
 
@@ -103,3 +103,4 @@ curl -s -X POST "$BASE/web/test/scenario/load/S01" -H "Authorization: Bearer $TO
 - 场景元数据：`sql/seed/scenarios/manifest.json`
 - 状态枚举、金额公式、验收用例链：见各场景 SQL 头部注释与 Swagger 字段说明
 - test-support 快照/还原：[test-support-starter/README.md](test-support-starter/README.md)
+- [贡献指南](./CONTRIBUTING.md) · [行为准则](./CODE_OF_CONDUCT.md) · [安全策略](./SECURITY.md)
