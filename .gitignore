@@ -9,7 +9,11 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ######################################################################
-# IDE
+# IDE / 编辑器（勿提交）
+
+.vscode/
+.cursor/
+.cursorignore
 
 ### STS ###
 .apt_generated
@@ -20,7 +24,7 @@ target/
 .springBeans
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
