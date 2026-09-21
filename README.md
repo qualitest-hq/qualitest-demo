@@ -1,13 +1,16 @@
 # qualitest-demo
 
-独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) 的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8801**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8801`。
+独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest)（[Gitee 镜像](https://gitee.com/qualitest-hq/qualitest)）的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8801**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8801`。
 
 ## 相关仓库
 
-| 仓库 | 说明 |
-|------|------|
-| [qualitest](https://github.com/qualitest-hq/qualitest) | 质衡主平台（含前端 `qualitest-ui/`） |
-| [qualitest-intellij-plugin](https://github.com/qualitest-hq/qualitest-intellij-plugin) | IDEA 接口同步；示例工程可用本靶场 |
+| 仓库 | 说明 | GitHub | Gitee（只读镜像） |
+|------|------|--------|-------------------|
+| qualitest | 质衡主平台（含前端 `qualitest-ui/`） | [GitHub](https://github.com/qualitest-hq/qualitest) | [Gitee](https://gitee.com/qualitest-hq/qualitest) |
+| qualitest-demo（本仓） | 接口测试靶场 | [GitHub](https://github.com/qualitest-hq/qualitest-demo) | [Gitee](https://gitee.com/qualitest-hq/qualitest-demo) |
+| qualitest-intellij-plugin | IDEA 接口同步；示例工程可用本靶场 | [GitHub](https://github.com/qualitest-hq/qualitest-intellij-plugin) | [Gitee](https://gitee.com/qualitest-hq/qualitest-intellij-plugin) |
+
+> GitHub 为主仓（Issue / PR）；Gitee 为国内只读镜像，请勿向镜像提交代码。
 
 ## 快速启动
 
