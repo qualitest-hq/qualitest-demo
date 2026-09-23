@@ -90,7 +90,7 @@ curl -s -X POST "$BASE/web/test/scenario/load/S01" -H "Authorization: Bearer $TO
 ## Swagger 与质衡
 
 - 文档：[swagger-ui.html](http://localhost:8801/swagger-ui.html)（admin / api / tool 三组）
-- 上传接口到质衡：IDEA 装 Qualitest Helper，扫 Controller（`@api.group`）上传到 `http://localhost:8800`；上传后按上一节补齐双端鉴权配置再造流
+- 上传接口到质衡：IDEA 装 [Qualitest Helper](https://github.com/qualitest-hq/qualitest-intellij-plugin)，扫 Controller（`@api.group`）上传到 `http://localhost:8800`；上传后按上一节补齐双端鉴权配置再造流。操作说明与截图见插件仓 [使用方式](https://github.com/qualitest-hq/qualitest-intellij-plugin#使用方式)（项目级上传 / Controller 右键 / 选择上传）
 
 ## AI 测试流自然语言
 
