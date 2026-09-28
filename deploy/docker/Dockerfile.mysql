@@ -1,0 +1,6 @@
+# 质衡 Demo MySQL：官方 8.0 + 内置 initdb SQL（空数据卷首次启动自动导入）
+# 构建上下文：仓库根目录
+
+FROM mysql:8.0
+
+COPY deploy/mysql/docker-entrypoint-initdb.d/ /docker-entrypoint-initdb.d/

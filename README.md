@@ -16,7 +16,7 @@
 
 ### 方式 A · Docker Compose（推荐）
 
-前置：Docker Desktop / Compose V2。详情见 [`docs/deploy.md`](./docs/deploy.md)。
+前置：Docker Desktop / Compose V2。优先拉 GHCR（`ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql`），不可达再本地构建。详情见 [`docs/deploy.md`](./docs/deploy.md)。
 
 ```bash
 # Windows
@@ -33,7 +33,7 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 
 ### 方式 B · 本机
 
-1. 建库 `qualitest-demo`，执行 `sql/qualitest-demo_20260628_192719.sql`
+1. 建库 `qualitest-demo`，执行 [`deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo.sql`](./deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo.sql)
 2. 改 `demo-admin/.../application-dev.yml`，或复制 [`.env.example`](./.env.example) 为 `.env` 后用环境变量覆盖（生产务必改 `TOKEN_SECRET` / 库口令）
 3. `mvn clean install`，启动 `demo-admin` 或运行 `demo.bat` / `demo.sh`
 

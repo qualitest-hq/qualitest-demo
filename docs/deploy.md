@@ -16,7 +16,13 @@
 
 ## 一键全栈
 
-前置：Docker Desktop / Compose V2。
+前置：Docker Desktop / Compose V2。官方镜像：
+
+- `ghcr.io/qualitest-hq/qualitest-demo-app`
+- `ghcr.io/qualitest-hq/qualitest-demo-web`
+- `ghcr.io/qualitest-hq/qualitest-demo-mysql`（内置 initdb SQL，空数据卷首次启动自动导入）
+
+（`latest` + `sha-<短提交>`；仅 `qualitest-hq/qualitest-demo` 的 `main` / 手动触发 GHCR workflow。）
 
 ```bash
 # Linux / macOS
@@ -26,16 +32,36 @@ chmod +x scripts/quick-start.sh
 # Windows
 scripts\quick-start.bat
 
-# 或手动
-docker compose up -d --build
+# 或手动：优先拉 GHCR，再起栈
+# cp .env.example .env
+docker compose pull
+docker compose up -d
+
+# 改代码 / 无网时本地构建
+# docker compose up -d --build
 ```
+
+`quick-start` 会先 `compose pull`；GHCR 不可达或尚未发布时自动回退 `--build`。
 
 - UI：**http://localhost:5181**，账号 **`admin` / `admin123`**
 - Swagger：**http://localhost:8801/swagger-ui.html**
 - 质衡联调 `baseUrl`：本机多为 `http://localhost:8801`（容器内质衡见主仓 deploy）
-- 库初始化：`sql/qualitest-demo_*.sql` 挂 initdb；业务场景用管理端加载，**无 Flyway**
+- 库初始化：打进 `qualitest-demo-mysql` 镜像（源文件 [`deploy/mysql/docker-entrypoint-initdb.d/`](../deploy/mysql/docker-entrypoint-initdb.d/)）；业务场景用管理端加载，**无 Flyway**
+- 已有 `mysql_data` 卷不会再次跑 initdb；要重灌库用 `docker compose down -v`（会清空数据）
 
 生产务必修改 `.env` 中的 `MYSQL_ROOT_PASSWORD`、`TOKEN_SECRET`。
+
+### 官方镜像（GHCR）
+
+| 镜像 | 说明 |
+|------|------|
+| `ghcr.io/qualitest-hq/qualitest-demo-app` | 后端（Spring Boot） |
+| `ghcr.io/qualitest-hq/qualitest-demo-web` | 前端（Nginx + SPA，反代 `/prod-api` → app） |
+| `ghcr.io/qualitest-hq/qualitest-demo-mysql` | MySQL 8.0 + 内置库表/种子 initdb |
+
+Packages：https://github.com/orgs/qualitest-hq/packages  
+
+官方包为 **Public** 时可匿名 `docker pull`。首次若为 Private，在组织 Packages 页改为 Public。可用 `.env` 的 `DEMO_IMAGE_TAG=sha-<短提交>` 钉版本。
 
 ## 仅依赖（本机开发）
 
@@ -99,10 +125,10 @@ docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rust
 
 | 服务 | 容器名 | 说明 |
 |------|--------|------|
-| mysql | qualitest-demo-mysql | 初始化：`sql/qualitest-demo_*.sql` |
+| mysql | qualitest-demo-mysql | 镜像内 initdb（见 `deploy/mysql/`） |
 | redis | qualitest-demo-redis | DB 11 |
-| app | qualitest-demo-app | `profile=docker`，端口 8801 |
-| web | qualitest-demo-web | Nginx + `/prod-api` → app |
+| app | qualitest-demo-app | 镜像 `ghcr.io/qualitest-hq/qualitest-demo-app`；`profile=docker`，端口 8801 |
+| web | qualitest-demo-web | 镜像 `ghcr.io/qualitest-hq/qualitest-demo-web`；Nginx + `/prod-api` → app |
 | rustfs（可选） | qualitest-demo-rustfs | `--profile rustfs` + `docker-compose.rustfs.yml` |
 
 ## 常用命令
