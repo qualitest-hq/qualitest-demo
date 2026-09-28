@@ -27,7 +27,7 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 
 - 管理端 UI：**http://localhost:5181**（账号 **`admin` / `admin123`**）
 - Swagger / 质衡 `baseUrl`：**http://localhost:8801**
-- 默认宿主机端口避开主仓：MySQL **3307**、Redis **6380**
+- 默认宿主机端口避开主仓：Web **5181**、MySQL **3307**、Redis **6380**（容器内 Web Nginx 同为 5181）
 - 仅依赖：`docker compose up -d mysql redis`
 - 可选 RustFS：`scripts\quick-start.bat rustfs`（详见 [`docs/deploy.md`](./docs/deploy.md)）
 

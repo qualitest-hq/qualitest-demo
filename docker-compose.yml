@@ -8,6 +8,7 @@
 #     或 scripts/quick-start.sh|.bat rustfs
 #
 # 默认宿主机端口避开主仓：MySQL 3307、Redis 6380、Web 5181；API 仍为 8801
+# Web 容器内 Nginx 亦监听 5181（与宿主机映射一致）
 
 name: qualitest-demo
 
@@ -121,7 +122,7 @@ services:
       app:
         condition: service_healthy
     ports:
-      - "${WEB_PORT:-5181}:80"
+      - "${WEB_PORT:-5181}:5181"
 
 volumes:
   mysql_data:

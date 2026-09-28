@@ -2,7 +2,7 @@
 
 与主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest) **并行独立 Compose**：主仓 **不会** 用 `--profile demo` 拉起本仓；两边各起即可联调。本仓库表靠 initdb dump + 场景 seed，**不使用 Flyway**（Flyway 仅质衡主仓）。
 
-默认宿主机端口（避开主仓 80/3306/6379）：
+默认宿主机端口（避开主仓 5180/3306/6379；Web 容器内 Nginx 亦为 **5181**）：
 
 | 服务 | 默认端口 |
 |------|----------|
