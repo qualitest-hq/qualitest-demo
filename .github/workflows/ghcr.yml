@@ -28,6 +28,7 @@ on:
       - "demo-system/**"
       - "test-support-starter/**"
       - "demo-ui/**"
+      - "sql/seed/**"
       - ".github/workflows/ghcr.yml"
   workflow_dispatch:
 
@@ -81,6 +82,7 @@ jobs:
               - 'demo-quartz/**'
               - 'demo-system/**'
               - 'test-support-starter/**'
+              - 'sql/seed/**'
               - '.github/workflows/ghcr.yml'
             web:
               - 'deploy/docker/Dockerfile.web'

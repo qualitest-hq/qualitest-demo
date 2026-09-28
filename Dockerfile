@@ -22,6 +22,8 @@ COPY demo-framework demo-framework
 COPY demo-system demo-system
 COPY demo-quartz demo-quartz
 COPY demo-generator demo-generator
+# demo-system 资源打包依赖 ../sql/seed（manifest + 场景 SQL）
+COPY sql/seed sql/seed
 
 RUN mvn -B -DskipTests -pl demo-admin -am package
 
