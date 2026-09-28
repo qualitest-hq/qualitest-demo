@@ -43,7 +43,8 @@ docker compose up -d
 
 `quick-start` 会先 `compose pull`；GHCR 不可达或尚未发布时自动回退 `--build`。
 
-- UI：**http://localhost:5181**，账号 **`admin` / `admin123`**
+- UI：**http://localhost:5181**，账号 **`admin` / `admin123`**（**仅本地 / 私有环境**）
+- **公网演示环境**：执行运维仓 [`demo-seed-target.sql`](https://github.com/38680050/qualitest-demo-host/blob/master/sql/demo-seed-target.sql) 后，运维口令为 **`admin` / `QtDemo#Admin2026`**（勿对外；指南见 [qualitest-demo-host/1panel/GUIDE.md](https://github.com/38680050/qualitest-demo-host/blob/master/1panel/GUIDE.md)）。登录页生产构建**不预填**账号密码
 - Swagger：**http://localhost:8801/swagger-ui.html**
 - 质衡联调 `baseUrl`：本机多为 `http://localhost:8801`（容器内质衡见主仓 deploy）
 - 库初始化：打进 `qualitest-demo-mysql` 镜像（源文件 [`deploy/mysql/docker-entrypoint-initdb.d/`](../deploy/mysql/docker-entrypoint-initdb.d/)）；业务场景用管理端加载，**无 Flyway**

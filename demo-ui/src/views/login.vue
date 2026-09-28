@@ -78,9 +78,10 @@ const route = useRoute()
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 
+// 默认账号仅开发环境通过 .env.development 预填；生产/镜像不预填（避免公网泄露）
 const loginForm = ref({
-  username: "admin",
-  password: "admin123",
+  username: import.meta.env.VITE_APP_LOGIN_USERNAME || "",
+  password: import.meta.env.VITE_APP_LOGIN_PASSWORD || "",
   rememberMe: false,
   code: "",
   uuid: ""
