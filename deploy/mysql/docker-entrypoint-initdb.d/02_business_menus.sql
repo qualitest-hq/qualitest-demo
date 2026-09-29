@@ -18,7 +18,7 @@ VALUES
 (2003, '收货地址', 2000, 2, 'accountAddress', 'account/accountAddress/index', '', '', 1, 0, 'C', '1', '0', 'account:accountAddress:list', '#', 'admin', NOW(), '隐藏页，从账号跳转')
 ON DUPLICATE KEY UPDATE
   menu_name = VALUES(menu_name), path = VALUES(path), component = VALUES(component),
-  perms = VALUES(perms), visible = VALUES(visible), status = VALUES(status);
+  perms = VALUES(perms), icon = VALUES(icon), visible = VALUES(visible), status = VALUES(status);
 
 -- 商城管理子菜单
 INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, path, component, query, route_name, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, remark)
@@ -26,24 +26,24 @@ VALUES
 (2004, '商品分类', 2001, 1, 'mallCategory', 'mall/mallCategory/index', '', '', 1, 0, 'C', '0', '0', 'mall:mallCategory:list', 'tree', 'admin', NOW(), ''),
 (2005, '商品', 2001, 2, 'mallProduct', 'mall/mallProduct/index', '', '', 1, 0, 'C', '0', '0', 'mall:mallProduct:list', 'shopping', 'admin', NOW(), ''),
 (2006, '商品SKU', 2001, 3, 'mallProductSku', 'mall/mallProductSku/index', '', '', 1, 0, 'C', '1', '0', 'mall:mallProductSku:list', '#', 'admin', NOW(), '隐藏页'),
-(2007, '购物车', 2001, 4, 'mallCart', 'mall/mallCart/index', '', '', 1, 0, 'C', '0', '0', 'mall:mallCart:list', 'shopping-cart', 'admin', NOW(), ''),
+(2007, '购物车', 2001, 4, 'mallCart', 'mall/mallCart/index', '', '', 1, 0, 'C', '0', '0', 'mall:mallCart:list', 'shopping', 'admin', NOW(), ''),
 (2008, '订单', 2001, 5, 'mallOrder', 'mall/mallOrder/index', '', '', 1, 0, 'C', '0', '0', 'mall:mallOrder:list', 'list', 'admin', NOW(), ''),
 (2009, '订单明细', 2001, 6, 'mallOrderItem', 'mall/mallOrderItem/index', '', '', 1, 0, 'C', '1', '0', 'mall:mallOrderItem:list', '#', 'admin', NOW(), '隐藏页'),
 (2010, '订单退款', 2001, 7, 'mallOrderRefund', 'mall/mallOrderRefund/index', '', '', 1, 0, 'C', '0', '0', 'mall:mallOrderRefund:list', 'money', 'admin', NOW(), ''),
 (2011, '退款明细', 2001, 8, 'mallOrderRefundItem', 'mall/mallOrderRefundItem/index', '', '', 1, 0, 'C', '1', '0', 'mall:mallOrderRefundItem:list', '#', 'admin', NOW(), '隐藏页')
 ON DUPLICATE KEY UPDATE
   menu_name = VALUES(menu_name), path = VALUES(path), component = VALUES(component),
-  perms = VALUES(perms), visible = VALUES(visible), status = VALUES(status);
+  perms = VALUES(perms), icon = VALUES(icon), visible = VALUES(visible), status = VALUES(status);
 
 -- 优惠券管理
 INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, path, component, query, route_name, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, remark)
 VALUES
-(2020, '优惠券管理', 0, 3, 'couponManages', NULL, NULL, '', 1, 0, 'M', '0', '0', '', 'coupon', 'admin', NOW(), ''),
-(2021, '优惠券', 2020, 1, 'coupon', 'coupon/coupon/index', '', '', 1, 0, 'C', '0', '0', 'coupon:coupon:list', 'coupon', 'admin', NOW(), ''),
+(2020, '优惠券管理', 0, 3, 'couponManages', NULL, NULL, '', 1, 0, 'M', '0', '0', '', 'star', 'admin', NOW(), ''),
+(2021, '优惠券', 2020, 1, 'coupon', 'coupon/coupon/index', '', '', 1, 0, 'C', '0', '0', 'coupon:coupon:list', 'star', 'admin', NOW(), ''),
 (2022, '用户优惠券', 2020, 2, 'accountCoupon', 'coupon/accountCoupon/index', '', '', 1, 0, 'C', '0', '0', 'coupon:accountCoupon:list', 'peoples', 'admin', NOW(), '')
 ON DUPLICATE KEY UPDATE
   menu_name = VALUES(menu_name), path = VALUES(path), component = VALUES(component),
-  perms = VALUES(perms), visible = VALUES(visible), status = VALUES(status);
+  perms = VALUES(perms), icon = VALUES(icon), visible = VALUES(visible), status = VALUES(status);
 
 -- 按钮权限（list 页操作）；幂等
 INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, path, component, query, route_name, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, remark)
