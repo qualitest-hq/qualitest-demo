@@ -89,7 +89,7 @@ scripts\quick-start.bat
 
 GitHub 克隆很慢时改用只读镜像（目录名仍是 `qualitest-demo`）：`https://gitee.com/qualitest-hq/qualitest-demo.git`。
 
-脚本会：没有 `.env` 时从 `.env.example` 复制；先拉 GHCR；拉取失败则自动本地构建。拉取停住时 `Ctrl+C`，再执行 `docker compose up -d --build`。
+脚本会：没有 `.env` 时从 `.env.example` 复制；先拉阿里云公开镜像（不用登录）；失败再试 GHCR；再失败则本地构建。拉取停住时 `Ctrl+C`，再执行 `docker compose up -d --build`。改回 GHCR：`.env` 加 `DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq`。
 
 确认：
 
@@ -137,18 +137,18 @@ docker compose ps
 curl.exe -fsS -D - -o NUL http://localhost:5181/
 ```
 
-`pull` 失败时执行 `docker compose up -d --build`。响应头为 `HTTP/1.1 200` 后打开 UI。官方镜像：
+`pull` 失败时执行 `docker compose up -d --build`。响应头为 `HTTP/1.1 200` 后打开 UI。默认镜像（匿名，不用登录）：
 
-- `ghcr.io/qualitest-hq/qualitest-demo-app`
-- `ghcr.io/qualitest-hq/qualitest-demo-web`
-- `ghcr.io/qualitest-hq/qualitest-demo-mysql`（内置 initdb SQL，空数据卷首次启动自动导入）
+- `registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app`
+- `registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-web`
+- `registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-mysql`（内置 initdb SQL，空数据卷首次启动自动导入）
 
-（`latest` + `sha-<短提交>`；仅 `qualitest-hq/qualitest-demo` 的 `main` / 手动触发 GHCR workflow。）
+GHCR 备份：`ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql`。
 
 改代码时在仓库目录执行 `docker compose up -d --build`。
 
 - UI：**http://localhost:5181**，账号 **`admin` / `admin123`**（**仅本地 / 私有环境**）；另有 **`demo` / `demo123`**（切场景用）
-- **公网演示环境**：执行运维仓 [`demo-seed-target.sql`](https://github.com/38680050/qualitest-demo-host/blob/master/sql/demo-seed-target.sql) 后，运维口令为 **`admin` / `QtDemo#Admin2026`**，切场景 **`demo` / `demo123`**（勿对外宣传入口；指南见 [qualitest-demo-host/1panel/GUIDE.md](https://github.com/38680050/qualitest-demo-host/blob/master/1panel/GUIDE.md)）。登录页生产构建**不预填**账号密码
+- **公网演示环境**：运维口令为 **`admin` / `QtDemo#Admin2026`**，切场景 **`demo` / `demo123`**（勿对外宣传入口）。登录页生产构建**不预填**账号密码
 - Swagger：**http://localhost:8801/swagger-ui.html**
 - 质衡联调 `baseUrl`：本机多为 `http://localhost:8801`（容器内质衡见主仓 deploy）
 - 库初始化：打进 `qualitest-demo-mysql` 镜像（[`01-qualitest-demo.sql`](../deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo.sql) + [`02_business_menus.sql`](../deploy/mysql/docker-entrypoint-initdb.d/02_business_menus.sql)）；业务场景用管理端「测试场景」加载，**无 Flyway**
@@ -156,17 +156,15 @@ curl.exe -fsS -D - -o NUL http://localhost:5181/
 
 生产务必修改 `.env` 中的 `MYSQL_ROOT_PASSWORD`、`TOKEN_SECRET`。
 
-### 官方镜像（GHCR）
+### 官方镜像
 
 | 镜像 | 说明 |
 |------|------|
-| `ghcr.io/qualitest-hq/qualitest-demo-app` | 后端（Spring Boot） |
-| `ghcr.io/qualitest-hq/qualitest-demo-web` | 前端（Nginx + SPA，反代 `/prod-api` → app） |
-| `ghcr.io/qualitest-hq/qualitest-demo-mysql` | MySQL 8.0 + 内置库表/种子 initdb |
+| `registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app` | 后端（Spring Boot） |
+| `registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-web` | 前端（Nginx + SPA，反代 `/prod-api` → app） |
+| `registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-mysql` | MySQL 8.0 + 内置库表/种子 initdb |
 
-Packages：https://github.com/orgs/qualitest-hq/packages  
-
-官方包为 **Public** 时可匿名 `docker pull`。首次若为 Private，在组织 Packages 页改为 Public。可用 `.env` 的 `DEMO_IMAGE_TAG=sha-<短提交>` 钉版本。
+GHCR：`ghcr.io/qualitest-hq/qualitest-demo-*`。改回 GHCR：`.env` 设 `DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq`。阿里云公开仓库匿名 pull，不要 login。Packages：https://github.com/orgs/qualitest-hq/packages
 
 ## 本机改代码（热更 · MySQL / Redis 仍用 Compose）
 
@@ -234,8 +232,8 @@ docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rust
 |------|--------|------|
 | mysql | qualitest-demo-mysql | 镜像内 initdb（见 `deploy/mysql/`） |
 | redis | qualitest-demo-redis | DB 11 |
-| app | qualitest-demo-app | 镜像 `ghcr.io/qualitest-hq/qualitest-demo-app`；`profile=docker`，端口 8801 |
-| web | qualitest-demo-web | 镜像 `ghcr.io/qualitest-hq/qualitest-demo-web`；Nginx + `/prod-api` → app |
+| app | qualitest-demo-app | 默认阿里云镜像；`profile=docker`，端口 8801 |
+| web | qualitest-demo-web | 默认阿里云镜像；Nginx + `/prod-api` → app |
 | rustfs（可选） | qualitest-demo-rustfs | `--profile rustfs` + `docker-compose.rustfs.yml` |
 
 ## 常用命令

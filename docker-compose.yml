@@ -1,18 +1,19 @@
 # 质衡 Demo — Docker Compose 全栈（独立于主仓 qualitest）
 # 用法：
-#   docker compose pull && docker compose up -d     # 拉 GHCR 预构建镜像（推荐）
+#   docker compose pull && docker compose up -d     # 拉预构建镜像（默认阿里云，匿名）
 #   docker compose up -d --build                    # 本地构建（改代码时）
 #   docker compose up -d mysql redis                # 仅依赖（本机跑 mvn / npm）
 #   docker compose --profile rustfs up -d --build   # 仅起 RustFS 容器（app 未开客户端）
 #   全栈 + RustFS（推荐）:
 #     docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
 #     或 scripts/quick-start.sh|.bat rustfs
-# 官方镜像：ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql（tag 见 DEMO_IMAGE_TAG，默认 latest）
+# 默认镜像：registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql（匿名 pull）
+# 改回 GHCR：.env 设 DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq
 # 一键全栈：scripts/quick-start.sh|.bat
 #
 # 默认宿主机端口避开主仓：MySQL 3307、Redis 6380、Web 5181；API 仍为 8801
 # Web 容器内 Nginx 亦监听 5181（与宿主机映射一致）
-# MySQL 初始化 SQL 已打进镜像 ghcr.io/qualitest-hq/qualitest-demo-mysql（见 deploy/docker/Dockerfile.mysql）
+# MySQL 初始化 SQL 已打进 qualitest-demo-mysql 镜像（见 deploy/docker/Dockerfile.mysql）
 
 name: qualitest-demo
 
@@ -21,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: deploy/docker/Dockerfile.mysql
-    image: ghcr.io/qualitest-hq/qualitest-demo-mysql:${DEMO_IMAGE_TAG:-latest}
+    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-mysql:${DEMO_IMAGE_TAG:-latest}
     pull_policy: missing
     container_name: qualitest-demo-mysql
     restart: unless-stopped
@@ -83,7 +84,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ghcr.io/qualitest-hq/qualitest-demo-app:${DEMO_IMAGE_TAG:-latest}
+    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-app:${DEMO_IMAGE_TAG:-latest}
     pull_policy: missing
     container_name: qualitest-demo-app
     restart: unless-stopped
@@ -123,7 +124,7 @@ services:
     build:
       context: .
       dockerfile: deploy/docker/Dockerfile.web
-    image: ghcr.io/qualitest-hq/qualitest-demo-web:${DEMO_IMAGE_TAG:-latest}
+    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-web:${DEMO_IMAGE_TAG:-latest}
     pull_policy: missing
     container_name: qualitest-demo-web
     restart: unless-stopped
