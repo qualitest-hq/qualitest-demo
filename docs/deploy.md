@@ -12,11 +12,132 @@
 | Redis | **6380** |
 | RustFS（可选） | **9000** / **9001** |
 
-与质衡联调时，质衡项目环境 `baseUrl` 一般为 `http://localhost:8801`；若质衡 **app 跑在 Compose 容器内**，见主仓 [docs/deploy.md · 与靶场联调](https://github.com/qualitest-hq/qualitest/blob/main/docs/deploy.md)（`host.docker.internal`）。
+与质衡联调时：两边都在本机进程跑，环境 `baseUrl` 用 `http://localhost:8801`；质衡 **app 在 Compose 容器内**时改为 `http://host.docker.internal:8801`（主仓 compose 已配置该主机名）。完整步骤见主仓 [docs/deploy.md](https://github.com/qualitest-hq/qualitest/blob/main/docs/deploy.md)。本机 `dev` 的 MySQL 口令默认 `root` / `123456`；Docker `.env` 的 `MYSQL_ROOT_PASSWORD` 默认 `qualitest`，不要混用。
 
-## 一键全栈
+## 甲、不用 Docker
 
-前置：Docker Desktop / Compose V2。官方镜像：
+本机已有 JDK 17、Maven、Node ≥ 22.13、pnpm ≥ 11、MySQL 8、Redis。靶场没有 Flyway，必须导入两份 SQL。可与质衡共用一台 MySQL（库名 `qualitest-demo`）和一台 Redis（应用使用逻辑库 **11**）。
+
+建库：
+
+```sql
+CREATE DATABASE IF NOT EXISTS `qualitest-demo`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+```
+
+**Linux / macOS / Git Bash**
+
+```bash
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+mysql -uroot -p123456 qualitest-demo < deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo.sql
+mysql -uroot -p123456 qualitest-demo < deploy/mysql/docker-entrypoint-initdb.d/02_business_menus.sql
+mvn -pl demo-admin -am spring-boot:run -DskipTests
+```
+
+**Windows PowerShell**
+
+```powershell
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+Get-Content -Raw deploy\mysql\docker-entrypoint-initdb.d\01-qualitest-demo.sql | mysql -uroot -p123456 qualitest-demo
+Get-Content -Raw deploy\mysql\docker-entrypoint-initdb.d\02_business_menus.sql | mysql -uroot -p123456 qualitest-demo
+mvn -pl demo-admin -am spring-boot:run -DskipTests
+```
+
+**Windows 命令提示符**
+
+```bat
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+mysql -uroot -p123456 qualitest-demo < deploy\mysql\docker-entrypoint-initdb.d\01-qualitest-demo.sql
+mysql -uroot -p123456 qualitest-demo < deploy\mysql\docker-entrypoint-initdb.d\02_business_menus.sql
+mvn -pl demo-admin -am spring-boot:run -DskipTests
+```
+
+另开终端：
+
+```bash
+cd demo-ui
+pnpm install
+pnpm dev
+```
+
+UI http://localhost:5181 ，Swagger http://localhost:8801/swagger-ui.html ，账号 `admin` / `admin123`。root 口令不是 `123456` 时改 `-p123456`，并在 `mvn` 前设置 `SPRING_DATASOURCE_DRUID_MASTER_PASSWORD`。
+
+## 乙、Docker 一键
+
+前置：Docker Desktop 已启动（或 Linux 上 Docker Engine + Compose V2），本机有 Git。按系统 **只复制对应那一段**。已经克隆过的，从 `cd` 那一行开始贴。质衡主仓的完整步骤（含端口冲突、`baseUrl`）见主仓 [docs/deploy.md](https://github.com/qualitest-hq/qualitest/blob/main/docs/deploy.md)。
+
+**Linux / macOS / Git Bash**
+
+```bash
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+chmod +x scripts/quick-start.sh
+./scripts/quick-start.sh
+```
+
+**Windows（PowerShell 或命令提示符）**
+
+```bat
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+scripts\quick-start.bat
+```
+
+GitHub 克隆很慢时改用只读镜像（目录名仍是 `qualitest-demo`）：`https://gitee.com/qualitest-hq/qualitest-demo.git`。
+
+脚本会：没有 `.env` 时从 `.env.example` 复制；先拉 GHCR；拉取失败则自动本地构建。拉取停住时 `Ctrl+C`，再执行 `docker compose up -d --build`。
+
+确认：
+
+```bash
+docker compose ps
+```
+
+`qualitest-demo-web` 为 Up 后打开下面的地址。
+
+不用脚本时，与上面二选一（已有 `.env` 不会覆盖）：
+
+**Linux / macOS / Git Bash**
+
+```bash
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+cp -n .env.example .env
+docker compose pull mysql app web
+docker compose up -d
+docker compose ps
+curl -fsS -D - -o /dev/null http://localhost:5181/
+```
+
+**Windows PowerShell**
+
+```powershell
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+docker compose pull mysql app web
+docker compose up -d
+docker compose ps
+curl.exe -fsS -D - -o NUL http://localhost:5181/
+```
+
+**Windows 命令提示符**
+
+```bat
+git clone https://github.com/qualitest-hq/qualitest-demo.git
+cd qualitest-demo
+if not exist .env copy /Y .env.example .env
+docker compose pull mysql app web
+docker compose up -d
+docker compose ps
+curl.exe -fsS -D - -o NUL http://localhost:5181/
+```
+
+`pull` 失败时执行 `docker compose up -d --build`。响应头为 `HTTP/1.1 200` 后打开 UI。官方镜像：
 
 - `ghcr.io/qualitest-hq/qualitest-demo-app`
 - `ghcr.io/qualitest-hq/qualitest-demo-web`
@@ -24,24 +145,7 @@
 
 （`latest` + `sha-<短提交>`；仅 `qualitest-hq/qualitest-demo` 的 `main` / 手动触发 GHCR workflow。）
 
-```bash
-# Linux / macOS
-chmod +x scripts/quick-start.sh
-./scripts/quick-start.sh
-
-# Windows
-scripts\quick-start.bat
-
-# 或手动：优先拉 GHCR，再起栈
-# cp .env.example .env
-docker compose pull
-docker compose up -d
-
-# 改代码 / 无网时本地构建
-# docker compose up -d --build
-```
-
-`quick-start` 会先 `compose pull`；GHCR 不可达或尚未发布时自动回退 `--build`。
+改代码时在仓库目录执行 `docker compose up -d --build`。
 
 - UI：**http://localhost:5181**，账号 **`admin` / `admin123`**（**仅本地 / 私有环境**）；另有 **`demo` / `demo123`**（切场景用）
 - **公网演示环境**：执行运维仓 [`demo-seed-target.sql`](https://github.com/38680050/qualitest-demo-host/blob/master/sql/demo-seed-target.sql) 后，运维口令为 **`admin` / `QtDemo#Admin2026`**，切场景 **`demo` / `demo123`**（勿对外宣传入口；指南见 [qualitest-demo-host/1panel/GUIDE.md](https://github.com/38680050/qualitest-demo-host/blob/master/1panel/GUIDE.md)）。登录页生产构建**不预填**账号密码
@@ -64,7 +168,9 @@ Packages：https://github.com/orgs/qualitest-hq/packages
 
 官方包为 **Public** 时可匿名 `docker pull`。首次若为 Private，在组织 Packages 页改为 Public。可用 `.env` 的 `DEMO_IMAGE_TAG=sha-<短提交>` 钉版本。
 
-## 仅依赖（本机开发）
+## 本机改代码（热更 · MySQL / Redis 仍用 Compose）
+
+这不是「不用 Docker」。MySQL / Redis 仍由 Compose 提供。完全不用 Docker 见上文 **「甲、不用 Docker」**。
 
 ```bash
 docker compose up -d mysql redis
