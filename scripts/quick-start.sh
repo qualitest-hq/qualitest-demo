@@ -8,7 +8,7 @@
 #
 # 说明：从任意目录调用即可；依赖 Docker Engine/Desktop + Compose V2
 # 默认端口：Web 5181 / API 8801 / MySQL 3307 / Redis 6380（避开主仓）
-# 优先拉 GHCR；不可达时回退本地 --build
+# 优先拉阿里云；不可达时回退 GHCR，再失败则本地 --build
 set -euo pipefail
 
 usage() {
@@ -19,7 +19,8 @@ usage() {
   ./scripts/quick-start.sh -h        显示本说明
 
 默认端口: Web 5181 / API 8801 / MySQL 3307 / Redis 6380
-官方镜像: ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql
+官方镜像: registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql
+             （失败则 ghcr.io/qualitest-hq/...）
 仅依赖:   docker compose up -d mysql redis
 仅 RustFS: docker compose --profile rustfs up -d rustfs
 停止:     docker compose down
@@ -80,7 +81,7 @@ compose_up() {
   fi
 }
 
-echo "[info] 拉取 GHCR 预构建镜像（ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql）..."
+echo "[info] 拉取预构建镜像（默认阿里云 registry.cn-hangzhou.aliyuncs.com/qualitest-hq ）..."
 if docker compose pull mysql app web; then
   echo "[info] 启动 MySQL + Redis + 后端 + Nginx ..."
   if [[ "${1:-}" == "rustfs" ]]; then
@@ -89,8 +90,16 @@ if docker compose pull mysql app web; then
   else
     compose_up ""
   fi
+elif DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq docker compose pull mysql app web; then
+  echo "[info] 阿里云不可达，改用 GHCR 启动 ..."
+  if [[ "${1:-}" == "rustfs" ]]; then
+    echo "[info] 已启用可选 profile: rustfs（并加载 docker-compose.rustfs.yml）"
+    DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq compose_up "" rustfs
+  else
+    DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq compose_up ""
+  fi
 else
-  echo "[warn] pull 失败（镜像未发布 / 网络），改为本地构建 ..."
+  echo "[warn] 预构建拉不到，改为本地构建 ..."
   if [[ "${1:-}" == "rustfs" ]]; then
     echo "[info] 已启用可选 profile: rustfs（并加载 docker-compose.rustfs.yml）"
     compose_up "--build" rustfs

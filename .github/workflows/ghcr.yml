@@ -1,9 +1,8 @@
-# 推送官方镜像到 GHCR（仅 qualitest-hq/qualitest-demo 的 main / 手动触发）
+# 推送官方镜像到 GHCR，并在配置了 ALIYUN_PASSWORD 时再推阿里云公开仓库。
 # 镜像：
-#   ghcr.io/qualitest-hq/qualitest-demo-app
-#   ghcr.io/qualitest-hq/qualitest-demo-web
-#   ghcr.io/qualitest-hq/qualitest-demo-mysql
-# PR / fork 不推送。
+#   ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql
+#   registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql
+# PR / fork 不推送；未配阿里云密钥则只推 GHCR。
 #
 # 首次推送后若 Packages 默认 Private：组织 Packages 页改为 Public，
 # 或本 workflow 末尾「Set package visibility」步骤会尝试公开。
@@ -42,6 +41,8 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
+  ALIYUN_REGISTRY: registry.cn-hangzhou.aliyuncs.com
+  ALIYUN_NAMESPACE: qualitest-hq
 
 jobs:
   changes:
@@ -139,6 +140,43 @@ jobs:
           cache-from: type=gha,scope=qualitest-demo-app
           cache-to: type=gha,mode=max,scope=qualitest-demo-app
 
+      - name: Skip ACR if unconfigured
+        if: ${{ secrets.ALIYUN_PASSWORD == '' }}
+        run: echo "::notice::ALIYUN_PASSWORD 未配置，跳过阿里云推送。"
+
+      - name: Log in to Aliyun ACR
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ALIYUN_REGISTRY }}
+          username: ${{ secrets.ALIYUN_USERNAME }}
+          password: ${{ secrets.ALIYUN_PASSWORD }}
+
+      - name: Docker metadata (app ACR)
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        id: meta-acr
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-app
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+
+      - name: Build and push app (ACR)
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          platforms: linux/amd64
+          provenance: false
+          sbom: false
+          tags: ${{ steps.meta-acr.outputs.tags }}
+          labels: ${{ steps.meta-acr.outputs.labels }}
+          cache-from: type=gha,scope=qualitest-demo-app
+          cache-to: type=gha,mode=max,scope=qualitest-demo-app
+
   push-web:
     name: push-web
     needs: changes
@@ -182,6 +220,43 @@ jobs:
           cache-from: type=gha,scope=qualitest-demo-web
           cache-to: type=gha,mode=max,scope=qualitest-demo-web
 
+      - name: Skip ACR if unconfigured
+        if: ${{ secrets.ALIYUN_PASSWORD == '' }}
+        run: echo "::notice::ALIYUN_PASSWORD 未配置，跳过阿里云推送。"
+
+      - name: Log in to Aliyun ACR
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ALIYUN_REGISTRY }}
+          username: ${{ secrets.ALIYUN_USERNAME }}
+          password: ${{ secrets.ALIYUN_PASSWORD }}
+
+      - name: Docker metadata (web ACR)
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        id: meta-acr
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-web
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+
+      - name: Build and push web (ACR)
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./deploy/docker/Dockerfile.web
+          push: true
+          platforms: linux/amd64
+          provenance: false
+          sbom: false
+          tags: ${{ steps.meta-acr.outputs.tags }}
+          labels: ${{ steps.meta-acr.outputs.labels }}
+          cache-from: type=gha,scope=qualitest-demo-web
+          cache-to: type=gha,mode=max,scope=qualitest-demo-web
+
   push-mysql:
     name: push-mysql
     needs: changes
@@ -222,6 +297,43 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=qualitest-demo-mysql
+          cache-to: type=gha,mode=max,scope=qualitest-demo-mysql
+
+      - name: Skip ACR if unconfigured
+        if: ${{ secrets.ALIYUN_PASSWORD == '' }}
+        run: echo "::notice::ALIYUN_PASSWORD 未配置，跳过阿里云推送。"
+
+      - name: Log in to Aliyun ACR
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ALIYUN_REGISTRY }}
+          username: ${{ secrets.ALIYUN_USERNAME }}
+          password: ${{ secrets.ALIYUN_PASSWORD }}
+
+      - name: Docker metadata (mysql ACR)
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        id: meta-acr
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-mysql
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+
+      - name: Build and push mysql (ACR)
+        if: ${{ secrets.ALIYUN_PASSWORD != '' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./deploy/docker/Dockerfile.mysql
+          push: true
+          platforms: linux/amd64
+          provenance: false
+          sbom: false
+          tags: ${{ steps.meta-acr.outputs.tags }}
+          labels: ${{ steps.meta-acr.outputs.labels }}
           cache-from: type=gha,scope=qualitest-demo-mysql
           cache-to: type=gha,mode=max,scope=qualitest-demo-mysql
 

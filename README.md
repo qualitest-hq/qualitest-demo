@@ -16,7 +16,7 @@
 
 ### 方式 A · Docker Compose（推荐）
 
-前置：Docker Desktop / Compose V2。优先拉 GHCR（`ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql`），不可达再本地构建。详情见 [`docs/deploy.md`](./docs/deploy.md)。
+前置：Docker Desktop / Compose V2。默认拉阿里云公开镜像（`registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql`，不用登录）；失败再试 GHCR，再失败才本地构建。详情见 [`docs/deploy.md`](./docs/deploy.md)。
 
 ```bash
 # Windows

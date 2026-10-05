@@ -6,7 +6,7 @@ REM   scripts\quick-start.bat rustfs    同上，并启用可选 RustFS（含 ap
 REM   scripts\quick-start.bat -h        显示本说明
 REM 说明：从任意目录调用即可；依赖 Docker Desktop + Compose V2
 REM 默认端口：Web 5181 / API 8801 / MySQL 3307 / Redis 6380（避开主仓）
-REM 优先拉 GHCR；不可达时回退本地 --build
+REM 优先拉阿里云；不可达时回退 GHCR，再失败则本地 --build
 chcp 65001 >nul
 setlocal
 cd /d "%~dp0.."
@@ -47,17 +47,31 @@ if exist ".env" (
   for /f "usebackq tokens=1,* delims==" %%A in (`findstr /b /c:"APP_PORT=" ".env"`) do set "APP_PORT=%%B"
 )
 
-echo [info] 拉取 GHCR 预构建镜像（ghcr.io/qualitest-hq/qualitest-demo-app^|web^|mysql）...
+echo [info] 拉取预构建镜像（默认阿里云 registry.cn-hangzhou.aliyuncs.com/qualitest-hq ）...
 docker compose pull mysql app web
 if errorlevel 1 (
-  echo [warn] pull 失败（镜像未发布 / 网络），改为本地构建 ...
-  if /I "%~1"=="rustfs" (
-    echo [info] 已启用可选 profile: rustfs（并加载 docker-compose.rustfs.yml）
-    docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
+  echo [warn] 阿里云拉取失败，改试 GHCR ...
+  set "DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq"
+  docker compose pull mysql app web
+  if errorlevel 1 (
+    echo [warn] 预构建拉不到，改为本地构建 ...
+    if /I "%~1"=="rustfs" (
+      echo [info] 已启用可选 profile: rustfs（并加载 docker-compose.rustfs.yml）
+      docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
+    ) else (
+      docker compose up -d --build
+    )
+    if errorlevel 1 exit /b 1
   ) else (
-    docker compose up -d --build
+    echo [info] 启动 MySQL + Redis + 后端 + Nginx ...
+    if /I "%~1"=="rustfs" (
+      echo [info] 已启用可选 profile: rustfs（并加载 docker-compose.rustfs.yml）
+      docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d
+    ) else (
+      docker compose up -d
+    )
+    if errorlevel 1 exit /b 1
   )
-  if errorlevel 1 exit /b 1
 ) else (
   echo [info] 启动 MySQL + Redis + 后端 + Nginx ...
   if /I "%~1"=="rustfs" (
@@ -94,7 +108,7 @@ echo   scripts\quick-start.bat rustfs    全栈 + 可选 RustFS（S3 API :9000 /
 echo   scripts\quick-start.bat -h        显示本说明
 echo.
 echo 默认端口: Web 5181 / API 8801 / MySQL 3307 / Redis 6380
-echo 官方镜像: ghcr.io/qualitest-hq/qualitest-demo-app^|web^|mysql
+echo 官方镜像: registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app^|web^|mysql
 echo 仅依赖:   docker compose up -d mysql redis
 echo 仅 RustFS: docker compose --profile rustfs up -d rustfs
 echo 停止:     docker compose down
