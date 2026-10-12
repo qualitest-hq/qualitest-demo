@@ -148,7 +148,7 @@ GHCR 备份：`ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql`。
 改代码时在仓库目录执行 `docker compose up -d --build`。
 
 - UI：**http://localhost:5181**，账号 **`admin` / `admin123`**（**仅本地 / 私有环境**）；另有 **`demo` / `demo123`**（切场景用）
-- **公网演示环境**：运维口令为 **`admin` / `[REDACTED]`**，切场景 **`demo` / `demo123`**（勿对外宣传入口）。登录页生产构建**不预填**账号密码
+- **公网靶场**：[https://demo.qualitesthq.cn/](https://demo.qualitesthq.cn/) · 访客 **`demo` / `demo123`**（勿公布运维账号；运维口令只放私有演示机文档）。登录页生产构建**不预填**账号密码
 - Swagger：**http://localhost:8801/swagger-ui.html**
 - 质衡联调 `baseUrl`：本机多为 `http://localhost:8801`（容器内质衡见主仓 deploy）
 - 库初始化：打进 `qualitest-demo-mysql` 镜像（[`01-qualitest-demo.sql`](../deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo.sql) + [`02_business_menus.sql`](../deploy/mysql/docker-entrypoint-initdb.d/02_business_menus.sql)）；业务场景用管理端「测试场景」加载，**无 Flyway**
