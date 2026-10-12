@@ -70,6 +70,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
+      <icp-beian />
       <span>{{ footerContent }}</span>
     </div>
   </div>
@@ -79,6 +80,7 @@
 import { ElMessageBox } from "element-plus"
 import { getCodeImg, register } from "@/api/login"
 import defaultSettings from '@/settings'
+import IcpBeian from '@/components/IcpBeian/index.vue'
 import { usePasswordRule } from "@/utils/passwordRule"
 
 const title = import.meta.env.VITE_APP_TITLE
@@ -206,6 +208,10 @@ getCode()
   position: fixed;
   bottom: 0;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
   text-align: center;
   color: #fff;
   font-family: Arial;
