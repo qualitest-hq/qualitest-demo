@@ -1,11 +1,11 @@
 # 贡献指南 · Contributing
 
-感谢关注 **qualitest-demo**（质衡接口靶场）。
+感谢关注 **qualitest-demo-mall**（质衡接口靶场）。
 
 | 仓库 | 用途 | GitHub | Gitee（只读镜像） |
 |------|------|--------|-------------------|
 | `qualitest` | 主平台 + Web | [GitHub](https://github.com/qualitest-hq/qualitest) | [Gitee](https://gitee.com/qualitest-hq/qualitest) |
-| `qualitest-demo`（本仓） | 接口靶场 | [GitHub](https://github.com/qualitest-hq/qualitest-demo) | [Gitee](https://gitee.com/qualitest-hq/qualitest-demo) |
+| `qualitest-demo-mall`（本仓） | 接口靶场 | [GitHub](https://github.com/qualitest-hq/qualitest-demo-mall) | [Gitee](https://gitee.com/qualitest-hq/qualitest-demo-mall) |
 | `qualitest-intellij-plugin` | IDEA 插件 | [GitHub](https://github.com/qualitest-hq/qualitest-intellij-plugin) | [Gitee](https://gitee.com/qualitest-hq/qualitest-intellij-plugin) |
 
 **GitHub 为主仓**（Issue / PR）；Gitee 仅作国内只读镜像，请勿向镜像提交代码。

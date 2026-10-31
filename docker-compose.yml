@@ -7,28 +7,28 @@
 #   全栈 + RustFS（推荐）:
 #     docker compose -f docker-compose.yml -f docker-compose.rustfs.yml --profile rustfs up -d --build
 #     或 scripts/quick-start.sh|.bat rustfs
-# 默认镜像：registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql（匿名 pull）
+# 默认镜像：registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-mall-app|web|mysql（匿名 pull）
 # 改回 GHCR：.env 设 DEMO_IMAGE_PREFIX=ghcr.io/qualitest-hq
 # 一键全栈：scripts/quick-start.sh|.bat
 #
 # 默认宿主机端口避开主仓：MySQL 3307、Redis 6380、Web 5181；API 仍为 8801
 # Web 容器内 Nginx 亦监听 5181（与宿主机映射一致）
-# MySQL 初始化 SQL 已打进 qualitest-demo-mysql 镜像（见 deploy/docker/Dockerfile.mysql）
+# MySQL 初始化 SQL 已打进 qualitest-demo-mall-mysql 镜像（见 deploy/docker/Dockerfile.mysql）
 
-name: qualitest-demo
+name: qualitest-demo-mall
 
 services:
   mysql:
     build:
       context: .
       dockerfile: deploy/docker/Dockerfile.mysql
-    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-mysql:${DEMO_IMAGE_TAG:-latest}
+    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-mall-mysql:${DEMO_IMAGE_TAG:-latest}
     pull_policy: missing
-    container_name: qualitest-demo-mysql
+    container_name: qualitest-demo-mall-mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-qualitest}
-      MYSQL_DATABASE: qualitest-demo
+      MYSQL_DATABASE: qualitest-demo-mall
       TZ: Asia/Shanghai
     command:
       - --character-set-server=utf8mb4
@@ -47,7 +47,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: qualitest-demo-redis
+    container_name: qualitest-demo-mall-redis
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6380}:6379"
@@ -64,7 +64,7 @@ services:
   rustfs:
     profiles: ["rustfs"]
     image: rustfs/rustfs:latest
-    container_name: qualitest-demo-rustfs
+    container_name: qualitest-demo-mall-rustfs
     restart: unless-stopped
     command: ["/data"]
     environment:
@@ -84,9 +84,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-app:${DEMO_IMAGE_TAG:-latest}
+    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-mall-app:${DEMO_IMAGE_TAG:-latest}
     pull_policy: missing
-    container_name: qualitest-demo-app
+    container_name: qualitest-demo-mall-app
     restart: unless-stopped
     depends_on:
       mysql:
@@ -100,7 +100,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SERVER_PORT: "8801"
       DEMO_PROFILE: /data/upload
-      SPRING_DATASOURCE_DRUID_MASTER_URL: jdbc:mysql://mysql:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+      SPRING_DATASOURCE_DRUID_MASTER_URL: jdbc:mysql://mysql:3306/qualitest-demo-mall?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
       SPRING_DATASOURCE_DRUID_MASTER_USERNAME: root
       SPRING_DATASOURCE_DRUID_MASTER_PASSWORD: ${MYSQL_ROOT_PASSWORD:-qualitest}
       SPRING_DATA_REDIS_HOST: redis
@@ -113,8 +113,8 @@ services:
       DEMO_RUSTFS_ENDPOINT: ${DEMO_RUSTFS_ENDPOINT:-http://rustfs:9000}
       DEMO_RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-rustfsadmin}
       DEMO_RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:-rustfsadmin}
-      DEMO_RUSTFS_BUCKET: ${DEMO_RUSTFS_BUCKET:-qualitest-demo}
-      DEMO_RUSTFS_PUBLIC_BASE_URL: ${DEMO_RUSTFS_PUBLIC_BASE_URL:-http://127.0.0.1:9000/qualitest-demo}
+      DEMO_RUSTFS_BUCKET: ${DEMO_RUSTFS_BUCKET:-qualitest-demo-mall}
+      DEMO_RUSTFS_PUBLIC_BASE_URL: ${DEMO_RUSTFS_PUBLIC_BASE_URL:-http://127.0.0.1:9000/qualitest-demo-mall}
     volumes:
       - upload_data:/data/upload
     ports:
@@ -124,9 +124,9 @@ services:
     build:
       context: .
       dockerfile: deploy/docker/Dockerfile.web
-    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-web:${DEMO_IMAGE_TAG:-latest}
+    image: ${DEMO_IMAGE_PREFIX:-registry.cn-hangzhou.aliyuncs.com/qualitest-hq}/qualitest-demo-mall-web:${DEMO_IMAGE_TAG:-latest}
     pull_policy: missing
-    container_name: qualitest-demo-web
+    container_name: qualitest-demo-mall-web
     restart: unless-stopped
     depends_on:
       app:

@@ -8,7 +8,7 @@
     <artifactId>demo</artifactId>
     <version>1.0.0</version>
 
-    <name>qualitest-demo</name>
+    <name>qualitest-demo-mall</name>
     <description>质衡 Demo</description>
     
     <properties>

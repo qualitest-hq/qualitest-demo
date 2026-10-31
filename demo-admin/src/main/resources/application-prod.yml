@@ -15,7 +15,7 @@ demo:
     endpoint: ${DEMO_RUSTFS_ENDPOINT:http://127.0.0.1:9000}
     access-key: ${DEMO_RUSTFS_ACCESS_KEY:}
     secret-key: ${DEMO_RUSTFS_SECRET_KEY:}
-    bucket: ${DEMO_RUSTFS_BUCKET:qualitest-demo}
+    bucket: ${DEMO_RUSTFS_BUCKET:qualitest-demo-mall}
     region: us-east-1
     public-base-url: ${DEMO_RUSTFS_PUBLIC_BASE_URL:}
 
@@ -68,7 +68,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     druid:
       master:
-        url: ${SPRING_DATASOURCE_DRUID_MASTER_URL:jdbc:mysql://localhost:3306/qualitest-demo?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8}
+        url: ${SPRING_DATASOURCE_DRUID_MASTER_URL:jdbc:mysql://localhost:3306/qualitest-demo-mall?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8}
         username: ${SPRING_DATASOURCE_DRUID_MASTER_USERNAME:root}
         password: ${SPRING_DATASOURCE_DRUID_MASTER_PASSWORD:}        # 生产必须通过环境变量注入
       slave:

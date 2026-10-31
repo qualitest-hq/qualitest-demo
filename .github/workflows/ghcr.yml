@@ -1,7 +1,7 @@
 # 推送官方镜像到 GHCR，并在配置了 ALIYUN_PASSWORD 时再推阿里云公开仓库。
 # 镜像：
-#   ghcr.io/qualitest-hq/qualitest-demo-app|web|mysql
-#   registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql
+#   ghcr.io/qualitest-hq/qualitest-demo-mall-app|web|mysql
+#   registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-mall-app|web|mysql
 # PR / fork 不推送；未配阿里云密钥则只推 GHCR。
 #
 # 首次推送后若 Packages 默认 Private：组织 Packages 页改为 Public，
@@ -48,7 +48,7 @@ env:
 jobs:
   changes:
     name: detect-changes
-    if: github.repository == 'qualitest-hq/qualitest-demo'
+    if: github.repository == 'qualitest-hq/qualitest-demo-mall'
     runs-on: ubuntu-latest
     outputs:
       app: ${{ steps.filter.outputs.app }}
@@ -102,7 +102,7 @@ jobs:
     name: push-app
     needs: changes
     if: >
-      github.repository == 'qualitest-hq/qualitest-demo' &&
+      github.repository == 'qualitest-hq/qualitest-demo-mall' &&
       (needs.changes.outputs.force == 'true' || needs.changes.outputs.app == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -124,7 +124,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/qualitest-demo-app
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/qualitest-demo-mall-app
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
@@ -138,8 +138,8 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=qualitest-demo-app
-          cache-to: type=gha,mode=max,scope=qualitest-demo-app
+          cache-from: type=gha,scope=qualitest-demo-mall-app
+          cache-to: type=gha,mode=max,scope=qualitest-demo-mall-app
 
       - name: Skip ACR if unconfigured
         if: env.ALIYUN_PASSWORD == ''
@@ -158,7 +158,7 @@ jobs:
         id: meta-acr
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-app
+          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-mall-app
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
@@ -175,14 +175,14 @@ jobs:
           sbom: false
           tags: ${{ steps.meta-acr.outputs.tags }}
           labels: ${{ steps.meta-acr.outputs.labels }}
-          cache-from: type=gha,scope=qualitest-demo-app
-          cache-to: type=gha,mode=max,scope=qualitest-demo-app
+          cache-from: type=gha,scope=qualitest-demo-mall-app
+          cache-to: type=gha,mode=max,scope=qualitest-demo-mall-app
 
   push-web:
     name: push-web
     needs: changes
     if: >
-      github.repository == 'qualitest-hq/qualitest-demo' &&
+      github.repository == 'qualitest-hq/qualitest-demo-mall' &&
       (needs.changes.outputs.force == 'true' || needs.changes.outputs.web == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -204,7 +204,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/qualitest-demo-web
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/qualitest-demo-mall-web
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
@@ -218,8 +218,8 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=qualitest-demo-web
-          cache-to: type=gha,mode=max,scope=qualitest-demo-web
+          cache-from: type=gha,scope=qualitest-demo-mall-web
+          cache-to: type=gha,mode=max,scope=qualitest-demo-mall-web
 
       - name: Skip ACR if unconfigured
         if: env.ALIYUN_PASSWORD == ''
@@ -238,7 +238,7 @@ jobs:
         id: meta-acr
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-web
+          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-mall-web
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
@@ -255,14 +255,14 @@ jobs:
           sbom: false
           tags: ${{ steps.meta-acr.outputs.tags }}
           labels: ${{ steps.meta-acr.outputs.labels }}
-          cache-from: type=gha,scope=qualitest-demo-web
-          cache-to: type=gha,mode=max,scope=qualitest-demo-web
+          cache-from: type=gha,scope=qualitest-demo-mall-web
+          cache-to: type=gha,mode=max,scope=qualitest-demo-mall-web
 
   push-mysql:
     name: push-mysql
     needs: changes
     if: >
-      github.repository == 'qualitest-hq/qualitest-demo' &&
+      github.repository == 'qualitest-hq/qualitest-demo-mall' &&
       (needs.changes.outputs.force == 'true' || needs.changes.outputs.mysql == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -284,7 +284,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/qualitest-demo-mysql
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/qualitest-demo-mall-mysql
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
@@ -298,8 +298,8 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=qualitest-demo-mysql
-          cache-to: type=gha,mode=max,scope=qualitest-demo-mysql
+          cache-from: type=gha,scope=qualitest-demo-mall-mysql
+          cache-to: type=gha,mode=max,scope=qualitest-demo-mall-mysql
 
       - name: Skip ACR if unconfigured
         if: env.ALIYUN_PASSWORD == ''
@@ -318,7 +318,7 @@ jobs:
         id: meta-acr
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-mysql
+          images: ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAMESPACE }}/qualitest-demo-mall-mysql
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
@@ -335,15 +335,15 @@ jobs:
           sbom: false
           tags: ${{ steps.meta-acr.outputs.tags }}
           labels: ${{ steps.meta-acr.outputs.labels }}
-          cache-from: type=gha,scope=qualitest-demo-mysql
-          cache-to: type=gha,mode=max,scope=qualitest-demo-mysql
+          cache-from: type=gha,scope=qualitest-demo-mall-mysql
+          cache-to: type=gha,mode=max,scope=qualitest-demo-mall-mysql
 
   visibility:
     name: package-visibility
     needs: [push-app, push-web, push-mysql]
     if: >
       always() &&
-      github.repository == 'qualitest-hq/qualitest-demo' &&
+      github.repository == 'qualitest-hq/qualitest-demo-mall' &&
       (needs.push-app.result == 'success' || needs.push-web.result == 'success' || needs.push-mysql.result == 'success')
     runs-on: ubuntu-latest
     steps:
@@ -353,7 +353,7 @@ jobs:
         run: |
           set -euo pipefail
           org="${{ github.repository_owner }}"
-          for pkg in qualitest-demo-app qualitest-demo-web qualitest-demo-mysql; do
+          for pkg in qualitest-demo-mall-app qualitest-demo-mall-web qualitest-demo-mall-mysql; do
             echo "Set visibility public: ${org}/${pkg}"
             gh api \
               --method PUT \

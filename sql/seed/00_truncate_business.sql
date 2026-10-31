@@ -1,6 +1,6 @@
 -- ============================================================================
--- qualitest-demo 业务表清空（保留 sys_* / gen_* / qrtz_* 等系统表）
--- 用法: mysql -u root -p qualitest-demo < sql/seed/00_truncate_business.sql
+-- qualitest-demo-mall 业务表清空（保留 sys_* / gen_* / qrtz_* 等系统表）
+-- 用法: mysql -u root -p qualitest-demo-mall < sql/seed/00_truncate_business.sql
 -- ============================================================================
 
 SET NAMES utf8mb4;

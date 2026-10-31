@@ -108,7 +108,7 @@ echo   scripts\quick-start.bat rustfs    全栈 + 可选 RustFS（S3 API :9000 /
 echo   scripts\quick-start.bat -h        显示本说明
 echo.
 echo 默认端口: Web 5181 / API 8801 / MySQL 3307 / Redis 6380
-echo 官方镜像: registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app^|web^|mysql
+echo 官方镜像: registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-mall-app^|web^|mysql
 echo 仅依赖:   docker compose up -d mysql redis
 echo 仅 RustFS: docker compose --profile rustfs up -d rustfs
 echo 停止:     docker compose down

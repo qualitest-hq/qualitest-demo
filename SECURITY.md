@@ -5,7 +5,7 @@
 ## 如何报告
 
 1. 优先在本仓使用 GitHub **Private vulnerability reporting**（若已启用）。  
-2. 也可发邮件至 **[38680050@qq.com](mailto:38680050@qq.com)**，主题标明 `[SECURITY]`，并注明仓库名为 `qualitest-demo`。  
+2. 也可发邮件至 **[38680050@qq.com](mailto:38680050@qq.com)**，主题标明 `[SECURITY]`，并注明仓库名为 `qualitest-demo-mall`。  
 3. 涉及主平台时，可同时参考主仓 [`SECURITY.md`](https://github.com/qualitest-hq/qualitest/blob/main/SECURITY.md)。
 
 请尽量包含：影响 commit、复现步骤、预期与实际行为。业余时间处理，不承诺固定 SLA。

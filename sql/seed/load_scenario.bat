@@ -4,7 +4,7 @@ chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 REM ============================================================================
-REM qualitest-demo 加载指定测试场景 SQL
+REM qualitest-demo-mall 加载指定测试场景 SQL
 REM 用法: load_scenario.bat [场景文件相对 seed 目录]
 REM 示例: load_scenario.bat scenarios\success\S03_paid_pending_ship.sql
 REM       load_scenario.bat scenarios\fail\F07_balance_insufficient_order.sql
@@ -34,7 +34,7 @@ set "DB_HOST=127.0.0.1"
 set "DB_PORT=3306"
 set "DB_USER=root"
 set "DB_PASS=123456"
-set "DB_NAME=qualitest-demo"
+set "DB_NAME=qualitest-demo-mall"
 set "DB_CNF=%~dp0_db_session.cnf"
 set "MYSQL_BIN=C:\Program Files\MySQL\MySQL Server 8.0\bin"
 set "MYSQL=%MYSQL_BIN%\mysql.exe"

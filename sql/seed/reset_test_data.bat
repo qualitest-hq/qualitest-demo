@@ -4,7 +4,7 @@ chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 REM ============================================================================
-REM qualitest-demo 业务测试数据重置
+REM qualitest-demo-mall 业务测试数据重置
 REM 功能 - 清空 13 张业务表并加载标准 seed（01 + 02，不含 03 购物车）
 REM 用法 - 双击运行或在命令行执行 reset_test_data.bat
 REM 详见项目根目录 README.md「测试数据 Seed 脚本」
@@ -16,7 +16,7 @@ set "DB_HOST=127.0.0.1"
 set "DB_PORT=3306"
 set "DB_USER=root"
 set "DB_PASS=123456"
-set "DB_NAME=qualitest-demo"
+set "DB_NAME=qualitest-demo-mall"
 
 set "DB_CNF=%~dp0_db_session.cnf"
 set "MYSQL_BIN=C:\Program Files\MySQL\MySQL Server 8.0\bin"

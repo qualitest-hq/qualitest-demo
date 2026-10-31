@@ -1,13 +1,13 @@
-# qualitest-demo
+# qualitest-demo-mall
 
-独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest)（[Gitee 镜像](https://gitee.com/qualitest-hq/qualitest)）的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8801**，库 **qualitest-demo**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8801`。
+独立于主仓 [`qualitest`](https://github.com/qualitest-hq/qualitest)（[Gitee 镜像](https://gitee.com/qualitest-hq/qualitest)）的 **接口测试靶场**（商城业务 + 客户端完整流程）。默认端口 **8801**，库 **qualitest-demo-mall**，Redis DB **11**。联调质衡时配置 `baseUrl = http://localhost:8801`。
 
 ## 相关仓库
 
 | 仓库 | 说明 | GitHub | Gitee（只读镜像） |
 |------|------|--------|-------------------|
 | qualitest | 质衡主平台（含前端 `qualitest-ui/`） | [GitHub](https://github.com/qualitest-hq/qualitest) | [Gitee](https://gitee.com/qualitest-hq/qualitest) |
-| qualitest-demo（本仓） | 接口测试靶场 | [GitHub](https://github.com/qualitest-hq/qualitest-demo) | [Gitee](https://gitee.com/qualitest-hq/qualitest-demo) |
+| qualitest-demo-mall（本仓） | 接口测试靶场（若依壳 + 薄商城；**单线 main**） | [GitHub](https://github.com/qualitest-hq/qualitest-demo-mall) | [Gitee](https://gitee.com/qualitest-hq/qualitest-demo-mall) |
 | qualitest-intellij-plugin | IDEA 接口同步；示例工程可用本靶场 | [GitHub](https://github.com/qualitest-hq/qualitest-intellij-plugin) | [Gitee](https://gitee.com/qualitest-hq/qualitest-intellij-plugin) |
 
 > GitHub 为主仓（Issue / PR）；Gitee 为国内只读镜像，请勿向镜像提交代码。
@@ -16,7 +16,7 @@
 
 ### 方式 A · Docker Compose（推荐）
 
-前置：Docker Desktop / Compose V2。默认拉阿里云公开镜像（`registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql`，不用登录）；失败再试 GHCR，再失败才本地构建。详情见 [`docs/deploy.md`](./docs/deploy.md)。
+前置：Docker Desktop / Compose V2。默认拉阿里云公开镜像（`registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-mall-app|web|mysql`，不用登录）；失败再试 GHCR，再失败才本地构建。详情见 [`docs/deploy.md`](./docs/deploy.md)。
 
 ```bash
 # Windows
@@ -33,7 +33,7 @@ chmod +x scripts/quick-start.sh && ./scripts/quick-start.sh
 
 ### 方式 B · 本机
 
-1. 建库 `qualitest-demo`，执行 [`deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo.sql`](./deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo.sql)
+1. 建库 `qualitest-demo-mall`，执行 [`deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo-mall.sql`](./deploy/mysql/docker-entrypoint-initdb.d/01-qualitest-demo-mall.sql)
 2. 改 `demo-admin/.../application-dev.yml`，或复制 [`.env.example`](./.env.example) 为 `.env` 后用环境变量覆盖（生产务必改 `TOKEN_SECRET` / 库口令）
 3. `mvn clean install`，启动 `demo-admin` 或运行 `demo.bat` / `demo.sh`
 
@@ -68,7 +68,7 @@ curl -s -X POST "$BASE/web/test/scenario/load/S01" -H "Authorization: Bearer $TO
 
 - 被测数据 snapshot/restore（供质衡 checkpoint 联调）见 **[test-support-starter 接入文档](test-support-starter/README.md)**（开启数据还原时，同一环境请串行跑）
 - **进阶 · 文件 / RustFS**（插件扫 `form-data` `file` + 对象落盘）：
-  1. 启动 RustFS：`scripts\quick-start.bat rustfs`（全栈+客户端）或本机仅 `docker compose --profile rustfs up -d rustfs`（默认 `http://127.0.0.1:9000`，`rustfsadmin` / `rustfsadmin`，bucket `qualitest-demo`）
+  1. 启动 RustFS：`scripts\quick-start.bat rustfs`（全栈+客户端）或本机仅 `docker compose --profile rustfs up -d rustfs`（默认 `http://127.0.0.1:9000`，`rustfsadmin` / `rustfsadmin`，bucket `qualitest-demo-mall`）
   2. Compose 全栈 + rustfs 时由 `docker-compose.rustfs.yml` 注入 `DEMO_RUSTFS_ENABLED=true`；本机跑后端时确认 `application-dev.yml` 中 `demo.rustfs.enabled=true`
   3. 客户端 Token 调用：
      - `POST /api/file/upload`（multipart：`file` 必填 + `bizType` 可选）
@@ -102,6 +102,7 @@ curl -s -X POST "$BASE/web/test/scenario/load/S01" -H "Authorization: Bearer $TO
 
 - Compose 部署：[docs/deploy.md](./docs/deploy.md)
 - Compose 测试指南：[docs/compose-测试指南.md](./docs/compose-测试指南.md)
+- 商城真实感扩充路线图：[docs/expansion-roadmap.md](./docs/expansion-roadmap.md)
 - [AI 测试流提示集](docs/ai-test-flow-prompts.md)
 - 场景元数据：`sql/seed/scenarios/manifest.json`
 - 状态枚举、金额公式、验收用例链：见各场景 SQL 头部注释与 Swagger 字段说明

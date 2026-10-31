@@ -1,4 +1,4 @@
-# Compose 全栈测试指南（qualitest-demo）
+# Compose 全栈测试指南（qualitest-demo-mall）
 
 > 用途：验收「Docker Compose 一键起靶场」。  
 > 关联：[`deploy.md`](./deploy.md) · [`docker-compose.yml`](../docker-compose.yml) · [`scripts/quick-start.bat`](../scripts/quick-start.bat)
@@ -12,10 +12,10 @@
 | Docker | Desktop 已安装并运行 |
 | Compose | `docker compose version`（V2） |
 | 端口 | **5181 / 8801 / 3307 / 6380** 尽量空闲；测 RustFS 另需 **9000 / 9001** |
-| 代码 | 在 `qualitest-demo/` 根目录 |
+| 代码 | 在 `qualitest-demo-mall/` 根目录 |
 
 ```bat
-cd /d d:\Project\Composite\qualitest-all\qualitest-demo
+cd /d d:\Project\Composite\qualitest-all\qualitest-demo-mall
 docker compose version
 ```
 
@@ -53,7 +53,7 @@ scripts\quick-start.bat rustfs
 
 **预期：**
 
-- `qualitest-demo-rustfs` 在跑
+- `qualitest-demo-mall-rustfs` 在跑
 - 控制台 http://localhost:9001 可登录 `rustfsadmin` / `rustfsadmin`
 - S3 API http://localhost:9000
 - app 环境含 `DEMO_RUSTFS_ENABLED=true`（`docker compose … config` 或 `docker inspect` 可核对）

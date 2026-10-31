@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: qualitest-demo
+-- Host: 127.0.0.1    Database: qualitest-demo-mall
 -- ------------------------------------------------------
 -- Server version	8.0.46
 

@@ -2,7 +2,7 @@
   "version": 1,
   "defaults": {
     "autoReset": true,
-    "dbName": "qualitest-demo"
+    "dbName": "qualitest-demo-mall"
   },
   "scenarios": [
     {

@@ -10,5 +10,5 @@ services:
       DEMO_RUSTFS_ENDPOINT: ${DEMO_RUSTFS_ENDPOINT:-http://rustfs:9000}
       DEMO_RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-rustfsadmin}
       DEMO_RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:-rustfsadmin}
-      DEMO_RUSTFS_BUCKET: ${DEMO_RUSTFS_BUCKET:-qualitest-demo}
-      DEMO_RUSTFS_PUBLIC_BASE_URL: ${DEMO_RUSTFS_PUBLIC_BASE_URL:-http://127.0.0.1:9000/qualitest-demo}
+      DEMO_RUSTFS_BUCKET: ${DEMO_RUSTFS_BUCKET:-qualitest-demo-mall}
+      DEMO_RUSTFS_PUBLIC_BASE_URL: ${DEMO_RUSTFS_PUBLIC_BASE_URL:-http://127.0.0.1:9000/qualitest-demo-mall}

@@ -24,10 +24,10 @@ public class RustfsProperties {
 
     private String secretKey = "rustfsadmin";
 
-    private String bucket = "qualitest-demo";
+    private String bucket = "qualitest-demo-mall";
 
     private String region = "us-east-1";
 
-    /** 对外访问前缀（拼公开 URL），如 http://127.0.0.1:9000/qualitest-demo */
+    /** 对外访问前缀（拼公开 URL），如 http://127.0.0.1:9000/qualitest-demo-mall */
     private String publicBaseUrl;
 }

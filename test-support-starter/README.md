@@ -45,7 +45,7 @@ Starter 负责暴露 HTTP 端点、**非生产 profile 硬禁用**与超时包�
 </dependency>
 ```
 
-本地开发可先 `mvn install`（本仓库位于 `qualitest-demo/test-support-starter`）。
+本地开发可先 `mvn install`（本仓库位于 `qualitest-demo-mall/test-support-starter`）。
 
 ### 2. 配置
 
@@ -172,13 +172,13 @@ curl -s -X POST http://localhost:8801/test-support/restore \
 
 ---
 
-## 参考实现（qualitest-demo）
+## 参考实现（qualitest-demo-mall）
 
-本仓库 [qualitest-demo](../) 已依赖本 Starter 并自产自吃：
+本仓库 [qualitest-demo-mall](../) 已依赖本 Starter 并自产自吃：
 
 | 组件 | 路径 |
 |------|------|
-| Starter 模块 | `qualitest-demo/test-support-starter/` |
+| Starter 模块 | `qualitest-demo-mall/test-support-starter/` |
 | Demo Strategy | `demo-system/.../MysqldumpSnapshotStrategy.java`（mysqldump 路径等在类内常量配置） |
 | 开发配置 | `demo-admin/.../application-dev.yml` |
 | 生产配置 | `demo-admin/.../application-prod.yml`（`spring.profiles.active=prod`） |
@@ -200,4 +200,4 @@ curl -s -X POST http://localhost:8801/test-support/restore \
 | 文档 | 说明 |
 |------|------|
 | 本文 [端点契约](#端点契约) | 快照 / 还原契约与串行约定 |
-| [qualitest-demo README](../README.md) | 靶场快速启动；test-support 细节以本文为准 |
+| [qualitest-demo-mall README](../README.md) | 靶场快速启动；test-support 细节以本文为准 |

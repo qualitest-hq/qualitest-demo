@@ -19,7 +19,7 @@ usage() {
   ./scripts/quick-start.sh -h        显示本说明
 
 默认端口: Web 5181 / API 8801 / MySQL 3307 / Redis 6380
-官方镜像: registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-app|web|mysql
+官方镜像: registry.cn-hangzhou.aliyuncs.com/qualitest-hq/qualitest-demo-mall-app|web|mysql
              （失败则 ghcr.io/qualitest-hq/...）
 仅依赖:   docker compose up -d mysql redis
 仅 RustFS: docker compose --profile rustfs up -d rustfs
