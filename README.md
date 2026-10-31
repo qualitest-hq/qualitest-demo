@@ -102,7 +102,7 @@ curl -s -X POST "$BASE/web/test/scenario/load/S01" -H "Authorization: Bearer $TO
 
 - Compose 部署：[docs/deploy.md](./docs/deploy.md)
 - Compose 测试指南：[docs/compose-测试指南.md](./docs/compose-测试指南.md)
-- 商城真实感扩充路线图：[docs/expansion-roadmap.md](./docs/expansion-roadmap.md)
+- 商城业务扩充路线图：[docs/expansion-roadmap.md](./docs/expansion-roadmap.md)
 - [AI 测试流提示集](docs/ai-test-flow-prompts.md)
 - 场景元数据：`sql/seed/scenarios/manifest.json`
 - 状态枚举、金额公式、验收用例链：见各场景 SQL 头部注释与 Swagger 字段说明
